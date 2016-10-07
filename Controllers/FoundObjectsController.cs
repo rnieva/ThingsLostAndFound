@@ -44,14 +44,13 @@ namespace ThingsLostAndFound.Controllers
         }
 
         // POST: FoundObjects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,State")] FoundObject foundObject)
+        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img")] FoundObject foundObject)
         {
             if (ModelState.IsValid)
             {
+                foundObject.State = false;          //I assign the false value, when sombody found the object, it´ll change to true value
                 db.FoundObjects.Add(foundObject);
                 db.SaveChanges();
                 return RedirectToAction("Index");
