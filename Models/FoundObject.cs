@@ -11,7 +11,7 @@ namespace ThingsLostAndFound.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class FoundObject
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,6 @@ namespace ThingsLostAndFound.Models
         {
             this.LostAndFoundObjects = new HashSet<LostAndFoundObject>();
         }
-    
         public int Id { get; set; }
         public int UserIdreported { get; set; }
         public System.DateTime Date { get; set; }
