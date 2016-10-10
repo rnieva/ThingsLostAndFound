@@ -1,10 +1,14 @@
-﻿@model ThingsLostAndFound.Models.FoundObject
+﻿@{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@mapsKey"></script> 
+
+@model ThingsLostAndFound.Models.FoundObject
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Found Object Form";
 }
 
-<h2>Create</h2>
+<h2>Found Object</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,7 +16,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>FoundObject</h4>
+        <h4>Create a report about an found object</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -147,7 +151,7 @@
             </div>
         </div>
 
-        I assign the state value in the controller 
+        @*I assign the state value in the controller*@ 
         @*<div class="form-group">
             @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -166,10 +170,40 @@
     </div>
 }
 
+<style>
+    #map_canvas img {
+        max-width: none;
+    }
+    .infoDiv {
+        height: 300px;
+        width: 100px;
+        -webkit-user-select: none;
+        background-color: red;
+    }
+</style>
+<div id="map_canvas" style="height: 300px;"></div>
+<div id="info-panel"></div>
+
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        allRoutes();
+        function allRoutes() {
+                    //$('#info-panel div').empty();  //clear the div of info-panel
+                    var bounds = new google.maps.LatLngBounds();
+                    var myHome = new google.maps.LatLng(55.942648, -3.200165); //55.942071	-3.200165
+                    var options = {
+                        zoom : 14,
+                        mapTypeId: google.maps.MapTypeId.TERRAIN
+                    };
+                    var googleMap = new google.maps.Map($("#map_canvas")[0],options);
+                    bounds.extend(myHome);
+                    googleMap.fitBounds(bounds);
+        }
+    </script>
 }
