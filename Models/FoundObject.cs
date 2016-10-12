@@ -11,7 +11,7 @@ namespace ThingsLostAndFound.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class FoundObject
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,6 +19,7 @@ namespace ThingsLostAndFound.Models
         {
             this.LostAndFoundObjects = new HashSet<LostAndFoundObject>();
         }
+    
         public int Id { get; set; }
         public int UserIdreported { get; set; }
         public System.DateTime Date { get; set; }
@@ -37,9 +38,11 @@ namespace ThingsLostAndFound.Models
         public string CityTownRoad { get; set; }
         public byte[] Img { get; set; }
         public bool State { get; set; }
+        public int FileId { get; set; }
     
         public virtual InfoUser InfoUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LostAndFoundObject> LostAndFoundObjects { get; set; }
+        public virtual File File { get; set; }
     }
 }

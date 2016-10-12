@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ThingsLostAndFound.Models;
+
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -46,13 +48,36 @@ namespace ThingsLostAndFound.Controllers
         // POST: FoundObjects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img")] FoundObject foundObject)
+        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img")] FoundObject foundObject, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var file = new Models.File
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        ContentType = upload.ContentType,
+                        FileType = System.IO.Path.GetExtension(upload.FileName)
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        file.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                   
+                    //upload.InputStream.Read(fileBytes, 0, Convert.ToInt32(upload.ContentLength));
+                   
+                    foundObject.FileId = file.FileId;
+                    
+                }
+
+
+                //foundObject.Img = fileData;
+
                 foundObject.State = false;          //I assign the false value, when sombody found the object, it´ll change to true value
                 db.FoundObjects.Add(foundObject);
                 db.SaveChanges();
+                //Add method to sent to user a info email
                 return RedirectToAction("Index");
             }
 

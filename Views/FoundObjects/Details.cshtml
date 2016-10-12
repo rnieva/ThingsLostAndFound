@@ -127,7 +127,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Img)
+           @* @Html.DisplayFor(model => model.Img)*@
+            @{ @*var file = new File
+                {
+                    FileName = System.IO.Path.GetFileName(upload.FileName),
+                    //FileType = FileType.Avatar,
+                    ContentType = upload.ContentType
+                };*@
+            <img src="model => model.Img" alt="avatar" />
         </dd>
 
         <dt>

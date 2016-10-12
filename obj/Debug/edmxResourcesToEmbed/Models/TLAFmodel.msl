@@ -17,6 +17,7 @@
     <EntitySetMapping Name="FoundObjects">
       <EntityTypeMapping TypeName="TLAFModel.FoundObject">
         <MappingFragment StoreEntitySet="FoundObjects">
+          <ScalarProperty Name="FileId" ColumnName="FileId" />
           <ScalarProperty Name="State" ColumnName="State" />
           <ScalarProperty Name="Img" ColumnName="Img" />
           <ScalarProperty Name="CityTownRoad" ColumnName="CityTownRoad" />
@@ -71,6 +72,17 @@
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="UserIdreported" ColumnName="UserIdreported" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="TLAFModel.File">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileId" ColumnName="FileId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

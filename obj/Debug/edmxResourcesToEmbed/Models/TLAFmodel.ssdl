@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TLAFModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="FileId" />
+    </Key>
+    <Property Name="FileId" Type="int" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContentType" Type="nvarchar(max)" />
+    <Property Name="Content" Type="varbinary(max)" />
+    <Property Name="FileType" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="FoundObjects">
     <Key>
       <PropertyRef Name="Id" />
@@ -22,6 +32,7 @@
     <Property Name="CityTownRoad" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="Img" Type="image" />
     <Property Name="State" Type="bit" Nullable="false" />
+    <Property Name="FileId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InfoUsers">
     <Key>
@@ -81,6 +92,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_FoundObjects_ToTable_1">
+    <End Role="File" Type="Self.File" Multiplicity="1" />
+    <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="File">
+        <PropertyRef Name="FileId" />
+      </Principal>
+      <Dependent Role="FoundObjects">
+        <PropertyRef Name="FileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_LostAndFoundObject_ToTable">
     <End Role="LostObjects" Type="Self.LostObjects" Multiplicity="1" />
     <End Role="LostAndFoundObject" Type="Self.LostAndFoundObject" Multiplicity="*" />
@@ -118,12 +141,17 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="TLAFModelStoreContainer">
+    <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FoundObjects" EntityType="Self.FoundObjects" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InfoUsers" EntityType="Self.InfoUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LostAndFoundObject" EntityType="Self.LostAndFoundObject" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LostObjects" EntityType="Self.LostObjects" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_FoundObjects_ToTable" Association="Self.FK_FoundObjects_ToTable">
       <End Role="InfoUsers" EntitySet="InfoUsers" />
+      <End Role="FoundObjects" EntitySet="FoundObjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoundObjects_ToTable_1" Association="Self.FK_FoundObjects_ToTable_1">
+      <End Role="File" EntitySet="File" />
       <End Role="FoundObjects" EntitySet="FoundObjects" />
     </AssociationSet>
     <AssociationSet Name="FK_LostAndFoundObject_ToTable" Association="Self.FK_LostAndFoundObject_ToTable">
