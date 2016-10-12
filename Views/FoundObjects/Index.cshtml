@@ -54,7 +54,7 @@
             @Html.DisplayNameFor(model => model.CityTownRoad)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Img)
+            Picture
         </th>
         <th>
             @Html.DisplayNameFor(model => model.State)
@@ -110,7 +110,7 @@
             @Html.DisplayFor(modelItem => item.CityTownRoad)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Img)
+            <img src="~/File?id=@item.FileId" alt="picture" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.State)

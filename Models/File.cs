@@ -20,7 +20,7 @@ namespace ThingsLostAndFound.Models
             this.FoundObjects = new HashSet<FoundObject>();
         }
     
-        public int FileId { get; set; }
+        public int Id { get; set; }
         public string FileName { get; set; }
         public string ContentType { get; set; }
         public byte[] Content { get; set; }

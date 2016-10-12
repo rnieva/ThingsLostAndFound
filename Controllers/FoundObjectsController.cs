@@ -54,7 +54,7 @@ namespace ThingsLostAndFound.Controllers
             {
                 if (upload != null && upload.ContentLength > 0)
                 {
-                    var file = new Models.File
+                    var file = new Models.File      
                     {
                         FileName = System.IO.Path.GetFileName(upload.FileName),
                         ContentType = upload.ContentType,
@@ -62,18 +62,12 @@ namespace ThingsLostAndFound.Controllers
                     };
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
                     {
-                        file.Content = reader.ReadBytes(upload.ContentLength);
+                        file.Content = reader.ReadBytes(upload.ContentLength); 
                     }
                    
-                    //upload.InputStream.Read(fileBytes, 0, Convert.ToInt32(upload.ContentLength));
-                   
-                    foundObject.FileId = file.FileId;
-                    
+                    foundObject.FileId = file.Id;
+                    db.Files.Add(file);
                 }
-
-
-                //foundObject.Img = fileData;
-
                 foundObject.State = false;          //I assign the false value, when sombody found the object, it´ll change to true value
                 db.FoundObjects.Add(foundObject);
                 db.SaveChanges();

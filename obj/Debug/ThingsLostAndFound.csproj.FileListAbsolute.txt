@@ -66,3 +66,4 @@ c:\users\rob\documents\visual studio 2015\Projects\ThingsLostAndFound\ThingsLost
 c:\users\rob\documents\visual studio 2015\Projects\ThingsLostAndFound\ThingsLostAndFound\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 c:\users\rob\documents\visual studio 2015\Projects\ThingsLostAndFound\ThingsLostAndFound\obj\Debug\ThingsLostAndFound.dll
 c:\users\rob\documents\visual studio 2015\Projects\ThingsLostAndFound\ThingsLostAndFound\obj\Debug\ThingsLostAndFound.pdb
+C:\Users\Rob\documents\visual studio 2015\Projects\ThingsLostAndFound\ThingsLostAndFound\obj\Debug\ThingsLostAndFound.csprojResolveAssemblyReference.cache

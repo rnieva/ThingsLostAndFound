@@ -82,7 +82,7 @@
           <ScalarProperty Name="Content" ColumnName="Content" />
           <ScalarProperty Name="ContentType" ColumnName="ContentType" />
           <ScalarProperty Name="FileName" ColumnName="FileName" />
-          <ScalarProperty Name="FileId" ColumnName="FileId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

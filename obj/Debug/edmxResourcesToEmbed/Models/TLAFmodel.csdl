@@ -156,9 +156,9 @@
   </Association>
   <EntityType Name="File">
     <Key>
-      <PropertyRef Name="FileId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="FileId" Type="Int32" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ContentType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
@@ -170,7 +170,7 @@
     <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="File">
-        <PropertyRef Name="FileId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FoundObject">
         <PropertyRef Name="FileId" />
