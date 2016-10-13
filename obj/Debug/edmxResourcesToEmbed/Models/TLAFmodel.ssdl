@@ -30,9 +30,9 @@
     <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
     <Property Name="Location" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="CityTownRoad" Type="nvarchar" MaxLength="30" Nullable="false" />
-    <Property Name="Img" Type="image" />
     <Property Name="State" Type="bit" Nullable="false" />
     <Property Name="FileId" Type="int" Nullable="false" />
+    <Property Name="Img" Type="bit" />
   </EntityType>
   <EntityType Name="InfoUsers">
     <Key>

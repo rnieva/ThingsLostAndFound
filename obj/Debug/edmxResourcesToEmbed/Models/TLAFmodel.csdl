@@ -61,7 +61,7 @@
     <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Location" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="CityTownRoad" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-    <Property Name="Img" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Img" Type="Boolean" />
     <Property Name="State" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="InfoUser" Relationship="TLAFModel.FK_FoundObjects_ToTable" FromRole="FoundObject" ToRole="InfoUser" />
     <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_1" FromRole="FoundObject" ToRole="LostAndFoundObject" />

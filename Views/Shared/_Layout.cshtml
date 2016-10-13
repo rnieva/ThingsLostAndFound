@@ -17,15 +17,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("ThingsLostAndFound", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Lost Object", "Index", "LostObjects")</li>   
-                    <li>@Html.ActionLink("Found Object", "Index", "FoundObjects")</li>
+                    <li>@Html.ActionLink("LO List", "Index", "LostObjects")</li>   
+                    <li>@Html.ActionLink("FO List", "Index", "FoundObjects")</li>
                     <li>@Html.ActionLink("Info Users", "index", "InfoUsers")</li>
+                    <li>@Html.ActionLink("Lost Object Report", "Create", "LostObjects")</li>
+                    <li>@Html.ActionLink("Found Object Report", "Create", "FoundObjects")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

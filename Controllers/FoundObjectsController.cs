@@ -50,6 +50,8 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img")] FoundObject foundObject, HttpPostedFileBase upload)
         {
+            foundObject.State = false; //I assign false value, when sombody found the object, it´ll change to true value
+            foundObject.Img = false;   //I always always false value if there isn´t uploaded file
             if (ModelState.IsValid)
             {
                 if (upload != null && upload.ContentLength > 0)
@@ -64,11 +66,10 @@ namespace ThingsLostAndFound.Controllers
                     {
                         file.Content = reader.ReadBytes(upload.ContentLength); 
                     }
-                   
+                    foundObject.Img = true;     //There is a uploaded file
                     foundObject.FileId = file.Id;
                     db.Files.Add(file);
                 }
-                foundObject.State = false;          //I assign the false value, when sombody found the object, it´ll change to true value
                 db.FoundObjects.Add(foundObject);
                 db.SaveChanges();
                 //Add method to sent to user a info email
@@ -133,6 +134,8 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             FoundObject foundObject = db.FoundObjects.Find(id);
+            var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
+            db.Files.Remove(file);
             db.FoundObjects.Remove(foundObject);
             db.SaveChanges();
             return RedirectToAction("Index");

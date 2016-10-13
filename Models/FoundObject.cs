@@ -36,7 +36,7 @@ namespace ThingsLostAndFound.Models
         public string LocationObservations { get; set; }
         public string Location { get; set; }
         public string CityTownRoad { get; set; }
-        public byte[] Img { get; set; }
+        public Nullable<bool> Img { get; set; }
         public bool State { get; set; }
         public int FileId { get; set; }
     
