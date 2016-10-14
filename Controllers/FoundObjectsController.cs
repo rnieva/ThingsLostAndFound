@@ -149,5 +149,34 @@ namespace ThingsLostAndFound.Controllers
             }
             base.Dispose(disposing);
         }
+
+        protected bool CheckFile(HttpPostedFileBase upload)
+        {
+            int MaxContentLength = 1024 * 1024 * 5; //5 MB
+            string[] AllowedFileExtensions = new string[] { ".jpg", ".gif", ".png", ".pdf" };
+           
+            //foreach (var file in files)
+            //{
+            //    if (file == null)
+            //    {
+            //        return false;
+            //    }
+            //    else if (!AllowedFileExtensions.Contains(file.FileName.Substring(file.FileName.LastIndexOf('.'))))
+            //    {
+            //        ErrorMessage = System.Resources.ResourcesAdvert.AdvertUploadFileExtensionErrorShorter + string.Join(", ", AllowedFileExtensions);
+            //        return false;
+            //    }
+            //    else if (file.ContentLength > MaxContentLength)
+            //    {
+            //        ErrorMessage = Resources.ResourcesAdvert.AdvertUploadFileTooBig + (MaxContentLength / 1024).ToString() + "MB";
+            //        return false;
+            //    }
+            //    else
+            //    {
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
     }
 }
