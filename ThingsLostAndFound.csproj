@@ -176,6 +176,7 @@
     <Compile Include="Controllers\InfoUsersController.cs" />
     <Compile Include="Controllers\LostObjectsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MapFoundObjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -322,7 +323,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\File\" />
+    <Folder Include="Views\MapFoundObjects\" />
+    <Folder Include="Views\MapFoundObject\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
