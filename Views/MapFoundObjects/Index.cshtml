@@ -1,0 +1,28 @@
+﻿@{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@mapsKey"></script>
+
+@*@model ThingsLostAndFound.Models.InfoMarkerFoundObject*@
+@model IEnumerable<ThingsLostAndFound.Models.InfoMarkerFoundObject>
+
+@{
+    ViewBag.Title = "Found Objects Map";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div> 
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+    </script>
+    }

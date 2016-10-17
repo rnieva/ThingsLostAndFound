@@ -30,7 +30,7 @@ namespace ThingsLostAndFound.Controllers
                 string sub2 = coordinatesFoundObject.Substring(i + 1, j);
                 LatitudeT = Convert.ToDouble(sub1, CultureInfo.InvariantCulture);
                 LongitudeT = Convert.ToDouble(sub2, CultureInfo.InvariantCulture);
-                var marker = new InfoMarkerFoundObject
+                var marker = new InfoMarkerFoundObject  //add a marker with all information about one object
                 {
                     Latitude = LatitudeT,
                     Longitude = LongitudeT,
@@ -52,7 +52,7 @@ namespace ThingsLostAndFound.Controllers
                 };
                 listMarkers.Add(marker);
             }
-            return View(listMarkers);
+            return View(listMarkers);   //this view show a map with found object
         }
 
         protected override void Dispose(bool disposing)
