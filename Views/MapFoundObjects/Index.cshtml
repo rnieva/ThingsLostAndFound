@@ -4,25 +4,110 @@
 
 @*@model ThingsLostAndFound.Models.InfoMarkerFoundObject*@
 @model IEnumerable<ThingsLostAndFound.Models.InfoMarkerFoundObject>
+@using System.Threading;
+@using System.Globalization;
 
 @{
     ViewBag.Title = "Found Objects Map";
+    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US"); //for change , by . in Lat and Log
 }
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>Found Objects Map</title>
 </head>
 <body>
+    <h2>Found Object Map</h2>
     <div> 
+
+        <div id="map_canvas" style="height: 500px; width: 700px;"></div>
+
     </div>
 </body>
 </html>
 
+<style>
+    .infoDiv {
+        height: 200px;
+        width: 300px;
+        -webkit-user-select: none;
+        background-color: red;
+    }
+</style>
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
+                initMap()
+                var map;
+                var marker;
 
+                function initMap() {
+                    var centerPosition = new google.maps.LatLng(55.942071, -3.200165);
+                    var options = {
+                        zoom: 11,
+                        center: centerPosition,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    map = new google.maps.Map($('#map_canvas')[0], options);
+                    google.maps.event.addListener(map, 'click', function (event) {
+                        addMarker(event.latLng);
+                    });
+                    if (navigator.geolocation) //center the map in user location
+                    {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            var pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            map.setCenter(pos);
+                        }, function () {
+                            handleLocationError(true, infoWindow, map.getCenter());
+                        });
+                    } else {
+                        // Browser doesn't support Geolocation
+                        handleLocationError(false, infoWindow, map.getCenter());
+                    }
+
+                    var bounds = new google.maps.LatLngBounds();
+                    var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
+                     @foreach (var marker in Model)
+                    {
+                        <text>
+                        var point = new google.maps.LatLng(@marker.Latitude, @marker.Longitude);
+                    bounds.extend(point);
+
+
+                    infowindow = new google.maps.InfoWindow({
+                        content: "<div class='infoDiv'><h2>  @marker.Category" +
+                        "@marker.Title" + "</h2></div> " 
+                    });
+
+                        var marker = new google.maps.Marker({
+                            position: point,
+                            map: map,
+                            title: '@marker.Title',
+                            icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                            html: infowindow
+                        });
+
+                        google.maps.event.addListener(marker, 'click', function () {
+                             infowindow.setContent(this.html);
+                             infowindow.open(map, this);
+                        });
+
+                      </text>
+                     }
+                     map.fitBounds(bounds);
+                }
+
+                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent(browserHasGeolocation ?
+                                          'Error: The Geolocation service failed.' :
+                                          'Error: Your browser doesn\'t support geolocation.');
+                }
     </script>
     }

@@ -233,7 +233,7 @@
                         geocodeLatLng(latlngStr, geocoder);
                     }
 
-                    function geocodeLatLng(latlngStr, geocoder) {
+                    function geocodeLatLng(latlngStr, geocoder) { //get info from lat and lng
                         var AddressForm = document.getElementById('Address');
                         var LocationForm = document.getElementById('Location');
                         var ZipCodeForm = document.getElementById('ZipCode');
@@ -241,7 +241,7 @@
                         geocoder.geocode({ 'location': latlng }, function (results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
                                 if (results[0]) {
-                                    AddressForm.value = results[0].formatted_address;  //add if para controlar los resultados
+                                    AddressForm.value = results[0].formatted_address;  //TODO: add if para controlar los resultados
                                     if (results[0].address_components[4]) {
                                         LocationForm.value = results[0].address_components[4].long_name;
                                     }
