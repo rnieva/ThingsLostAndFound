@@ -21,9 +21,10 @@
     <h2>Found Object Map</h2>
     <div> 
 
-        <div id="map_canvas" style="height: 500px; width: 700px;"></div>
+        <div id="map_canvas" style="height: 500px; width: 900px;"></div>
 
     </div>
+
 </body>
 </html>
 
@@ -41,11 +42,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">        var map;
         var marker;
-        var markers =[];
         initMap();
-        showMarkers();
-        //showMarkers2();
-        //showMarkers3();
+        showMarkersFO();
 
         function initMap() {
             var centerPosition = new google.maps.LatLng(55.942071, -3.200165);
@@ -80,141 +78,44 @@
                                   'Error: Your browser doesn\'t support geolocation.');
         }
 
-        function showMarkers() {
+        function showMarkersFO() {
             var bounds = new google.maps.LatLngBounds();
-            var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
-            var i = 0;
+            var la = [];
+            var lo = [];
+            var info = [];
+            var titles = [];
+            var infohtml;
             @foreach (var marker in Model)
             {
             <text>
-                var point = new google.maps.LatLng(@marker.Latitude, @marker.Longitude);
-                bounds.extend(point);
-                infowindow = new google.maps.InfoWindow({
-                    content: "<div><h2>  @marker.Title </h2>" +
-                    "@marker.Category" + "<p>" + "@marker.Address"+"</div>"
-                });
-                //var marker'i';
-                marker = new google.maps.Marker({
-                    position: point,
-                    map: map,
-                    title: '@marker.Title',
-                    icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                    html: infowindow
-                });
-
-                //google.maps.event.addListener(marker, 'click', function () {
-                //    infowindow.setContent(this.html);
-                //    infowindow.open(map, this);
-                //});
-                markers.push(marker);
-            </text>
-            }
-            var j=0;
-            for (j = 0; j < markers.length; j++) {
-                google.maps.event.addListener(markers[j], 'click', function () {
-                    infowindow.setContent("test");
-                    infowindow.open(map, markers[j]);
-                });
-            }
-
-            //map.fitBounds(bounds);
-        }
-
-        function showMarkers2() {
-            var bounds = new google.maps.LatLngBounds();
-            var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
-            var i = 0;
-            var la = [];
-            var lo = [];
-            var titles = [];
-            var address = [];
-            var category = [];
-            @foreach (var marker in Model)
-            {
-            <text>
-            la.push(@marker.Latitude);
-            lo.push(@marker.Longitude);
-            titles.push("@marker.Title");
-            category.push("@marker.Category");
-            address.push("@marker.Address");
-            </text>
-            }
-
-
-            var point = new google.maps.LatLng(la[0], lo[0]);
-            bounds.extend(point);
-            infowindow = new google.maps.InfoWindow({
-                content: "<div><h2>"+  titles[0] + "</h2>" +
-                category[0] + "<p>" + address[0] +"</div>"
-            });
-            marker = new google.maps.Marker({
-                position: point,
-                map: map,
-                title: titles[0],
-                icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                html: infowindow
-            });
-            google.maps.event.addListener(marker, 'click', function () {
-                //infowindow.setContent(this.html);
-                infowindow.open(map, marker);
-            });
-
-            var point = new google.maps.LatLng(la[1], lo[1]);
-            bounds.extend(point);
-            infowindow2 = new google.maps.InfoWindow({
-                content: "<div><h2>"+  titles[1] + "</h2>" +
-                category[1] + "<p>" + address[1] +"</div>"
-            });
-            marker2 = new google.maps.Marker({
-                position: point,
-                map: map,
-                title: titles[1],
-                icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                html: infowindow
-            });
-            google.maps.event.addListener(marker2, 'click', function () {
-                //infowindow2.setContent(marker2.html);
-                infowindow2.open(map, marker2);
-            });
-            
-            
-        }
-
-        function showMarkers3() {
-            var bounds = new google.maps.LatLngBounds();
-            var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
-            var i = 0;
-            var la = [];
-            var lo = [];
-            var titles = [];
-            var address = [];
-            var category = [];
-
-            @foreach (var marker in Model)
-            {
-                <text>
                 la.push(@marker.Latitude);
                 lo.push(@marker.Longitude);
                 titles.push("@marker.Title");
-                category.push("@marker.Category");
-                address.push("@marker.Address");
-                var point = new google.maps.LatLng(@marker.Latitude, @marker.Longitude);
-                infowindow = new google.maps.InfoWindow({
-                    content: "<div><h2>"+  titles[0] + "</h2>" +
-                    category[0] + "<p>" + address[0] +"</div>"
-                });
+                infohtml = "<div><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>ID: @marker.Id<p>"+ `@Html.ActionLink("More Info", "Details", "FoundObjects", new { id = @marker.Id }, null)`;  //TODO: add picture
+                info.push(infohtml);
+            </text>
+            }
+            var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
+            var marker, i;
+            for (i = 0; i < la.length; i++) // for example I choose as index the latitude
+            {
+                var point = new google.maps.LatLng(la[i], lo[i]);
+                bounds.extend(point);
                 marker = new google.maps.Marker({
                     position: point,
-                    map: map,
-                    title: titles[0],
+                    title: titles[i],
                     icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                    html: infowindow
-                });
-            
-                </text>
+                    map: map
+               });
+               google.maps.event.addListener(marker, 'click', (function(marker, i) //Closures
+               {
+                    return function()
+                    {
+                        infoWindow.setContent(info[i]);
+                        infoWindow.open(map, marker);
+                    }
+                })(marker, i)); //Closures
             }
-
-            bounds.extend(point);
         }
 
     </script>
