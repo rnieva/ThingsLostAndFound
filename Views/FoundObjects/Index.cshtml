@@ -12,7 +12,8 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @*@Html.DisplayNameFor(model => model.Date)*@
+            Date Found Object
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Category)
@@ -110,7 +111,10 @@
             @Html.DisplayFor(modelItem => item.CityTownRoad)
         </td>
         <td>
-            <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+            @if (item.Img == true)
+            {
+                <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.State)
@@ -121,7 +125,8 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id }, null)
         </td>
     </tr>
 }

@@ -14,7 +14,7 @@
         <p>
             Have you lost anything?
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "LostObjects")</a></p>
     </div>
     <div class="col-md-4">
         <h2>xxxxx</h2>
@@ -24,6 +24,6 @@
     <div class="col-md-4">
         <h2>FOUND</h2>
         <p>Have you found anything?</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "FoundObjects")</a></p>
     </div>
 </div>
