@@ -39,6 +39,8 @@ namespace ThingsLostAndFound.Models
         public Nullable<bool> Img { get; set; }
         public bool State { get; set; }
         public int FileId { get; set; }
+        public string SecurityQuestion { get; set; }
+        public Nullable<bool> ContactState { get; set; }
     
         public virtual InfoUser InfoUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

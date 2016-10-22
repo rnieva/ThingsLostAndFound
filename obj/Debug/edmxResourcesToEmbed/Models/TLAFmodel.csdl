@@ -67,6 +67,8 @@
     <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_1" FromRole="FoundObject" ToRole="LostAndFoundObject" />
     <Property Name="FileId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="File" Relationship="TLAFModel.FK_FoundObjects_ToTable_1" FromRole="FoundObject" ToRole="File" />
+    <Property Name="SecurityQuestion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContactState" Type="Boolean" />
   </EntityType>
   <EntityType Name="LostAndFoundObject">
     <Key>

@@ -49,7 +49,7 @@ namespace ThingsLostAndFound.Controllers
         // POST: FoundObjects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img")] FoundObject foundObject, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, HttpPostedFileBase upload)
         {
             foundObject.State = false; //I assign false value, when sombody found the object, it´ll change to true value
             if (ModelState.IsValid)

@@ -4,17 +4,26 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class UsersContactController : Controller
     {
+        private TLAFEntities db = new TLAFEntities();
         // GET: UsersContact
         public ActionResult ContactUserFoundObject(int id) //When a user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
         {
-            //with id, search the user that found the object and send him a email
+            //with id from object, search the user that found the object and send him a email
+            var foundObject = db.FoundObjects.Find(id);
+            string SecurityQuestion = foundObject.SecurityQuestion;
+            int userIdReport = foundObject.UserIdreported;
+            var infouser = db.InfoUsers.Find(userIdReport);
+            string nameUserFounfObject = infouser.UserName;
+            string emailUserFoundObject = infouser.Email;
+            
             //sendEmailToUserThatFoundTheObject();
-            return View();
+            return View();          // user that lost the object send an email
         }
 
         //protected bool sendEmailToUserThatFoundTheObject()

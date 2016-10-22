@@ -17,6 +17,8 @@
     <EntitySetMapping Name="FoundObjects">
       <EntityTypeMapping TypeName="TLAFModel.FoundObject">
         <MappingFragment StoreEntitySet="FoundObjects">
+          <ScalarProperty Name="ContactState" ColumnName="ContactState" />
+          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
           <ScalarProperty Name="FileId" ColumnName="FileId" />
           <ScalarProperty Name="State" ColumnName="State" />
           <ScalarProperty Name="Img" ColumnName="Img" />

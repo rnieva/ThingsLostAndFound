@@ -38,6 +38,8 @@
           <Property Name="State" Type="bit" Nullable="false" />
           <Property Name="FileId" Type="int" Nullable="false" />
           <Property Name="Img" Type="bit" />
+          <Property Name="SecurityQuestion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactState" Type="bit" />
         </EntityType>
         <EntityType Name="InfoUsers">
           <Key>
@@ -243,6 +245,8 @@
           <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_1" FromRole="FoundObject" ToRole="LostAndFoundObject" />
           <Property Name="FileId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="File" Relationship="TLAFModel.FK_FoundObjects_ToTable_1" FromRole="FoundObject" ToRole="File" />
+          <Property Name="SecurityQuestion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactState" Type="Boolean" />
         </EntityType>
         <EntityType Name="LostAndFoundObject">
           <Key>
@@ -375,6 +379,8 @@
           <EntitySetMapping Name="FoundObjects">
             <EntityTypeMapping TypeName="TLAFModel.FoundObject">
               <MappingFragment StoreEntitySet="FoundObjects">
+                <ScalarProperty Name="ContactState" ColumnName="ContactState" />
+                <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
                 <ScalarProperty Name="FileId" ColumnName="FileId" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Img" ColumnName="Img" />

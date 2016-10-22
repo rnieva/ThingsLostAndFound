@@ -18,10 +18,10 @@ namespace ThingsLostAndFound.Models
             [Display(Name = "Serial ID")]
             public string SerialID { get; set; }
 
-            [Required(ErrorMessage = "Category are required")]
+            [Required(ErrorMessage = "Category is required")]
             public string Category { get; set; }
 
-            [Required(ErrorMessage = "Title are required")]
+            [Required(ErrorMessage = "Title is required")]
             public string Title { get; set; }
 
             [Display(Name = "Map Location")]
@@ -30,12 +30,16 @@ namespace ThingsLostAndFound.Models
             [Display(Name = "Location Observations")]
             public string LocationObservations { get; set; }
 
-            [Required(ErrorMessage = "Location are required")]
+            [Required(ErrorMessage = "Location is required")]
             public string Location { get; set; }
 
             [Display(Name = "Kind of location")]
-            [Required(ErrorMessage = "Kind of location are required")]
+            [Required(ErrorMessage = "Kind of location is required")]
             public string CityTownRoad { get; set; }
+
+            [Display(Name = "Security Question")]
+            [Required(ErrorMessage = "Security Question is required")]
+            public string SecurityQuestion { get; set; }
 
             //[Range(5, 100, ErrorMessage = "Movies cost between $5 and $100.")]
             //public decimal Price { get; set; }

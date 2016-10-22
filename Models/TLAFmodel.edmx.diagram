@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4f93a2d6f6654bbe854b19729e1868c6" Name="Diagram1">
+      <Diagram DiagramId="4f93a2d6f6654bbe854b19729e1868c6" Name="Diagram1" ZoomLevel="80">
         <EntityTypeShape EntityType="TLAFModel.InfoUser" Width="1.5" PointX="2.875" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TLAFModel.FoundObject" Width="1.5" PointX="0.5" PointY="0.875" />
         <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="2.875" PointY="4.375" />

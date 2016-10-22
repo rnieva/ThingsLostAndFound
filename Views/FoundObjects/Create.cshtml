@@ -94,6 +94,14 @@
                 </div>
 
                 <div class="form-group">
+                    @Html.LabelFor(model => model.SecurityQuestion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SecurityQuestion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SecurityQuestion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="control-label col-md-2">Picture</label>
                     <div class="col-md-10">
                         <input type="file" id="file" name="upload" />

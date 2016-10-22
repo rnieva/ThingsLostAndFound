@@ -33,6 +33,8 @@
     <Property Name="State" Type="bit" Nullable="false" />
     <Property Name="FileId" Type="int" Nullable="false" />
     <Property Name="Img" Type="bit" />
+    <Property Name="SecurityQuestion" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContactState" Type="bit" />
   </EntityType>
   <EntityType Name="InfoUsers">
     <Key>
