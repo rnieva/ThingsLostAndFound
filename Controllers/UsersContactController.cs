@@ -26,6 +26,10 @@ namespace ThingsLostAndFound.Controllers
             return View();          // user that lost the object send an email
         }
 
+        public void PrepareEmail()
+        {
+
+        }
         //protected bool sendEmailToUserThatFoundTheObject()
         //{
         //    string emailrecipient = "recipient";  //email recipient

@@ -52,6 +52,7 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, HttpPostedFileBase upload)
         {
             foundObject.State = false; //I assign false value, when sombody found the object, it´ll change to true value
+            foundObject.ContactState = false; // It is always false when a user create a report
             if (ModelState.IsValid)
             {
                 if (upload != null && upload.ContentLength > 0)
@@ -77,7 +78,7 @@ namespace ThingsLostAndFound.Controllers
                 }
                 db.FoundObjects.Add(foundObject);
                 db.SaveChanges();
-                //sendEmailFoundObject(foundObject);
+                sendEmailFoundObject(foundObject);
                 return RedirectToAction("Index");
             }
 
@@ -186,10 +187,10 @@ namespace ThingsLostAndFound.Controllers
 
         protected bool sendEmailFoundObject(FoundObject foundObject)
         {
-            string emailrecipient = "recipient";  //email recipient
+            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(emailrecipient));
-            email.From = new MailAddress("recipient", "ThingsLostAndFound");  //recipient
+            email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");  
             email.Subject = foundObject.Id +"# Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
             email.Body = "<h2>Found Object Report:</h2>  <br>"
                         + "<b>Date:</b> " + foundObject.Date.ToShortDateString() + "<br>"
@@ -212,11 +213,11 @@ namespace ThingsLostAndFound.Controllers
             email.IsBodyHtml = true; // If =true, You must to add </Br> in the body
             email.Priority = MailPriority.Normal;
             SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.live.com";
-            smtp.Port = 25;
+            smtp.Host = "smtp.live.com"; // hotmail email "smtp.live.com";
+            smtp.Port = 25; // hotmail port 25;
             smtp.EnableSsl = true;
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential("email", "pass"); // email and pass user
+            smtp.Credentials = new NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], System.Configuration.ConfigurationManager.AppSettings["passEmailCredentialvalue"]); // email and pass user
             try
             {
                 smtp.Send(email);
