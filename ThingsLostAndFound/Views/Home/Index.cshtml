@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Things Lost and Found</h1>
+    <p class="lead">Search and found lost objects</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>LOST</h2>
+        <p>
+            Have you lost anything?
+        </p>
+        <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "LostObjects")</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>xxxxx</h2>
+        <p>xxxxx</p>
+        <p></p>
+    </div>
+    <div class="col-md-4">
+        <h2>FOUND</h2>
+        <p>Have you found anything?</p>
+        <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "FoundObjects")</a></p>
+    </div>
+</div>
