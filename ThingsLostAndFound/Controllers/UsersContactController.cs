@@ -23,8 +23,15 @@ namespace ThingsLostAndFound.Controllers
             string nameUserFounfObject = infouser.UserName;
             string emailUserFoundObject = infouser.Email;
             
+            
+            return View();    //show a form to do a request
+        }
+
+        [HttpPost]
+        public ActionResult SendReqestUser()    //send an email with the request user
+        {
             //sendEmailToUserThatFoundTheObject();
-            return View();          // user that lost the object send an email
+            return View();  // show the view successfull if the email was sended 
         }
 
         public void PrepareEmail()

@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "ContactUserFoundObject";
+}
+
+<h2>ContactUserFoundObject</h2>
+
+@using (Html.BeginForm("SendReqestUser", "UserContact", FormMethod.Post))
+{
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Send Request" class="btn btn-default" />
+    </div>
+}

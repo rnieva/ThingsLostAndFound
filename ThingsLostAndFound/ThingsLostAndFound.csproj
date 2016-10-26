@@ -313,6 +313,7 @@
     <Content Include="Views\FoundObjects\Edit.cshtml" />
     <Content Include="Views\FoundObjects\Index.cshtml" />
     <Content Include="Views\MapFoundObjects\Index.cshtml" />
+    <Content Include="Views\UsersContact\ContactUserFoundObject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -325,9 +326,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\UsersContact\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
