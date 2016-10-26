@@ -2,20 +2,35 @@
 @{
     ViewBag.Title = "ContactUserFoundObject";
 }
-
-<h2>ContactUserFoundObject</h2>
-
-@using (Html.BeginForm("SendReqestUser", "UserContact", FormMethod.Post))
-{
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Send Request" class="btn btn-default" />
-    </div>
+@{
+    int id = ViewBag.idObject;
 }
+
+<html>
+    <body>
+        <h2>Send a message to user</h2>
+        <p>
+            Message to @ViewBag.userName
+        <p>
+            Object: @ViewBag.titleObject
+        <p>
+            <form action="/UsersContact/SendRequestUser" method="post">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.Hidden("id", id)
+                            Please, write your message<p></p>
+                            <textarea id="TextMessage" class="text" cols="46" rows="10" name="TextMessage"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="Send Request" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+</body>
+</html>

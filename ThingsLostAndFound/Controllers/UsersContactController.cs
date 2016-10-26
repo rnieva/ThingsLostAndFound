@@ -13,7 +13,17 @@ namespace ThingsLostAndFound.Controllers
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: UsersContact
-        public ActionResult ContactUserFoundObject(int id) //When a user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
+        public ActionResult ContactUserFoundObject(int id, string title, string userName) //When a user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
+        {
+            //This info cames from listFO, It show in the form
+            ViewBag.idObject = id;
+            ViewBag.titleObject = title;
+            ViewBag.userName = userName;
+            return View();    //show a form to do a request to userFinder
+        }
+
+        [HttpPost]
+        public ActionResult SendRequestUser(int id, string TextMessage)  //send an email with the request user
         {
             //with id from object, search the user that found the object and send him a email
             var foundObject = db.FoundObjects.Find(id);
@@ -22,14 +32,14 @@ namespace ThingsLostAndFound.Controllers
             var infouser = db.InfoUsers.Find(userIdReport);
             string nameUserFounfObject = infouser.UserName;
             string emailUserFoundObject = infouser.Email;
-            
-            
-            return View();    //show a form to do a request
-        }
 
-        [HttpPost]
-        public ActionResult SendReqestUser()    //send an email with the request user
-        {
+
+            InfoContactUsers infoContactUser = new InfoContactUsers();
+            infoContactUser.idUserFinder = userIdReport;
+            infoContactUser.idUserRequest = 0;  // check if the user that send tha request is login if not is 0
+            infoContactUser.idObject = id;
+            infoContactUser.MessageText = TextMessage;
+ 
             //sendEmailToUserThatFoundTheObject();
             return View();  // show the view successfull if the email was sended 
         }

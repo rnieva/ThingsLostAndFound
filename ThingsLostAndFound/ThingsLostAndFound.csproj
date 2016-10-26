@@ -190,6 +190,7 @@
     </Compile>
     <Compile Include="Models\FoundObjectMap.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InfoContactUsers.cs" />
     <Compile Include="Models\InfoMarkerFoundObject.cs" />
     <Compile Include="Models\InfoUser.cs">
       <DependentUpon>TLAFmodel.tt</DependentUpon>
