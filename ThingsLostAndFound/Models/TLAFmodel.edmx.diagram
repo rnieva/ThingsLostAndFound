@@ -15,6 +15,8 @@
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable" />
         <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="0.5" PointY="6.5" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable_1" />
+        <EntityTypeShape EntityType="TLAFModel.UsersContactDontRegister" Width="1.5" PointX="2.75" PointY="8.5" />
+        <AssociationConnector Association="TLAFModel.FK_UsersContactDontRegister_ToTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -18,6 +18,7 @@ namespace ThingsLostAndFound.Models
         public FoundObject()
         {
             this.LostAndFoundObjects = new HashSet<LostAndFoundObject>();
+            this.UsersContactDontRegisters = new HashSet<UsersContactDontRegister>();
         }
     
         public int Id { get; set; }
@@ -46,5 +47,7 @@ namespace ThingsLostAndFound.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LostAndFoundObject> LostAndFoundObjects { get; set; }
         public virtual File File { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsersContactDontRegister> UsersContactDontRegisters { get; set; }
     }
 }

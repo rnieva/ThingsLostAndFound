@@ -40,6 +40,11 @@
       <End Role="File" EntitySet="Files" />
       <End Role="FoundObject" EntitySet="FoundObjects" />
     </AssociationSet>
+    <EntitySet Name="UsersContactDontRegisters" EntityType="TLAFModel.UsersContactDontRegister" />
+    <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="TLAFModel.FK_UsersContactDontRegister_ToTable">
+      <End Role="FoundObject" EntitySet="FoundObjects" />
+      <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegisters" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="FoundObject">
     <Key>
@@ -69,6 +74,7 @@
     <NavigationProperty Name="File" Relationship="TLAFModel.FK_FoundObjects_ToTable_1" FromRole="FoundObject" ToRole="File" />
     <Property Name="SecurityQuestion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ContactState" Type="Boolean" />
+    <NavigationProperty Name="UsersContactDontRegisters" Relationship="TLAFModel.FK_UsersContactDontRegister_ToTable" FromRole="FoundObject" ToRole="UsersContactDontRegister" />
   </EntityType>
   <EntityType Name="LostAndFoundObject">
     <Key>
@@ -176,6 +182,31 @@
       </Principal>
       <Dependent Role="FoundObject">
         <PropertyRef Name="FileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UsersContactDontRegister">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="UserIdRequestLost" Type="Int32" Nullable="false" />
+    <Property Name="UserIdReportFound" Type="Int32" Nullable="false" />
+    <Property Name="Message1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserEmailRequestLost" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DateSendEmail" Type="DateTime" Precision="3" />
+    <Property Name="ObjectIdFound" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FoundObject" Relationship="TLAFModel.FK_UsersContactDontRegister_ToTable" FromRole="UsersContactDontRegister" ToRole="FoundObject" />
+  </EntityType>
+  <Association Name="FK_UsersContactDontRegister_ToTable">
+    <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="1" />
+    <End Type="TLAFModel.UsersContactDontRegister" Role="UsersContactDontRegister" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoundObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersContactDontRegister">
+        <PropertyRef Name="ObjectIdFound" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

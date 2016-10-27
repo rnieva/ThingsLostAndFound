@@ -13,12 +13,13 @@ namespace ThingsLostAndFound.Controllers
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: UsersContact
-        public ActionResult ContactUserFoundObject(int id, string title, string userName) //When a user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
+        public ActionResult ContactUserFoundObject(int id, string title, string userName, string securityQuestion) //When a user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
         {
             //This info cames from listFO, It show in the form
             ViewBag.idObject = id;
             ViewBag.titleObject = title;
             ViewBag.userName = userName;
+            ViewBag.securityQuestion = securityQuestion;
             //If the user isn´t register, it show this view with fileds in the form, we need the contact email
             //If the user is register, it show this view, without email
             return View();    //show a form to do a request to userFinder
@@ -35,23 +36,26 @@ namespace ThingsLostAndFound.Controllers
             string nameUserFounfObject = infouser.UserName;
             string emailUserFoundObject = infouser.Email;
 
-
-            InfoContactUsers infoContactUser = new InfoContactUsers();
-            infoContactUser.idUserFinder = userIdReport;
-            infoContactUser.idUserRequest = 0;  // check if the user that send tha request is login if not is 0
-            infoContactUser.idObject = id;
-            infoContactUser.MessageText = textMessage;
-
             string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
             if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
-                //Store in DB data about contact
+                //Store in DB data about contact between users, depends if the user is register or not
+                //If the user isn´t register
+                UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
+                usersContactDontRegister.UserIdRequestLost = 8; // because the user isn´t register
+                usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
+                usersContactDontRegister.ObjectIdFound = id; // Id of Object found
+                usersContactDontRegister.UserEmailRequestLost = emailUserLostObject;
+                usersContactDontRegister.Message1 = buildBodyEmail;
+                usersContactDontRegister.DateSendEmail = DateTime.Now;
+                db.UsersContactDontRegisters.Add(usersContactDontRegister);
+                db.SaveChanges();
             }
             else
             {
                 ViewBag.result = "Request don´t sent";
-               
+
             }
             return View(); // show the view with the result, successfull or not successfull if the email was sended
         }

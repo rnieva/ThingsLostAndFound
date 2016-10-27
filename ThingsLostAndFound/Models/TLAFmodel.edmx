@@ -87,6 +87,18 @@
           <Property Name="Img" Type="image" />
           <Property Name="State" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="UsersContactDontRegister">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserIdRequestLost" Type="int" Nullable="false" />
+          <Property Name="UserIdReportFound" Type="int" Nullable="false" />
+          <Property Name="Message1" Type="nvarchar(max)" />
+          <Property Name="UserEmailRequestLost" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateSendEmail" Type="datetime" />
+          <Property Name="ObjectIdFound" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
           <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="*" />
@@ -147,12 +159,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UsersContactDontRegister_ToTable">
+          <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
+          <End Role="UsersContactDontRegister" Type="Self.UsersContactDontRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoundObjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersContactDontRegister">
+              <PropertyRef Name="ObjectIdFound" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TLAFModelStoreContainer">
           <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoundObjects" EntityType="Self.FoundObjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InfoUsers" EntityType="Self.InfoUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LostAndFoundObject" EntityType="Self.LostAndFoundObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LostObjects" EntityType="Self.LostObjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersContactDontRegister" EntityType="Self.UsersContactDontRegister" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_FoundObjects_ToTable" Association="Self.FK_FoundObjects_ToTable">
             <End Role="InfoUsers" EntitySet="InfoUsers" />
             <End Role="FoundObjects" EntitySet="FoundObjects" />
@@ -172,6 +197,10 @@
           <AssociationSet Name="FK_LostObjects_ToTable" Association="Self.FK_LostObjects_ToTable">
             <End Role="InfoUsers" EntitySet="InfoUsers" />
             <End Role="LostObjects" EntitySet="LostObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="Self.FK_UsersContactDontRegister_ToTable">
+            <End Role="FoundObjects" EntitySet="FoundObjects" />
+            <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegister" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -218,6 +247,11 @@
             <End Role="File" EntitySet="Files" />
             <End Role="FoundObject" EntitySet="FoundObjects" />
           </AssociationSet>
+          <EntitySet Name="UsersContactDontRegisters" EntityType="TLAFModel.UsersContactDontRegister" />
+          <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="TLAFModel.FK_UsersContactDontRegister_ToTable">
+            <End Role="FoundObject" EntitySet="FoundObjects" />
+            <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegisters" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FoundObject">
           <Key>
@@ -247,6 +281,7 @@
           <NavigationProperty Name="File" Relationship="TLAFModel.FK_FoundObjects_ToTable_1" FromRole="FoundObject" ToRole="File" />
           <Property Name="SecurityQuestion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactState" Type="Boolean" />
+          <NavigationProperty Name="UsersContactDontRegisters" Relationship="TLAFModel.FK_UsersContactDontRegister_ToTable" FromRole="FoundObject" ToRole="UsersContactDontRegister" />
         </EntityType>
         <EntityType Name="LostAndFoundObject">
           <Key>
@@ -357,6 +392,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UsersContactDontRegister">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserIdRequestLost" Type="Int32" Nullable="false" />
+          <Property Name="UserIdReportFound" Type="Int32" Nullable="false" />
+          <Property Name="Message1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserEmailRequestLost" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateSendEmail" Type="DateTime" Precision="3" />
+          <Property Name="ObjectIdFound" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FoundObject" Relationship="TLAFModel.FK_UsersContactDontRegister_ToTable" FromRole="UsersContactDontRegister" ToRole="FoundObject" />
+        </EntityType>
+        <Association Name="FK_UsersContactDontRegister_ToTable">
+          <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="1" />
+          <End Type="TLAFModel.UsersContactDontRegister" Role="UsersContactDontRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoundObject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersContactDontRegister">
+              <PropertyRef Name="ObjectIdFound" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -446,6 +506,19 @@
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="ContentType" ColumnName="ContentType" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersContactDontRegisters">
+            <EntityTypeMapping TypeName="TLAFModel.UsersContactDontRegister">
+              <MappingFragment StoreEntitySet="UsersContactDontRegister">
+                <ScalarProperty Name="ObjectIdFound" ColumnName="ObjectIdFound" />
+                <ScalarProperty Name="DateSendEmail" ColumnName="DateSendEmail" />
+                <ScalarProperty Name="UserEmailRequestLost" ColumnName="UserEmailRequestLost" />
+                <ScalarProperty Name="Message1" ColumnName="Message1" />
+                <ScalarProperty Name="UserIdReportFound" ColumnName="UserIdReportFound" />
+                <ScalarProperty Name="UserIdRequestLost" ColumnName="UserIdRequestLost" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
