@@ -23,7 +23,7 @@ namespace ThingsLostAndFound.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendRequestUser(int id, string TextMessage)  //send an email with the request user
+        public ActionResult SendRequestUser(int id, string textMessage, string emailUserLostObject)  //send an email with the request user
         {
             //with id from object, search the user that found the object and send him a email
             var foundObject = db.FoundObjects.Find(id);
@@ -38,13 +38,14 @@ namespace ThingsLostAndFound.Controllers
             infoContactUser.idUserFinder = userIdReport;
             infoContactUser.idUserRequest = 0;  // check if the user that send tha request is login if not is 0
             infoContactUser.idObject = id;
-            infoContactUser.MessageText = TextMessage;
- 
+            infoContactUser.MessageText = textMessage;
+
+            BuildBodyEmail(textMessage);
             //sendEmailToUserThatFoundTheObject();
             return View();  // show the view successfull if the email was sended 
         }
 
-        public void PrepareEmail()
+        public void BuildBodyEmail(string textMessage)
         {
 
         }

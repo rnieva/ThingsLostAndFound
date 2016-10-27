@@ -10,27 +10,40 @@
     <body>
         <h2>Send a message to user</h2>
         <p>
-            Message to @ViewBag.userName
+            Message to <b>@ViewBag.userName</b>
         <p>
-            Object: @ViewBag.titleObject
+            Object: <b>@ViewBag.titleObject</b>
         <p>
-            <form action="/UsersContact/SendRequestUser" method="post">
-                <table>
-                    <tr>
-                        <td></td>
-                        <td>
-                            @Html.Hidden("id", id)
-                            Please, write your message<p></p>
-                            <textarea id="TextMessage" class="text" cols="46" rows="10" name="TextMessage"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="submit" value="Send Request" />
-                        </td>
-                    </tr>
-                </table>
-            </form>
+        <form id="formMessage" action="/UsersContact/SendRequestUser" method="post">
+            <table>
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.Hidden("id", id)
+                        Please, write your message<p></p>
+                        <textarea id="textMessage" class="text" cols="46" rows="10" name="TextMessage"></textarea>
+                    </td> 
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <p>As you aren´t an register user, you have to write your contact email. Are you Okay with this? <input id="emailCheckUserLostObject" type="checkbox" required name="emailCheckUserLostObject"  value="checked"></p>
+                        Please, write your email address <input id="emailUserLostObject" class="text" type="text" required name="emailUserLostObject">
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="submit" type="submit" value="Send Request" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        
 </body>
 </html>
+
+<script type="text/javascript" language="JavaScript">
+
+</script>
