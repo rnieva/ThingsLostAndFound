@@ -19,6 +19,8 @@ namespace ThingsLostAndFound.Controllers
             ViewBag.idObject = id;
             ViewBag.titleObject = title;
             ViewBag.userName = userName;
+            //If the user isn´t register, it show this view with fileds in the form, we need the contact email
+            //If the user is register, it show this view, without email
             return View();    //show a form to do a request to userFinder
         }
 
@@ -40,61 +42,61 @@ namespace ThingsLostAndFound.Controllers
             infoContactUser.idObject = id;
             infoContactUser.MessageText = textMessage;
 
-            BuildBodyEmail(textMessage);
-            //sendEmailToUserThatFoundTheObject();
-            return View();  // show the view successfull if the email was sended 
+            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
+            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
+            {
+                ViewBag.result = "Request sent successfull";
+                //Store in DB data about contact
+            }
+            else
+            {
+                ViewBag.result = "Request don´t sent";
+               
+            }
+            return View(); // show the view with the result, successfull or not successfull if the email was sended
         }
 
-        public void BuildBodyEmail(string textMessage)
+        public string BuildBodyEmail(string textMessage, string emailUserLostObject)
         {
+            string buildBodyEmail = "";
+            buildBodyEmail = "Request from:<b> " + emailUserLostObject + "</b><br>"
+                       + "<b>Message:</b><br> " + textMessage + "<br>"
+                       + "---------------------------------------------------------<br>"
+                       + "Thanks for your help, please answer email<b> " + emailUserLostObject + "</b><br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return buildBodyEmail;
+        }
+
+        protected bool sendEmailToUserThatFoundTheObject(string buildBodyEmail, string emailUserLostObject, int id)
+        {
+            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient, //here go emailUserLostObject
+            MailMessage email = new MailMessage();
+            email.To.Add(new MailAddress(emailrecipient));
+            email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");
+            email.Subject = "Object ID: " +id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            email.Body = buildBodyEmail;
+            email.IsBodyHtml = true; 
+            email.Priority = MailPriority.Normal;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.live.com";
+            smtp.Port = 25;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], System.Configuration.ConfigurationManager.AppSettings["passEmailCredentialvalue"]); // email and pass user
+            try
+            {
+                smtp.Send(email);
+                email.Dispose();
+                System.Diagnostics.Debug.WriteLine("Email sent");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error to sent email: " + ex.Message);
+                return false;
+            }
 
         }
-        //protected bool sendEmailToUserThatFoundTheObject()
-        //{
-        //    string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient
-        //    MailMessage email = new MailMessage();
-        //    email.To.Add(new MailAddress(emailrecipient));
-        //    email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");
-        //    email.Subject = foundObject.Id + "# Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-        //    email.Body = "<h2>Found Object Report:</h2>  <br>"
-        //                + "<b>Date:</b> " + foundObject.Date.ToShortDateString() + "<br>"
-        //                + "<b>Category:</b> " + foundObject.Category + "<br>"
-        //                + "<b>Brand:</b> " + foundObject.Brand + "<br>"
-        //                + "<b>Model:</b> " + foundObject.Model + "<br>"
-        //                + "<b>SerialID:</b> " + foundObject.SerialID + "<br>"
-        //                + "<b>Title:</b> " + foundObject.Title + "<br>"
-        //                + "<b>Color:</b> " + foundObject.Color + "<br>"
-        //                + "<b>Observations:</b> " + foundObject.Observations + "<br>"
-        //                //email.Body = foundObject.  add uploaded file
-        //                + "<b>Address:</b> " + foundObject.Address + "<br>"
-        //                + "<b>ZipCode:</b> " + foundObject.ZipCode + "<br>"
-        //                + "<b>Map Location:</b> " + foundObject.MapLocation + "<br>"
-        //                + "<b>Location Observations:</b> " + foundObject.LocationObservations + "<br>"
-        //                + "<b>Location:</b> " + foundObject.Location + "<br>"
-        //                + "<b>Kind of Location:</b> " + foundObject.CityTownRoad + "<br><br>"
-        //                + "Thanks for your help" + "<br>"
-        //                + "If anybody had lost this object, a email will send you";
-        //    email.IsBodyHtml = true; // If =true, You must to add </Br> in the body
-        //    email.Priority = MailPriority.Normal;
-        //    SmtpClient smtp = new SmtpClient();
-        //    smtp.Host = "smtp.live.com";
-        //    smtp.Port = 25;
-        //    smtp.EnableSsl = true;
-        //    smtp.UseDefaultCredentials = false;
-        //    smtp.Credentials = new NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], System.Configuration.ConfigurationManager.AppSettings["passEmailCredentialvalue"]); // email and pass user
-        //    try
-        //    {
-        //        smtp.Send(email);
-        //        email.Dispose();
-        //        System.Diagnostics.Debug.WriteLine("Email sent");
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine("Error to sent email: " + ex.Message);
-        //        return false;
-        //    }
-
-        //}
     }
 }

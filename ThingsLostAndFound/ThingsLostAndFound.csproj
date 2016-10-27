@@ -315,6 +315,7 @@
     <Content Include="Views\FoundObjects\Index.cshtml" />
     <Content Include="Views\MapFoundObjects\Index.cshtml" />
     <Content Include="Views\UsersContact\ContactUserFoundObject.cshtml" />
+    <Content Include="Views\UsersContact\SendRequestUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
