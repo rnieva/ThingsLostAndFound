@@ -91,10 +91,10 @@
                 la.push(@marker.Latitude);
                 lo.push(@marker.Longitude);
                 titles.push("@marker.Title");
-                infohtml = "<div><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>ID: @marker.Id<p>"+ `@Html.ActionLink("More Info", "Details", "FoundObjects", new { id = @marker.Id }, null)`;  //TODO: add picture
+                infohtml = "<div><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>ID: @marker.Id<p>" + `@Html.ActionLink("More Info", "Details", "FoundObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport, securityQuestion = @marker.SecurityQuestion  }, null)`;  //TODO: add picture
                 info.push(infohtml);
             </text>
-            }
+                                                                                                                                                                                                                    }
             var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
             var marker, i;
             for (i = 0; i < la.length; i++) // for example I choose as index the latitude

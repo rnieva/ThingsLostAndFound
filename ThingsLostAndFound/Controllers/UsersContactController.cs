@@ -9,7 +9,7 @@ using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
 {
-    public class UsersContactController : Controller
+    public class UsersContactController : Controller    // This controller do the communication with users
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: UsersContact

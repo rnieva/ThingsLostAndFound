@@ -12,6 +12,7 @@ namespace ThingsLostAndFound.Models
 
         public int Id { get; set; }
         public int UserIdreported { get; set; }
+        public string UserNameReport { get; set; }
         public System.DateTime Date { get; set; }
         public string Category { get; set; }
         public string Brand { get; set; }
@@ -25,5 +26,6 @@ namespace ThingsLostAndFound.Models
         public string LocationObservations { get; set; }
         public string Location { get; set; }
         public string CityTownRoad { get; set; }
+        public string SecurityQuestion { get; set; }
     }
 }

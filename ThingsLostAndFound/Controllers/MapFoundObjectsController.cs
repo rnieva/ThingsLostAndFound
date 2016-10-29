@@ -49,6 +49,8 @@ namespace ThingsLostAndFound.Controllers
                     LocationObservations = p.LocationObservations,
                     Location = p.Location,
                     CityTownRoad = p.CityTownRoad,
+                    SecurityQuestion = p.SecurityQuestion,
+                    UserNameReport = p.InfoUser.UserName
                 };
                 listMarkers.Add(marker);
             }
