@@ -51,10 +51,10 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, HttpPostedFileBase upload)
         {
-            foundObject.State = false; //I assign false value, when sombody found the object, it´ll change to true value
-            foundObject.ContactState = false; // It is always false when a user create a report
             if (ModelState.IsValid)
             {
+                foundObject.State = false; //I assign false value, when sombody found the object, it´ll change to true value
+                foundObject.ContactState = false; // It is always false when a user create a report
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var file = new Models.File      
@@ -78,8 +78,9 @@ namespace ThingsLostAndFound.Controllers
                 }
                 db.FoundObjects.Add(foundObject);
                 db.SaveChanges();
-                sendEmailFoundObject(foundObject);
-                return RedirectToAction("Index");
+                //sendEmailFoundObject(foundObject);
+                //return RedirectToAction("Index");
+                return RedirectToAction("SearchMatchesInLostObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(foundObject) );
             }
 
             ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);
