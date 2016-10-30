@@ -42,6 +42,12 @@ namespace ThingsLostAndFound.Controllers
                     numberResults++;
                 }
             }
+            ViewData["numberResults"] = numberResults;
+            return View(LostObjectMatchesList);
+        }
+
+        public ActionResult SearchMatchesInFoundObject(LostObject lostObject)
+        {
 
             return View();
         }
