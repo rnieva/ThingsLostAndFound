@@ -36,11 +36,14 @@ namespace ThingsLostAndFound.Models
         public string LocationObservations { get; set; }
         public string Location { get; set; }
         public string CityTownRoad { get; set; }
-        public byte[] Img { get; set; }
+        public Nullable<bool> Img { get; set; }
         public bool State { get; set; }
+        public int FileId { get; set; }
+        public Nullable<bool> ContactState { get; set; }
     
         public virtual InfoUser InfoUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LostAndFoundObject> LostAndFoundObjects { get; set; }
+        public virtual File File { get; set; }
     }
 }

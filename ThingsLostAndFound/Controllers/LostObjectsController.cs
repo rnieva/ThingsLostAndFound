@@ -48,12 +48,38 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,State")] LostObject lostObject)
+        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,State")] LostObject lostObject, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                lostObject.State = false; //I assign false value, when sombody found the object, it´ll change to true value
+                lostObject.ContactState = false; // It is always false when a user create a report
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var file = new Models.File
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        ContentType = upload.ContentType,
+                        FileType = System.IO.Path.GetExtension(upload.FileName)
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        file.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    lostObject.Img = true;     //There is a uploaded file
+                    lostObject.FileId = file.Id;
+                    db.Files.Add(file);
+                }
+                else
+                {
+                    lostObject.Img = false;   // false value if there isn´t uploaded file
+                    var file = new Models.File(); // foreign key never null, create un empty file
+                    lostObject.FileId = file.Id;
+                    db.Files.Add(file);
+                }
                 db.LostObjects.Add(lostObject);
                 db.SaveChanges();
+                //sendEmailFoundObject(lostObject);
                 return RedirectToAction("Index");
             }
 

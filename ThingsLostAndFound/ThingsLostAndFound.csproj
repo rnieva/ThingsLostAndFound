@@ -201,6 +201,7 @@
     <Compile Include="Models\LostObject.cs">
       <DependentUpon>TLAFmodel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LostObjectMap.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TLAFmodel.Context.cs">
       <AutoGen>True</AutoGen>

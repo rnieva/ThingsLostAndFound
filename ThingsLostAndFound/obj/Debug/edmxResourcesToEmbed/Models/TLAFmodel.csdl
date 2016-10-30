@@ -45,6 +45,10 @@
       <End Role="FoundObject" EntitySet="FoundObjects" />
       <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegisters" />
     </AssociationSet>
+    <AssociationSet Name="FK_LostObjects_ToTable_1" Association="TLAFModel.FK_LostObjects_ToTable_1">
+      <End Role="File" EntitySet="Files" />
+      <End Role="LostObject" EntitySet="LostObjects" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="FoundObject">
     <Key>
@@ -109,10 +113,13 @@
     <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Location" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="CityTownRoad" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-    <Property Name="Img" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Img" Type="Boolean" />
     <Property Name="State" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="InfoUser" Relationship="TLAFModel.FK_LostObjects_ToTable" FromRole="LostObject" ToRole="InfoUser" />
     <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable" FromRole="LostObject" ToRole="LostAndFoundObject" />
+    <Property Name="FileId" Type="Int32" Nullable="false" />
+    <Property Name="ContactState" Type="Boolean" />
+    <NavigationProperty Name="File" Relationship="TLAFModel.FK_LostObjects_ToTable_1" FromRole="LostObject" ToRole="File" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Type="TLAFModel.InfoUser" Role="InfoUser" Multiplicity="1" />
@@ -172,6 +179,7 @@
     <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
     <Property Name="FileType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="FoundObjects" Relationship="TLAFModel.FK_FoundObjects_ToTable_1" FromRole="File" ToRole="FoundObject" />
+    <NavigationProperty Name="LostObjects" Relationship="TLAFModel.FK_LostObjects_ToTable_1" FromRole="File" ToRole="LostObject" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable_1">
     <End Type="TLAFModel.File" Role="File" Multiplicity="1" />
@@ -207,6 +215,18 @@
       </Principal>
       <Dependent Role="UsersContactDontRegister">
         <PropertyRef Name="ObjectIdFound" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LostObjects_ToTable_1">
+    <End Type="TLAFModel.File" Role="File" Multiplicity="1" />
+    <End Type="TLAFModel.LostObject" Role="LostObject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="File">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LostObject">
+        <PropertyRef Name="FileId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

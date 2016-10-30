@@ -79,8 +79,10 @@
     <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
     <Property Name="Location" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="CityTownRoad" Type="nvarchar" MaxLength="30" Nullable="false" />
-    <Property Name="Img" Type="image" />
     <Property Name="State" Type="bit" Nullable="false" />
+    <Property Name="FileId" Type="int" Nullable="false" />
+    <Property Name="Img" Type="bit" />
+    <Property Name="ContactState" Type="bit" />
   </EntityType>
   <EntityType Name="UsersContactDontRegister">
     <Key>
@@ -154,6 +156,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_LostObjects_ToTable_1">
+    <End Role="File" Type="Self.File" Multiplicity="1" />
+    <End Role="LostObjects" Type="Self.LostObjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="File">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LostObjects">
+        <PropertyRef Name="FileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UsersContactDontRegister_ToTable">
     <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
     <End Role="UsersContactDontRegister" Type="Self.UsersContactDontRegister" Multiplicity="*" />
@@ -191,6 +205,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_LostObjects_ToTable" Association="Self.FK_LostObjects_ToTable">
       <End Role="InfoUsers" EntitySet="InfoUsers" />
+      <End Role="LostObjects" EntitySet="LostObjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LostObjects_ToTable_1" Association="Self.FK_LostObjects_ToTable_1">
+      <End Role="File" EntitySet="File" />
       <End Role="LostObjects" EntitySet="LostObjects" />
     </AssociationSet>
     <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="Self.FK_UsersContactDontRegister_ToTable">

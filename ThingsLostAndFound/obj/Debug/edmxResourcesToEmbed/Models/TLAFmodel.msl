@@ -56,6 +56,8 @@
     <EntitySetMapping Name="LostObjects">
       <EntityTypeMapping TypeName="TLAFModel.LostObject">
         <MappingFragment StoreEntitySet="LostObjects">
+          <ScalarProperty Name="ContactState" ColumnName="ContactState" />
+          <ScalarProperty Name="FileId" ColumnName="FileId" />
           <ScalarProperty Name="State" ColumnName="State" />
           <ScalarProperty Name="Img" ColumnName="Img" />
           <ScalarProperty Name="CityTownRoad" ColumnName="CityTownRoad" />

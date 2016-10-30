@@ -5,18 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4f93a2d6f6654bbe854b19729e1868c6" Name="Diagram1" ZoomLevel="80">
-        <EntityTypeShape EntityType="TLAFModel.InfoUser" Width="1.5" PointX="2.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TLAFModel.InfoUser" Width="1.5" PointX="4" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TLAFModel.FoundObject" Width="1.5" PointX="0.5" PointY="0.875" />
-        <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="2.875" PointY="4.375" />
-        <EntityTypeShape EntityType="TLAFModel.LostObject" Width="1.5" PointX="5.25" PointY="0.875" />
+        <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="4" PointY="3.75" />
+        <EntityTypeShape EntityType="TLAFModel.LostObject" Width="1.5" PointX="7.625" PointY="0.875" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable_1" />
         <AssociationConnector Association="TLAFModel.FK_LostObjects_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable" />
-        <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="0.5" PointY="6.5" />
+        <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="4" PointY="6.625" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable_1" />
-        <EntityTypeShape EntityType="TLAFModel.UsersContactDontRegister" Width="1.5" PointX="2.75" PointY="8.5" />
+        <EntityTypeShape EntityType="TLAFModel.UsersContactDontRegister" Width="1.5" PointX="4" PointY="9.5" />
         <AssociationConnector Association="TLAFModel.FK_UsersContactDontRegister_ToTable" />
+        <AssociationConnector Association="TLAFModel.FK_LostObjects_ToTable_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

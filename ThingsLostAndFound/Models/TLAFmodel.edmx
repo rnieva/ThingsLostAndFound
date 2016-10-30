@@ -84,8 +84,10 @@
           <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
           <Property Name="Location" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="CityTownRoad" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="Img" Type="image" />
           <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="FileId" Type="int" Nullable="false" />
+          <Property Name="Img" Type="bit" />
+          <Property Name="ContactState" Type="bit" />
         </EntityType>
         <EntityType Name="UsersContactDontRegister">
           <Key>
@@ -159,6 +161,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LostObjects_ToTable_1">
+          <End Role="File" Type="Self.File" Multiplicity="1" />
+          <End Role="LostObjects" Type="Self.LostObjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LostObjects">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UsersContactDontRegister_ToTable">
           <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
           <End Role="UsersContactDontRegister" Type="Self.UsersContactDontRegister" Multiplicity="*" />
@@ -196,6 +210,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_LostObjects_ToTable" Association="Self.FK_LostObjects_ToTable">
             <End Role="InfoUsers" EntitySet="InfoUsers" />
+            <End Role="LostObjects" EntitySet="LostObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LostObjects_ToTable_1" Association="Self.FK_LostObjects_ToTable_1">
+            <End Role="File" EntitySet="File" />
             <End Role="LostObjects" EntitySet="LostObjects" />
           </AssociationSet>
           <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="Self.FK_UsersContactDontRegister_ToTable">
@@ -251,6 +269,10 @@
           <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="TLAFModel.FK_UsersContactDontRegister_ToTable">
             <End Role="FoundObject" EntitySet="FoundObjects" />
             <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegisters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LostObjects_ToTable_1" Association="TLAFModel.FK_LostObjects_ToTable_1">
+            <End Role="File" EntitySet="Files" />
+            <End Role="LostObject" EntitySet="LostObjects" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="FoundObject">
@@ -316,10 +338,13 @@
           <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Location" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="CityTownRoad" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Img" Type="Boolean" />
           <Property Name="State" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="InfoUser" Relationship="TLAFModel.FK_LostObjects_ToTable" FromRole="LostObject" ToRole="InfoUser" />
           <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable" FromRole="LostObject" ToRole="LostAndFoundObject" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <Property Name="ContactState" Type="Boolean" />
+          <NavigationProperty Name="File" Relationship="TLAFModel.FK_LostObjects_ToTable_1" FromRole="LostObject" ToRole="File" />
         </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Type="TLAFModel.InfoUser" Role="InfoUser" Multiplicity="1" />
@@ -379,6 +404,7 @@
           <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="FileType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FoundObjects" Relationship="TLAFModel.FK_FoundObjects_ToTable_1" FromRole="File" ToRole="FoundObject" />
+          <NavigationProperty Name="LostObjects" Relationship="TLAFModel.FK_LostObjects_ToTable_1" FromRole="File" ToRole="LostObject" />
         </EntityType>
         <Association Name="FK_FoundObjects_ToTable_1">
           <End Type="TLAFModel.File" Role="File" Multiplicity="1" />
@@ -414,6 +440,18 @@
             </Principal>
             <Dependent Role="UsersContactDontRegister">
               <PropertyRef Name="ObjectIdFound" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LostObjects_ToTable_1">
+          <End Type="TLAFModel.File" Role="File" Multiplicity="1" />
+          <End Type="TLAFModel.LostObject" Role="LostObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LostObject">
+              <PropertyRef Name="FileId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -478,6 +516,8 @@
           <EntitySetMapping Name="LostObjects">
             <EntityTypeMapping TypeName="TLAFModel.LostObject">
               <MappingFragment StoreEntitySet="LostObjects">
+                <ScalarProperty Name="ContactState" ColumnName="ContactState" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Img" ColumnName="Img" />
                 <ScalarProperty Name="CityTownRoad" ColumnName="CityTownRoad" />
