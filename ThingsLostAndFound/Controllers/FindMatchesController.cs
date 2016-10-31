@@ -30,7 +30,7 @@ namespace ThingsLostAndFound.Controllers
             string Location = foundObject.Location;
             string CityTownRoad = foundObject.CityTownRoad;
             string SecurityQuestion = foundObject.SecurityQuestion;
-
+            
             int numberResults = 0;
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
             var listLostObjects = from p in db.LostObjects select p;
@@ -38,9 +38,50 @@ namespace ThingsLostAndFound.Controllers
             {
                 if (p.Category == Category)
                 {
-                    LostObjectMatchesList.Add(p);
-                    numberResults++;
+                    switch (p.Category) // Depens category the filters are different
+                    {
+                        case "Animals Pets":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Bags, Luggage":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Clothing":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Electronics":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Jewelry":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Toys":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Tickets":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        case "Personal":
+                            LostObjectMatchesList.Add(p);
+                            numberResults++;
+                            break;
+                        default:
+                            System.Diagnostics.Debug.WriteLine("Not coincidences");
+                            break;
+                    }
                 }
+                //if (p.Category == Category)
+                //{
+                //    LostObjectMatchesList.Add(p);
+                //    numberResults++;
+                //}
             }
             ViewData["numberResults"] = numberResults;
             return View(LostObjectMatchesList);

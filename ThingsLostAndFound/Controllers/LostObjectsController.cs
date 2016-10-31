@@ -80,7 +80,9 @@ namespace ThingsLostAndFound.Controllers
                 db.LostObjects.Add(lostObject);
                 db.SaveChanges();
                 //sendEmailFoundObject(lostObject);
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                // After the user has created a report, always check if there is any coincidences with data in the DB 
+                return RedirectToAction("SearchMatchesInFoundObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(lostObject)); // I use 2RouteValueDictionary" to pass a value of this type
             }
 
             ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", lostObject.UserIdreported);

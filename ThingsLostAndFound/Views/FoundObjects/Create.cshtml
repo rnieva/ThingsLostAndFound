@@ -48,7 +48,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.Category, new MultiSelectList(new[] { "Animals Pets", "Bags, Luggage", "Clothing", "Electronics", "Jewelry", "Toys" }), "Select", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Category, new MultiSelectList(new[] { "Animals Pets", "Bags, Luggage", "Clothing", "Electronics", "Jewelry", "Toys", "Tickets", "Personal" }), "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -157,7 +157,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.CityTownRoad, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.CityTownRoad, new MultiSelectList(new[] { "City", "Town", "River", "Beach", "Forest", "Park" }), "Select", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.CityTownRoad, new MultiSelectList(new[] { "City", "Town", "River", "Beach", "Forest", "Park", "Pub", "Restaurat", "Shop" }), "Select", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.CityTownRoad, "", new { @class = "text-danger" })
                         </div>
                     </div>
