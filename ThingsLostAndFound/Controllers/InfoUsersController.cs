@@ -46,10 +46,12 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,Rol,Date")] InfoUser infoUser)
+        public ActionResult Create([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber")] InfoUser infoUser)
         {
             if (ModelState.IsValid)
             {
+                infoUser.Rol = 3;
+                infoUser.Date = DateTime.Now;
                 db.InfoUsers.Add(infoUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
