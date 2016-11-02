@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class LoginController : Controller
     {
+        private TLAFEntities db = new TLAFEntities();
         // GET: Login
         public ActionResult Index()
         {
@@ -26,7 +28,8 @@ namespace ThingsLostAndFound.Controllers
         {
                 if (IsValid(user.UserName, user.UserPass))
                 {
-                    FormsAuthentication.SetAuthCookie(user.Email, false);
+                    FormsAuthentication.SetAuthCookie(user.UserName, false);
+                
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -36,22 +39,22 @@ namespace ThingsLostAndFound.Controllers
                 return View(user);
         }
 
-        private bool IsValid(string email, string password)
+        private bool IsValid(string UserName, string UserPass)
         {
-            //var crypto = new SimpleCrypto.PBKDF2();
             bool IsValid = false;
-
-            //using (var db = new LoginInMVC4WithEF.Models.UserEntities2())
-            //{
-            //    var user = db.Registrations.FirstOrDefault(u => u.Email == email);
-            //    if (user != null)
-            //    {
-            //        if (user.Password == crypto.Compute(password, user.PasswordSalt))
-            //        {
-            //            IsValid = true;
-            //        }
-            //    }
-            //}
+            
+            var userList = from p in db.InfoUsers select p;
+            foreach (var p in userList)
+            {
+                if ((p.UserName == UserName) && (p.UserPass == UserPass))
+                {
+                    IsValid = true;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("");
+                }
+            }
             return IsValid;
         }
 

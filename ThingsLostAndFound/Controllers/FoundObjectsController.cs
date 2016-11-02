@@ -42,6 +42,7 @@ namespace ThingsLostAndFound.Controllers
         // GET: FoundObjects/Create
         public ActionResult Create()
         {
+            string name = (User.Identity.Name);
             ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName");
             return View();
         }

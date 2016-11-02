@@ -41,8 +41,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserName" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="UserPass" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UserPass" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="PhoneNumber" Type="nchar" MaxLength="20" />
     <Property Name="Rol" Type="int" Nullable="false" />
