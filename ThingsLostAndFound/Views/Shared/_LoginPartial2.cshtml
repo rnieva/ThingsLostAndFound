@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    <strong>@Html.Encode(User.Identity.Name)</strong>
-         @Html.ActionLink("Sign Out", "Logout", "Login")
+    <strong>User: @Html.Encode(User.Identity.Name) </strong>
+    @Html.ActionLink("Sign Out", "Logout", "Login")
 }
 else
 {

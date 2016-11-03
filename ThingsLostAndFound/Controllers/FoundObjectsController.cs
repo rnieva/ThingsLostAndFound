@@ -8,8 +8,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ThingsLostAndFound.Models;
-
+using ThingsLostAndFound.Security;
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -39,7 +40,8 @@ namespace ThingsLostAndFound.Controllers
             return View(foundObject);
         }
 
-        // GET: FoundObjects/Create
+        // GET: FoundObjects/Create 
+        [RoleAuthorization(Roles = "1")]
         public ActionResult Create()
         {
             string name = (User.Identity.Name);
