@@ -41,7 +41,6 @@ namespace ThingsLostAndFound.Controllers
         }
 
         // GET: FoundObjects/Create 
-        [RoleAuthorization(Roles = "1")]
         public ActionResult Create()
         {
             string name = (User.Identity.Name);

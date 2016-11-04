@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
@@ -20,8 +21,14 @@ namespace ThingsLostAndFound.Controllers
             ViewBag.titleObject = title;
             ViewBag.userName = userName;
             ViewBag.securityQuestion = securityQuestion;
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRol = ticket.UserData.ToString();
+                //If the user is register, it show this view, without email
+            }
             //If the user isn´t register, it show this view with fileds in the form, we need the contact email
-            //If the user is register, it show this view, without email
             return View();    //show a form to do a request to userFinder
         }
 

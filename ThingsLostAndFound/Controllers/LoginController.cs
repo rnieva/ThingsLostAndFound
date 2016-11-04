@@ -30,10 +30,20 @@ namespace ThingsLostAndFound.Controllers
         {
                 if (IsValid(user.UserName, user.UserPass))
                 {
-                    FormsAuthentication.SetAuthCookie(user.UserName, false);    // this action authenticate to user, set to user authenticated at HttpContext.Current.User
-                    string rol = GetRol(user.UserName, user.UserPass);
-                    //TODO: add the user to role to avoid check the role in RoleAuthorizationAttribute class
-                    return RedirectToAction("Index", "Home");
+                //FormsAuthentication.SetAuthCookie(user.UserName, false);    // this action authenticate to user, set to user authenticated at HttpContext.Current.User
+
+                string infoUserTicket = GetInfoUserTicket(user.UserName, user.UserPass);
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
+                  user.UserName,
+                  DateTime.Now,
+                  DateTime.Now.AddMinutes(30),
+                  false,
+                  infoUserTicket,
+                  FormsAuthentication.FormsCookiePath);
+                string encTicket = FormsAuthentication.Encrypt(ticket);
+                Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encTicket));
+                Response.Redirect(FormsAuthentication.GetRedirectUrl(user.UserName, false));
+                return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -46,7 +56,7 @@ namespace ThingsLostAndFound.Controllers
         {
             bool IsValid = false;
 
-           // improvement, use this to check the credentials
+           // TODO: add encry use this to check the credentials
             var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(UserPass)).FirstOrDefault();
 
             var userList = from p in db.InfoUsers select p;
@@ -64,15 +74,19 @@ namespace ThingsLostAndFound.Controllers
             return IsValid;
         }
 
-        private string GetRol(string UserName, string UserPass)
+        private string GetInfoUserTicket(string UserName, string UserPass)
         {
-            string rol = "0";
+            string infoUserTicket = "0";
+            string rol = "";
+            string id = "";
             InfoUser user = new InfoUser();
             if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(UserPass)).FirstOrDefault()) != null)
             {
+                id = user.Id.ToString(); 
                 rol = user.Rol.ToString();
+                infoUserTicket = id + "|" + rol;
             }
-            return rol;
+            return infoUserTicket;
         }
 
         public ActionResult Logout()

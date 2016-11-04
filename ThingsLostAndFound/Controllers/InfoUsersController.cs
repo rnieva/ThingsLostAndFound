@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ThingsLostAndFound.Models;
+using ThingsLostAndFound.Security;
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -15,6 +16,7 @@ namespace ThingsLostAndFound.Controllers
         private TLAFEntities db = new TLAFEntities();
 
         // GET: InfoUsers
+        [RoleAuthorization(Roles = "1")]
         public ActionResult Index()
         {
             return View(db.InfoUsers.ToList());

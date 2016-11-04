@@ -1,8 +1,12 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    <strong>User: @Html.Encode(User.Identity.Name) </strong>
-    @Html.ActionLink("Sign Out", "Logout", "Login")
+    <ul class="nav navbar-nav navbar-right">
+        <li>User: @Html.Encode(User.Identity.Name) </li>
+        <li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+        <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>
+    </ul>
 }
 else
 {
@@ -11,5 +15,5 @@ else
         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
         <li>@Html.ActionLink("Register", "Create", "InfoUsers")</li>
         <li>@Html.ActionLink("Log in", "Login", "Login")</li>
-     </ul>
-}
+    </ul>
+ }
