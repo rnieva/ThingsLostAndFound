@@ -17,17 +17,20 @@ namespace ThingsLostAndFound.Security
             bool authorize = false;
             string UserName = HttpContext.Current.User.Identity.Name;
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-            string infoUserIdRol = ticket.UserData.ToString();
-            // It get user ID value from infoUserIdRol
-            int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
-            string rol;
-            InfoUser user = new InfoUser();
-            if ((user = db.InfoUsers.Where(a => a.Id.Equals(userId)).FirstOrDefault()) != null)
+            if (authCookie != null)
             {
-                rol = user.Rol.ToString();
-                if (rol == rolAllow)     // 1 = Admin
-                    return true;
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRol = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRol
+                int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
+                string rol;
+                InfoUser user = new InfoUser();
+                if ((user = db.InfoUsers.Where(a => a.Id.Equals(userId)).FirstOrDefault()) != null)
+                {
+                    rol = user.Rol.ToString();
+                    if (rol == rolAllow)     // 1 = Admin
+                        return true;
+                }
             }
             return authorize;
         } 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
 
@@ -29,12 +30,25 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InfoUser infoUser = db.InfoUsers.Find(id);
-            if (infoUser == null)
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                return HttpNotFound();
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRol = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRol
+                int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));
+                if (( id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
+                {
+                    InfoUser infoUser = db.InfoUsers.Find(id);
+                    return View(infoUser);
+                }
+                else
+                {
+                    return HttpNotFound();  //TODO: add view reject or error
+                }
             }
-            return View(infoUser);
+            return HttpNotFound();
         }
 
         // GET: InfoUsers/AddUser   // Only the admin can use this method, the dofferent is that can set roles
@@ -89,12 +103,25 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InfoUser infoUser = db.InfoUsers.Find(id);
-            if (infoUser == null)
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                return HttpNotFound();
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRol = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRol
+                int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));
+                if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
+                {
+                    InfoUser infoUser = db.InfoUsers.Find(id);
+                    return View(infoUser);
+                }
+                else
+                {
+                    return HttpNotFound();  //TODO: add view reject or error
+                }
             }
-            return View(infoUser);
+            return HttpNotFound();
         }
 
         // POST: InfoUsers/Edit/5

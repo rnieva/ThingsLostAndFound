@@ -281,7 +281,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\InfoUsers\Create.cshtml" />
     <Content Include="Views\InfoUsers\Delete.cshtml" />
     <Content Include="Views\InfoUsers\Details.cshtml" />
@@ -302,7 +301,7 @@
     <Content Include="Views\UsersContact\SendRequestUser.cshtml" />
     <Content Include="Views\FindMatches\SearchMatchesInLostObject.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial2.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\InfoUsers\AddUser.cshtml" />
   </ItemGroup>
   <ItemGroup>

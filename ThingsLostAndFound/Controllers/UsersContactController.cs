@@ -27,6 +27,10 @@ namespace ThingsLostAndFound.Controllers
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 string infoUserIdRol = ticket.UserData.ToString();
                 //If the user is register, it show this view, without email
+
+                //return View();  // TODO: other view or make a partial view
+
+
             }
             //If the user isn´t register, it show this view with fileds in the form, we need the contact email
             return View();    //show a form to do a request to userFinder
