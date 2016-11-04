@@ -37,6 +37,29 @@ namespace ThingsLostAndFound.Controllers
             return View(infoUser);
         }
 
+        // GET: InfoUsers/AddUser   // Only the admin can use this method, the dofferent is that can set roles
+        [RoleAuthorization(Roles = "1")]
+        public ActionResult AddUser()
+        {
+            return View();
+        }
+
+        // POST: InfoUsers/AddUser
+        [RoleAuthorization(Roles = "1")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddUser([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,rol")] InfoUser infoUser)
+        {
+            if (ModelState.IsValid)
+            {   
+                infoUser.Date = DateTime.Now;
+                db.InfoUsers.Add(infoUser);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(infoUser);
+        }
+
         // GET: InfoUsers/Create
         public ActionResult Create()
         {
@@ -44,8 +67,6 @@ namespace ThingsLostAndFound.Controllers
         }
 
         // POST: InfoUsers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber")] InfoUser infoUser)
@@ -58,7 +79,6 @@ namespace ThingsLostAndFound.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(infoUser);
         }
 
