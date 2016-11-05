@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "ContactUserRegisterFoundObject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int id = ViewBag.idObject;
+    int usetIdRequest = ViewBag.userIdRequest;
+}
+
+<h2>Contact User Register FoundObject</h2>
+
+<html>
+<body>
+    <h2>Send a Message to user</h2>
+    <p>
+        Message to <b>@ViewBag.userName</b> from <b>@ViewBag.userNameRequest</b>
+    <p>
+        Object: <b>@ViewBag.titleObject</b>
+    <p>
+    <form id="formMessage" action="/UsersContact/SendRequestRegisteredUser" method="post">
+            <table>
+                <tr>
+                    <td></td>
+                    <td>
+                        Please write in the message the information about the security Question
+                    <p></p>
+                    <b>Security Question:</b> @ViewBag.securityQuestion<p></p>
+                    </td>
+                </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.Hidden("id", id)
+                            @Html.Hidden("usetIdRequest", usetIdRequest)
+                            Please, write your message<p></p>
+                            <textarea id="textMessage" class="text" cols="46" rows="10" name="TextMessage"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p>You are going to send a menssage <input id="menssageCheckUserLostObject" type="checkbox" required name="menssageCheckUserLostObject" value="checked"></p>          
+                            <p></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input id="submit" type="submit" value="Send Request" />
+                        </td>
+                    </tr>
+    </table>
+    </form>
+
+</body>
+</html>
+
+<script type="text/javascript" language="JavaScript">
+
+</script>

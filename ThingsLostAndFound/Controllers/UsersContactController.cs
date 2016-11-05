@@ -26,10 +26,10 @@ namespace ThingsLostAndFound.Controllers
             {
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 string infoUserIdRol = ticket.UserData.ToString();
+                int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));
                 //If the user is register, it show this view, without email
-
-                //return View();  // TODO: other view or make a partial view
-
+                return RedirectToAction("ContactUserRegisterFoundObject", new { idObject = id, titleObject = title, userName = userName, securityQuestion = securityQuestion, userId = userId });  // TODO: other view or make a partial view
 
             }
             //If the user isn´t register, it show this view with fileds in the form, we need the contact email
@@ -113,5 +113,40 @@ namespace ThingsLostAndFound.Controllers
             }
 
         }
+
+        public ActionResult ContactUserRegisterFoundObject(int idObject, string titleObject, string userName, string securityQuestion, int userId) //When a registered user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
+        {
+            ViewBag.idObject = idObject;
+            ViewBag.titleObject = titleObject;
+            ViewBag.userName = userName;
+            ViewBag.securityQuestion = securityQuestion;
+            InfoUser userRequest = new InfoUser();
+            userRequest = db.InfoUsers.Find(userId);
+            ViewBag.userIdRequest = userId;
+            ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
+
+            return View();  //show a form to do a request to userFinder. Also it shows every menssages
+        }
+
+        [HttpPost]
+        public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)  //send an email with the request of registered user
+        {
+            //with id from object, search the user that found the object and send him a email
+            var foundObject = db.FoundObjects.Find(id);
+            string SecurityQuestion = foundObject.SecurityQuestion;
+            int userIdReport = foundObject.UserIdreported;
+            var infouser = db.InfoUsers.Find(userIdReport);
+            string nameUserFounfObject = infouser.UserName;
+            string emailUserFoundObject = infouser.Email;
+            //with userIdReport from user that do the request, search the email of user
+            var userRequest = db.InfoUsers.Find(usetIdRequest);
+            string emailUserRequest = userRequest.Email;
+
+            //TODO: implementar sistema de mensajes con historial
+            //TODO: store and retrive the menssages between these users
+
+            return View();
+        }
+
     }
 }
