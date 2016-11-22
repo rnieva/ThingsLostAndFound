@@ -75,7 +75,7 @@ namespace ThingsLostAndFound.Controllers
         }
 
         // GET: InfoUsers/Create
-        public ActionResult Create()
+        public ActionResult Create()            // This is Register Menu Option
         {
             return View();
         }

@@ -14,7 +14,7 @@ namespace ThingsLostAndFound.Controllers
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: UsersContact
-        public ActionResult ContactUserFoundObject(int id, string title, string userName, string securityQuestion) //When a user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
+        public ActionResult ContactUserFoundObject(int id, string title, string userName, string securityQuestion) //When a user has lost a object and see it in the Found Objects List o Found Object Map, the user uses this method for contact with user that found the object
         {
             //This info cames from listFO, It show in the form
             ViewBag.idObject = id;
@@ -27,17 +27,20 @@ namespace ThingsLostAndFound.Controllers
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 string infoUserIdRol = ticket.UserData.ToString();
                 int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
-                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));
+                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));              
+                InfoUser userRequest = new InfoUser();
+                userRequest = db.InfoUsers.Find(userId);
+                ViewBag.userIdRequest = userId;
+                ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
                 //If the user is register, it show this view, without email
-                return RedirectToAction("ContactUserRegisterFoundObject", new { idObject = id, titleObject = title, userName = userName, securityQuestion = securityQuestion, userId = userId });  // TODO: other view or make a partial view
-
+                return View("ContactUserRegisterFoundObject");     
             }
             //If the user isn´t register, it show this view with fileds in the form, we need the contact email
             return View();    //show a form to do a request to userFinder
         }
 
         [HttpPost]
-        public ActionResult SendRequestUser(int id, string textMessage, string emailUserLostObject)  //send an email with the request user
+        public ActionResult SendRequestUser(int id, string textMessage, string emailUserLostObject)  //send an email from user lost object (user that do request (No registered in the app)) to user that found the object
         {
             //with id from object, search the user that found the object and send him a email
             var foundObject = db.FoundObjects.Find(id);
@@ -113,23 +116,9 @@ namespace ThingsLostAndFound.Controllers
             }
 
         }
-
-        public ActionResult ContactUserRegisterFoundObject(int idObject, string titleObject, string userName, string securityQuestion, int userId) //When a registered user has found a object and see it in the Found Objects List o Found Object Map uses this method for contact with user that found the object
-        {
-            ViewBag.idObject = idObject;
-            ViewBag.titleObject = titleObject;
-            ViewBag.userName = userName;
-            ViewBag.securityQuestion = securityQuestion;
-            InfoUser userRequest = new InfoUser();
-            userRequest = db.InfoUsers.Find(userId);
-            ViewBag.userIdRequest = userId;
-            ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
-
-            return View();  //show a form to do a request to userFinder. Also it shows every menssages
-        }
-
+        
         [HttpPost]
-        public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)  //send an email with the request of registered user
+        public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)  
         {
             //with id from object, search the user that found the object and send him a email
             var foundObject = db.FoundObjects.Find(id);

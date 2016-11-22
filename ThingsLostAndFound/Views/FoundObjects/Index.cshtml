@@ -66,7 +66,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
@@ -122,11 +123,21 @@
         <td>
             @Html.DisplayFor(modelItem => item.InfoUser.UserName)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName, securityQuestion = item.SecurityQuestion }, null)
+        <td>  @* TODO: add only user and admin that create report can edit and delete the report *@
+            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName, securityQuestion = item.SecurityQuestion }, null) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @if (Request.IsAuthenticated)
+                {
+                    HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                    string infoUserIdRol = ticket.UserData.ToString();
+                    int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
+
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
+                    <html><p></p></html>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                }
         </td>
     </tr>
 }
