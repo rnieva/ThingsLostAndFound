@@ -93,7 +93,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserIdRequestLost" Type="int" Nullable="false" />
           <Property Name="UserIdReportFound" Type="int" Nullable="false" />
           <Property Name="Message1" Type="nvarchar(max)" />
@@ -398,7 +398,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContentType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
@@ -422,7 +422,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserIdRequestLost" Type="Int32" Nullable="false" />
           <Property Name="UserIdReportFound" Type="Int32" Nullable="false" />
           <Property Name="Message1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />

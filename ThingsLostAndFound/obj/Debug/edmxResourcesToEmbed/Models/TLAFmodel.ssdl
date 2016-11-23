@@ -88,7 +88,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserIdRequestLost" Type="int" Nullable="false" />
     <Property Name="UserIdReportFound" Type="int" Nullable="false" />
     <Property Name="Message1" Type="nvarchar(max)" />

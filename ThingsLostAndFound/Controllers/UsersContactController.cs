@@ -57,7 +57,7 @@ namespace ThingsLostAndFound.Controllers
                 //Store in DB data about contact between users, depends if the user is register or not
                 //If the user isn´t register
                 UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
-                usersContactDontRegister.UserIdRequestLost = 8; // because the user isn´t register
+                usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
                 usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
                 usersContactDontRegister.ObjectIdFound = id; // Id of Object found
                 usersContactDontRegister.UserEmailRequestLost = emailUserLostObject;
