@@ -123,21 +123,25 @@
         <td>
             @Html.DisplayFor(modelItem => item.InfoUser.UserName)
         </td>
-        <td>  @* TODO: add only user and admin that create report can edit and delete the report *@
-            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName, securityQuestion = item.SecurityQuestion }, null) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        <td>  @* TODO: add only admin and user that create report can edit and delete the report *@
+            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName, securityQuestion = item.SecurityQuestion }, null) 
+            <p></p>    
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
             @if (Request.IsAuthenticated)
+            {  /* TODO: checked if the user created this object*/
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRol = ticket.UserData.ToString();
+                int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));
+                if ((userId == item.InfoUser.Id) || (roll == 1))
                 {
-                    HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                    string infoUserIdRol = ticket.UserData.ToString();
-                    int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
-
-
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
-                    <html><p></p></html>
+                    <p></p>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    <p></p>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                 }
+            }
         </td>
     </tr>
 }
