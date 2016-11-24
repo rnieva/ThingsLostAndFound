@@ -65,7 +65,13 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult AddUser([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,rol")] InfoUser infoUser)
         {
             if (ModelState.IsValid)
-            {   
+            {
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.MessageNumbers = 1;
+                msg.SupportMessages = "Welcome";
+                db.Messages.Add(msg);
+                infoUser.Rol = 3;
                 infoUser.Date = DateTime.Now;
                 db.InfoUsers.Add(infoUser);
                 db.SaveChanges();
@@ -87,8 +93,14 @@ namespace ThingsLostAndFound.Controllers
         {
             if (ModelState.IsValid)
             {
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.MessageNumbers = 1;
+                msg.SupportMessages = "Welcome";
+                db.Messages.Add(msg);
                 infoUser.Rol = 3;
                 infoUser.Date = DateTime.Now;
+                infoUser.MessagesID = msg.Id;
                 db.InfoUsers.Add(infoUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -174,6 +186,8 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             InfoUser infoUser = db.InfoUsers.Find(id);
+            Message msg = db.Messages.Find(infoUser.MessagesID);
+            db.Messages.Remove(msg);
             db.InfoUsers.Remove(infoUser);
             db.SaveChanges();
             return RedirectToAction("Index");

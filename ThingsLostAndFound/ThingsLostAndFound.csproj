@@ -199,6 +199,9 @@
       <DependentUpon>TLAFmodel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LostObjectMap.cs" />
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>TLAFmodel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TLAFmodel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -215,6 +218,9 @@
       <DependentUpon>TLAFmodel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\UsersContactDontRegister.cs">
+      <DependentUpon>TLAFmodel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UsersContactRegistered.cs">
       <DependentUpon>TLAFmodel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

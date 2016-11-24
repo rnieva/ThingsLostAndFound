@@ -13,6 +13,8 @@
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="FoundObjects" Relationship="TLAFModel.FK_FoundObjects_ToTable" FromRole="InfoUser" ToRole="FoundObject" />
     <NavigationProperty Name="LostObjects" Relationship="TLAFModel.FK_LostObjects_ToTable" FromRole="InfoUser" ToRole="LostObject" />
+    <Property Name="MessagesID" Type="Int32" />
+    <NavigationProperty Name="Message" Relationship="TLAFModel.FK_InfoUsers_ToTable" FromRole="InfoUser" ToRole="Message" />
   </EntityType>
   <EntityContainer Name="TLAFEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="InfoUsers" EntityType="Self.InfoUser" />
@@ -49,6 +51,16 @@
       <End Role="File" EntitySet="Files" />
       <End Role="LostObject" EntitySet="LostObjects" />
     </AssociationSet>
+    <EntitySet Name="Messages" EntityType="TLAFModel.Message" />
+    <EntitySet Name="UsersContactRegistereds" EntityType="TLAFModel.UsersContactRegistered" />
+    <AssociationSet Name="FK_UsersContactRegistered_ToTable" Association="TLAFModel.FK_UsersContactRegistered_ToTable">
+      <End Role="FoundObject" EntitySet="FoundObjects" />
+      <End Role="UsersContactRegistered" EntitySet="UsersContactRegistereds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InfoUsers_ToTable" Association="TLAFModel.FK_InfoUsers_ToTable">
+      <End Role="Message" EntitySet="Messages" />
+      <End Role="InfoUser" EntitySet="InfoUsers" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="FoundObject">
     <Key>
@@ -79,6 +91,7 @@
     <Property Name="SecurityQuestion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ContactState" Type="Boolean" />
     <NavigationProperty Name="UsersContactDontRegisters" Relationship="TLAFModel.FK_UsersContactDontRegister_ToTable" FromRole="FoundObject" ToRole="UsersContactDontRegister" />
+    <NavigationProperty Name="UsersContactRegistereds" Relationship="TLAFModel.FK_UsersContactRegistered_ToTable" FromRole="FoundObject" ToRole="UsersContactRegistered" />
   </EntityType>
   <EntityType Name="LostAndFoundObject">
     <Key>
@@ -227,6 +240,56 @@
       </Principal>
       <Dependent Role="LostObject">
         <PropertyRef Name="FileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NewMessage" Type="Boolean" />
+    <Property Name="SupportMessages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="RefMessagesContactUsersDontRegistered" Type="Int32" />
+    <Property Name="RefMessagesContactUsersRegistered" Type="Int32" />
+    <Property Name="MessageNumbers" Type="Int32" />
+    <NavigationProperty Name="InfoUsers" Relationship="TLAFModel.FK_InfoUsers_ToTable" FromRole="Message" ToRole="InfoUser" />
+  </EntityType>
+  <EntityType Name="UsersContactRegistered">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserIdRequestLost" Type="Int32" Nullable="false" />
+    <Property Name="UserIdReportFound" Type="Int32" Nullable="false" />
+    <Property Name="Messages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DateSendEmail" Type="DateTime" Precision="3" />
+    <Property Name="ObjectIdFound" Type="Int32" Nullable="false" />
+    <Property Name="NewMsg" Type="Boolean" />
+    <Property Name="MessageNumbers" Type="Int32" />
+    <NavigationProperty Name="FoundObject" Relationship="TLAFModel.FK_UsersContactRegistered_ToTable" FromRole="UsersContactRegistered" ToRole="FoundObject" />
+  </EntityType>
+  <Association Name="FK_UsersContactRegistered_ToTable">
+    <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="1" />
+    <End Type="TLAFModel.UsersContactRegistered" Role="UsersContactRegistered" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoundObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersContactRegistered">
+        <PropertyRef Name="ObjectIdFound" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InfoUsers_ToTable">
+    <End Type="TLAFModel.Message" Role="Message" Multiplicity="0..1" />
+    <End Type="TLAFModel.InfoUser" Role="InfoUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Message">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InfoUser">
+        <PropertyRef Name="MessagesID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

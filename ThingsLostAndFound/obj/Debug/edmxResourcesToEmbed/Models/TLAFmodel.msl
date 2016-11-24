@@ -4,6 +4,7 @@
     <EntitySetMapping Name="InfoUsers">
       <EntityTypeMapping TypeName="TLAFModel.InfoUser">
         <MappingFragment StoreEntitySet="InfoUsers">
+          <ScalarProperty Name="MessagesID" ColumnName="MessagesID" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="UserPass" ColumnName="UserPass" />
@@ -97,6 +98,32 @@
           <ScalarProperty Name="DateSendEmail" ColumnName="DateSendEmail" />
           <ScalarProperty Name="UserEmailRequestLost" ColumnName="UserEmailRequestLost" />
           <ScalarProperty Name="Message1" ColumnName="Message1" />
+          <ScalarProperty Name="UserIdReportFound" ColumnName="UserIdReportFound" />
+          <ScalarProperty Name="UserIdRequestLost" ColumnName="UserIdRequestLost" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="TLAFModel.Message">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="MessageNumbers" ColumnName="MessageNumbers" />
+          <ScalarProperty Name="RefMessagesContactUsersRegistered" ColumnName="RefMessagesContactUsersRegistered" />
+          <ScalarProperty Name="RefMessagesContactUsersDontRegistered" ColumnName="RefMessagesContactUsersDontRegistered" />
+          <ScalarProperty Name="SupportMessages" ColumnName="SupportMessages" />
+          <ScalarProperty Name="NewMessage" ColumnName="NewMessage" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersContactRegistereds">
+      <EntityTypeMapping TypeName="TLAFModel.UsersContactRegistered">
+        <MappingFragment StoreEntitySet="UsersContactRegistered">
+          <ScalarProperty Name="MessageNumbers" ColumnName="MessageNumbers" />
+          <ScalarProperty Name="NewMsg" ColumnName="NewMsg" />
+          <ScalarProperty Name="ObjectIdFound" ColumnName="ObjectIdFound" />
+          <ScalarProperty Name="DateSendEmail" ColumnName="DateSendEmail" />
+          <ScalarProperty Name="Messages" ColumnName="Messages" />
           <ScalarProperty Name="UserIdReportFound" ColumnName="UserIdReportFound" />
           <ScalarProperty Name="UserIdRequestLost" ColumnName="UserIdRequestLost" />
           <ScalarProperty Name="Id" ColumnName="Id" />
