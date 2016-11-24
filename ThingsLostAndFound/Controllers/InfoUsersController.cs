@@ -69,7 +69,7 @@ namespace ThingsLostAndFound.Controllers
                 Message msg = new Message();
                 msg.NewMessage = true;
                 msg.MessageNumbers = 1;
-                msg.SupportMessages = "Welcome";
+                msg.SupportMessages = "Welcome to TLAF";
                 db.Messages.Add(msg);
                 infoUser.Rol = 3;
                 infoUser.Date = DateTime.Now;
@@ -96,7 +96,7 @@ namespace ThingsLostAndFound.Controllers
                 Message msg = new Message();
                 msg.NewMessage = true;
                 msg.MessageNumbers = 1;
-                msg.SupportMessages = "Welcome";
+                msg.SupportMessages = "Welcome to TLAF";
                 db.Messages.Add(msg);
                 infoUser.Rol = 3;
                 infoUser.Date = DateTime.Now;

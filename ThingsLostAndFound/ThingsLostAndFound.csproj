@@ -175,6 +175,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LostObjectsController.cs" />
     <Compile Include="Controllers\MapFoundObjectsController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\UsersContactController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -310,6 +311,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\InfoUsers\AddUser.cshtml" />
     <Content Include="Views\UsersContact\ContactUserRegisterFoundObject.cshtml" />
+    <Content Include="Views\Messages\ShowMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

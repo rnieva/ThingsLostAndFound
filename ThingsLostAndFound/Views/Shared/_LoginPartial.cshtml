@@ -13,6 +13,7 @@
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
             <li>@Html.ActionLink("Add User", "AddUser", "InfoUsers")</li>
             <li>@Html.ActionLink("User List", "Index", "InfoUsers")</li>
+            <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, null)</li>
             <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>
         </ul>
     }
@@ -22,6 +23,7 @@
             <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + " !", "Details", "InfoUsers", new { id = userId }, null) </li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, null)</li>
             <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>
         </ul>
     }
