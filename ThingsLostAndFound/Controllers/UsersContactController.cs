@@ -49,13 +49,12 @@ namespace ThingsLostAndFound.Controllers
             var infouser = db.InfoUsers.Find(userIdReport);
             string nameUserFounfObject = infouser.UserName;
             string emailUserFoundObject = infouser.Email;
-
             string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
             if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
-                //If the user isn´t register
+                //the user isn´t registered
                 UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
                 usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
                 usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
@@ -88,7 +87,7 @@ namespace ThingsLostAndFound.Controllers
 
         protected bool sendEmailToUserThatFoundTheObject(string buildBodyEmail, string emailUserLostObject, int id)
         {
-            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient, //here go emailUserLostObject
+            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient, //here go emailUserLostObject if the user isn´t registerd or emailUserRequest if the user is registerd
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(emailrecipient));
             email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");
@@ -131,10 +130,29 @@ namespace ThingsLostAndFound.Controllers
             var userRequest = db.InfoUsers.Find(usetIdRequest);
             string emailUserRequest = userRequest.Email;
 
-            //TODO: implementar sistema de mensajes con historial
-            //TODO: store and retrive the menssages between these users
+            
+            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserRequest);
+            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserRequest, id) == true)
+            {
+                ViewBag.result = "Request sent successfull";
+                //Store in DB data about contact between users, depends if the user is register or not
+                //the user is registered
+                //UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
+                //usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
+                //usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
+                //usersContactDontRegister.ObjectIdFound = id; // Id of Object found
+                //usersContactDontRegister.UserEmailRequestLost = emailUserRequest;
+                //usersContactDontRegister.Message1 = buildBodyEmail;
+                //usersContactDontRegister.DateSendEmail = DateTime.Now;
+                //db.UsersContactDontRegisters.Add(usersContactDontRegister);
+                //db.SaveChanges();
+            }
+            else
+            {
+                ViewBag.result = "Request don´t sent";
 
-            return View();
+            }
+            return View("SendRequestUser");
         }
 
     }

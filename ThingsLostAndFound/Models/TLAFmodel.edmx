@@ -52,6 +52,7 @@
           <Property Name="PhoneNumber" Type="nchar" MaxLength="20" />
           <Property Name="Rol" Type="int" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="MessagesID" Type="int" />
         </EntityType>
         <EntityType Name="LostAndFoundObject">
           <Key>
@@ -89,6 +90,17 @@
           <Property Name="Img" Type="bit" />
           <Property Name="ContactState" Type="bit" />
         </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NewMessage" Type="bit" />
+          <Property Name="SupportMessages" Type="nvarchar(max)" />
+          <Property Name="RefMessagesContactUsersDontRegistered" Type="int" />
+          <Property Name="RefMessagesContactUsersRegistered" Type="int" />
+          <Property Name="MessageNumbers" Type="int" />
+        </EntityType>
         <EntityType Name="UsersContactDontRegister">
           <Key>
             <PropertyRef Name="Id" />
@@ -100,6 +112,19 @@
           <Property Name="UserEmailRequestLost" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DateSendEmail" Type="datetime" />
           <Property Name="ObjectIdFound" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersContactRegistered">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserIdRequestLost" Type="int" Nullable="false" />
+          <Property Name="UserIdReportFound" Type="int" Nullable="false" />
+          <Property Name="Messages" Type="nvarchar(max)" />
+          <Property Name="DateSendEmail" Type="datetime" />
+          <Property Name="ObjectIdFound" Type="int" Nullable="false" />
+          <Property Name="NewMsg" Type="bit" />
+          <Property Name="MessageNumbers" Type="int" />
         </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
@@ -122,6 +147,18 @@
             </Principal>
             <Dependent Role="FoundObjects">
               <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoUsers_ToTable">
+          <End Role="Messages" Type="Self.Messages" Multiplicity="0..1" />
+          <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Messages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InfoUsers">
+              <PropertyRef Name="MessagesID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -185,13 +222,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UsersContactRegistered_ToTable">
+          <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
+          <End Role="UsersContactRegistered" Type="Self.UsersContactRegistered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoundObjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersContactRegistered">
+              <PropertyRef Name="ObjectIdFound" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TLAFModelStoreContainer">
           <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FoundObjects" EntityType="Self.FoundObjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InfoUsers" EntityType="Self.InfoUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LostAndFoundObject" EntityType="Self.LostAndFoundObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LostObjects" EntityType="Self.LostObjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersContactDontRegister" EntityType="Self.UsersContactDontRegister" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersContactRegistered" EntityType="Self.UsersContactRegistered" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_FoundObjects_ToTable" Association="Self.FK_FoundObjects_ToTable">
             <End Role="InfoUsers" EntitySet="InfoUsers" />
             <End Role="FoundObjects" EntitySet="FoundObjects" />
@@ -199,6 +250,10 @@
           <AssociationSet Name="FK_FoundObjects_ToTable_1" Association="Self.FK_FoundObjects_ToTable_1">
             <End Role="File" EntitySet="File" />
             <End Role="FoundObjects" EntitySet="FoundObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoUsers_ToTable" Association="Self.FK_InfoUsers_ToTable">
+            <End Role="Messages" EntitySet="Messages" />
+            <End Role="InfoUsers" EntitySet="InfoUsers" />
           </AssociationSet>
           <AssociationSet Name="FK_LostAndFoundObject_ToTable" Association="Self.FK_LostAndFoundObject_ToTable">
             <End Role="LostObjects" EntitySet="LostObjects" />
@@ -220,6 +275,10 @@
             <End Role="FoundObjects" EntitySet="FoundObjects" />
             <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegister" />
           </AssociationSet>
+          <AssociationSet Name="FK_UsersContactRegistered_ToTable" Association="Self.FK_UsersContactRegistered_ToTable">
+            <End Role="FoundObjects" EntitySet="FoundObjects" />
+            <End Role="UsersContactRegistered" EntitySet="UsersContactRegistered" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -238,6 +297,8 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="FoundObjects" Relationship="TLAFModel.FK_FoundObjects_ToTable" FromRole="InfoUser" ToRole="FoundObject" />
           <NavigationProperty Name="LostObjects" Relationship="TLAFModel.FK_LostObjects_ToTable" FromRole="InfoUser" ToRole="LostObject" />
+          <Property Name="MessagesID" Type="Int32" />
+          <NavigationProperty Name="Message" Relationship="TLAFModel.FK_InfoUsers_ToTable" FromRole="InfoUser" ToRole="Message" />
         </EntityType>
         <EntityContainer Name="TLAFEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="InfoUsers" EntityType="Self.InfoUser" />
@@ -274,6 +335,16 @@
             <End Role="File" EntitySet="Files" />
             <End Role="LostObject" EntitySet="LostObjects" />
           </AssociationSet>
+          <EntitySet Name="Messages" EntityType="TLAFModel.Message" />
+          <EntitySet Name="UsersContactRegistereds" EntityType="TLAFModel.UsersContactRegistered" />
+          <AssociationSet Name="FK_UsersContactRegistered_ToTable" Association="TLAFModel.FK_UsersContactRegistered_ToTable">
+            <End Role="FoundObject" EntitySet="FoundObjects" />
+            <End Role="UsersContactRegistered" EntitySet="UsersContactRegistereds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfoUsers_ToTable" Association="TLAFModel.FK_InfoUsers_ToTable">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="InfoUser" EntitySet="InfoUsers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FoundObject">
           <Key>
@@ -304,6 +375,7 @@
           <Property Name="SecurityQuestion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactState" Type="Boolean" />
           <NavigationProperty Name="UsersContactDontRegisters" Relationship="TLAFModel.FK_UsersContactDontRegister_ToTable" FromRole="FoundObject" ToRole="UsersContactDontRegister" />
+          <NavigationProperty Name="UsersContactRegistereds" Relationship="TLAFModel.FK_UsersContactRegistered_ToTable" FromRole="FoundObject" ToRole="UsersContactRegistered" />
         </EntityType>
         <EntityType Name="LostAndFoundObject">
           <Key>
@@ -455,6 +527,56 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NewMessage" Type="Boolean" />
+          <Property Name="SupportMessages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RefMessagesContactUsersDontRegistered" Type="Int32" />
+          <Property Name="RefMessagesContactUsersRegistered" Type="Int32" />
+          <Property Name="MessageNumbers" Type="Int32" />
+          <NavigationProperty Name="InfoUsers" Relationship="TLAFModel.FK_InfoUsers_ToTable" FromRole="Message" ToRole="InfoUser" />
+        </EntityType>
+        <EntityType Name="UsersContactRegistered">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserIdRequestLost" Type="Int32" Nullable="false" />
+          <Property Name="UserIdReportFound" Type="Int32" Nullable="false" />
+          <Property Name="Messages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateSendEmail" Type="DateTime" Precision="3" />
+          <Property Name="ObjectIdFound" Type="Int32" Nullable="false" />
+          <Property Name="NewMsg" Type="Boolean" />
+          <Property Name="MessageNumbers" Type="Int32" />
+          <NavigationProperty Name="FoundObject" Relationship="TLAFModel.FK_UsersContactRegistered_ToTable" FromRole="UsersContactRegistered" ToRole="FoundObject" />
+        </EntityType>
+        <Association Name="FK_UsersContactRegistered_ToTable">
+          <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="1" />
+          <End Type="TLAFModel.UsersContactRegistered" Role="UsersContactRegistered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoundObject">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersContactRegistered">
+              <PropertyRef Name="ObjectIdFound" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfoUsers_ToTable">
+          <End Type="TLAFModel.Message" Role="Message" Multiplicity="0..1" />
+          <End Type="TLAFModel.InfoUser" Role="InfoUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InfoUser">
+              <PropertyRef Name="MessagesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -464,6 +586,7 @@
           <EntitySetMapping Name="InfoUsers">
             <EntityTypeMapping TypeName="TLAFModel.InfoUser">
               <MappingFragment StoreEntitySet="InfoUsers">
+                <ScalarProperty Name="MessagesID" ColumnName="MessagesID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserPass" ColumnName="UserPass" />
@@ -557,6 +680,32 @@
                 <ScalarProperty Name="DateSendEmail" ColumnName="DateSendEmail" />
                 <ScalarProperty Name="UserEmailRequestLost" ColumnName="UserEmailRequestLost" />
                 <ScalarProperty Name="Message1" ColumnName="Message1" />
+                <ScalarProperty Name="UserIdReportFound" ColumnName="UserIdReportFound" />
+                <ScalarProperty Name="UserIdRequestLost" ColumnName="UserIdRequestLost" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="TLAFModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="MessageNumbers" ColumnName="MessageNumbers" />
+                <ScalarProperty Name="RefMessagesContactUsersRegistered" ColumnName="RefMessagesContactUsersRegistered" />
+                <ScalarProperty Name="RefMessagesContactUsersDontRegistered" ColumnName="RefMessagesContactUsersDontRegistered" />
+                <ScalarProperty Name="SupportMessages" ColumnName="SupportMessages" />
+                <ScalarProperty Name="NewMessage" ColumnName="NewMessage" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersContactRegistereds">
+            <EntityTypeMapping TypeName="TLAFModel.UsersContactRegistered">
+              <MappingFragment StoreEntitySet="UsersContactRegistered">
+                <ScalarProperty Name="MessageNumbers" ColumnName="MessageNumbers" />
+                <ScalarProperty Name="NewMsg" ColumnName="NewMsg" />
+                <ScalarProperty Name="ObjectIdFound" ColumnName="ObjectIdFound" />
+                <ScalarProperty Name="DateSendEmail" ColumnName="DateSendEmail" />
+                <ScalarProperty Name="Messages" ColumnName="Messages" />
                 <ScalarProperty Name="UserIdReportFound" ColumnName="UserIdReportFound" />
                 <ScalarProperty Name="UserIdRequestLost" ColumnName="UserIdRequestLost" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

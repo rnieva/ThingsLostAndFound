@@ -12,28 +12,22 @@ namespace ThingsLostAndFound.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InfoUser
+    public partial class Message
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InfoUser()
+        public Message()
         {
-            this.FoundObjects = new HashSet<FoundObject>();
-            this.LostObjects = new HashSet<LostObject>();
+            this.InfoUsers = new HashSet<InfoUser>();
         }
     
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public string UserPass { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public int Rol { get; set; }
-        public System.DateTime Date { get; set; }
-        public Nullable<int> MessagesID { get; set; }
+        public Nullable<bool> NewMessage { get; set; }
+        public string SupportMessages { get; set; }
+        public Nullable<int> RefMessagesContactUsersDontRegistered { get; set; }
+        public Nullable<int> RefMessagesContactUsersRegistered { get; set; }
+        public Nullable<int> MessageNumbers { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FoundObject> FoundObjects { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LostObject> LostObjects { get; set; }
-        public virtual Message Message { get; set; }
+        public virtual ICollection<InfoUser> InfoUsers { get; set; }
     }
 }

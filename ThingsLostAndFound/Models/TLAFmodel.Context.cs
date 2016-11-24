@@ -31,5 +31,7 @@ namespace ThingsLostAndFound.Models
         public virtual DbSet<LostObject> LostObjects { get; set; }
         public virtual DbSet<File> Files { get; set; }
         public virtual DbSet<UsersContactDontRegister> UsersContactDontRegisters { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<UsersContactRegistered> UsersContactRegistereds { get; set; }
     }
 }
