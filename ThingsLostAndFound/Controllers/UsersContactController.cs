@@ -129,23 +129,25 @@ namespace ThingsLostAndFound.Controllers
             //with userIdReport from user that do the request, search the email of user
             var userRequest = db.InfoUsers.Find(usetIdRequest);
             string emailUserRequest = userRequest.Email;
-
-            
             string buildBodyEmail = BuildBodyEmail(textMessage, emailUserRequest);
             if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserRequest, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
                 //the user is registered
-                //UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
-                //usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
-                //usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
-                //usersContactDontRegister.ObjectIdFound = id; // Id of Object found
-                //usersContactDontRegister.UserEmailRequestLost = emailUserRequest;
-                //usersContactDontRegister.Message1 = buildBodyEmail;
-                //usersContactDontRegister.DateSendEmail = DateTime.Now;
-                //db.UsersContactDontRegisters.Add(usersContactDontRegister);
-                //db.SaveChanges();
+                UsersContactRegistered userContactRegister = new UsersContactRegistered();
+                userContactRegister.UserIdRequestLost = usetIdRequest; // because the user is register
+                userContactRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
+                userContactRegister.ObjectIdFound = id; // Id of Object found
+                userContactRegister.Messages = buildBodyEmail;
+                userContactRegister.DateSendEmail = DateTime.Now;
+                userContactRegister.NewMsg = true;
+                userContactRegister.MessageNumbers = 1;
+
+                infouser.Message.RefMessagesContactUsersRegistered = id;
+
+                db.UsersContactRegistereds.Add(userContactRegister);
+                db.SaveChanges();
             }
             else
             {
