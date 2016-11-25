@@ -13,16 +13,19 @@ namespace ThingsLostAndFound.Controllers
         // GET: Messages
         public ActionResult ShowMessages(int id)
         {
-            Message msg = db.Messages.Find(id);
-            ViewBag.SupportMessages = msg.SupportMessages;
-            //Recuperar todos los mensajes desde la DB que le han enviado a este usuario
+            // show messages from support
+            InfoUser user = db.InfoUsers.Find(id);
+            ViewBag.SupportMessages = user.Message.SupportMessages;
+            user.Message.NewMessage = false;
 
-            int refContactUserRegisterObject = (int)msg.RefMessagesContactUsersRegistered;
-            //if (refContactUserRegisterObject != null)
-            {
-                UsersContactRegistered userContactRegistered = db.UsersContactRegistereds.Find(refContactUserRegisterObject);
-                ViewBag.UsersContactMessages = userContactRegistered.Messages;
-            }
+            // show messages from others users (related with found-lost objects
+
+            //int refContactUserRegisterObject = (int)msg.RefMessagesContactUsersRegistered;
+            ////if (refContactUserRegisterObject != null)
+            //{
+            //    UsersContactRegistered userContactRegistered = db.UsersContactRegistereds.Find(refContactUserRegisterObject);
+            //    ViewBag.UsersContactMessages = userContactRegistered.Messages;
+            //}
             return View();
         }
     }
