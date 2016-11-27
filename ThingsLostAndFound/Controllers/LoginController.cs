@@ -55,6 +55,7 @@ namespace ThingsLostAndFound.Controllers
         {
             bool IsValid = false;
             // TODO: add Encrypt use this to check the credentials
+            // TODO: delete this var user.....
             var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(UserPass)).FirstOrDefault();
             var userList = from p in db.InfoUsers select p;
             foreach (var p in userList)

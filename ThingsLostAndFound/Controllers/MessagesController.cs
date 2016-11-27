@@ -11,7 +11,7 @@ namespace ThingsLostAndFound.Controllers
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: Messages
-        public ActionResult ShowMessages(int id)
+        public ActionResult ShowMessages(int id) // user id registered
         {
             // show messages from support
             InfoUser user = db.InfoUsers.Find(id);
@@ -19,13 +19,21 @@ namespace ThingsLostAndFound.Controllers
             user.Message.NewMessage = false;
 
             // show messages from others users (related with found-lost objects
+            var testuserContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
 
-            //int refContactUserRegisterObject = (int)msg.RefMessagesContactUsersRegistered;
-            ////if (refContactUserRegisterObject != null)
-            //{
-            //    UsersContactRegistered userContactRegistered = db.UsersContactRegistereds.Find(refContactUserRegisterObject);
-            //    ViewBag.UsersContactMessages = userContactRegistered.Messages;
-            //}
+            // almacenar en un array - los datos de cada conversacion y agruparlos por objeto
+
+
+            var userLislt2 = db.UsersContactDontRegisters.ToList();
+            var userList = from p in db.UsersContactDontRegisters select p;
+            foreach (var p in userList)
+            {
+                if (p.UserIdReportFound == id)
+                {
+                    ViewBag.UsersContactMessages = p.Message1;
+                }
+
+            }
             return View();
         }
     }
