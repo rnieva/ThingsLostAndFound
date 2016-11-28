@@ -16,25 +16,14 @@ namespace ThingsLostAndFound.Controllers
             // show messages from support
             InfoUser user = db.InfoUsers.Find(id);
             ViewBag.SupportMessages = user.Message.SupportMessages;
+            // search the messages in userContactRegistered and dont register from others users to this ID user
+            var userContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
+            var userContactRegisteredListbyId = db.UsersContactRegistereds.Where(a => a.UserIdReportFound.Equals(id)).ToList();
+            List<object> myUsersContactList = new List<object>();
+            myUsersContactList.Add(userContactDontRegisteredListbyId);
+            myUsersContactList.Add(userContactRegisteredListbyId);
             user.Message.NewMessage = false;
-
-            // show messages from others users (related with found-lost objects
-            var testuserContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
-
-            // almacenar en un array - los datos de cada conversacion y agruparlos por objeto
-
-
-            var userLislt2 = db.UsersContactDontRegisters.ToList();
-            var userList = from p in db.UsersContactDontRegisters select p;
-            foreach (var p in userList)
-            {
-                if (p.UserIdReportFound == id)
-                {
-                    ViewBag.UsersContactMessages = p.Message1;
-                }
-
-            }
-            return View();
+            return View(myUsersContactList);
         }
     }
 }

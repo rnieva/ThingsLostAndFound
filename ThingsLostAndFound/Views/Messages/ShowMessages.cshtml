@@ -1,19 +1,102 @@
-﻿
+﻿@model IEnumerable<object>
 @{
     ViewBag.Title = "ShowMessages";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ThingsLostAndFound.Models.UsersContactDontRegister> listUsersContactRegistered = Model.ToList()[0] as List<ThingsLostAndFound.Models.UsersContactDontRegister>;
+    List<ThingsLostAndFound.Models.UsersContactRegistered> listUsersContactDontRegistered = Model.ToList()[1] as List<ThingsLostAndFound.Models.UsersContactRegistered>;
 }
 
 <html>
     <body>
-        <h2>ShowMessages</h2>
-        <p>
-            Support Messages: <b>@ViewBag.SupportMessages</b>
-        </p>
-        <p>
-            Users Messages:<b> @ViewBag.UsersContactMessages</b>
-        </p>
-    </body>
+        <h2>Messages</h2>
+        <p></p>
+            <b>Support Messages: </b>
+        <p></p>
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.Label("Message")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @ViewBag.SupportMessages
+                </td>
+            </tr>
+        </table>
+        <p></p>
+        <b>Registered Users Messages: </b>
+        <p></p>
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.Label("Message")
+                </td>
+                <td>
+                    @Html.Label("Email User")
+                </td>
+                <td>
+                    @Html.Label("Date Message")
+                </td>
+                <td>
+                    @Html.Label("Object")
+                </td>
+            </tr>
+            @foreach (var item in listUsersContactRegistered)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Message1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserEmailRequestLost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateSendEmail)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Object", "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
+                    </td>
+                </tr>
+                }
+            </table>
+            <p></p>
+            <b>Dont Registered Users Messages: </b>
+            <p></p>
+            <table class="table">
+                <tr>
+                    <td>
+                        @Html.Label("Message")
+                    </td>
+                    <td>
+                        @Html.Label("From User")
+                    </td>
+                    <td>
+                        @Html.Label("Date Message")
+                    </td>
+                    <td>
+                        @Html.Label("Object")
+                    </td>
+                </tr>
+                @foreach (var item in listUsersContactDontRegistered)
+               {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Messages)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserIdRequestLost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateSendEmail)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Object", "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+</body>
 </html>
 
 
