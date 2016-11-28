@@ -3,17 +3,28 @@
 {
     HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-    string infoUserIdRol = ticket.UserData.ToString();
-    int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
-    if (userId == 1)
+    string infoUserIdRolNewM = ticket.UserData.ToString();
+    int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+    int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+    bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
+    if (roll == 1)
     {
         <ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + " !", "Details" , "InfoUsers" , new { id = userId }, null) </li>
+            <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + " !", "Details", "InfoUsers", new { id = userId }, null) </li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
             <li>@Html.ActionLink("Add User", "AddUser", "InfoUsers")</li>
             <li>@Html.ActionLink("User List", "Index", "InfoUsers")</li>
-            <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, null)</li>
+            @{
+                if (newMessage == true)
+                {
+                    <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, new { @style = "color:#FF4500;" })</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, null)</li>
+                }
+             }
             <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>
         </ul>
     }

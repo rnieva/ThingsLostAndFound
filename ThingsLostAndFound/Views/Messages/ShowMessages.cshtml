@@ -25,7 +25,7 @@
             </tr>
         </table>
         <p></p>
-        <b>Registered Users Messages: </b>
+        <b>Messages from Registered Users: </b>
         <p></p>
         <table class="table">
             <tr>
@@ -49,7 +49,7 @@
                         @Html.DisplayFor(modelItem => item.Message1)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserEmailRequestLost)
+                        <a href="mailto: @item.UserEmailRequestLost">@item.UserEmailRequestLost</a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateSendEmail)
@@ -61,7 +61,7 @@
                 }
             </table>
             <p></p>
-            <b>Dont Registered Users Messages: </b>
+            <b>Messages from Dont Registered Users: </b>
             <p></p>
             <table class="table">
                 <tr>

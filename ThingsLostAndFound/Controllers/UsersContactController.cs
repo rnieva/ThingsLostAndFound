@@ -25,9 +25,9 @@ namespace ThingsLostAndFound.Controllers
             if (authCookie != null)
             {
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                string infoUserIdRol = ticket.UserData.ToString();
-                int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
-                int roll = Int32.Parse(infoUserIdRol.Substring((infoUserIdRol.IndexOf("|")) + 1, infoUserIdRol.Length - 2));              
+                string infoUserIdRolNewM = ticket.UserData.ToString();
+                int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
                 InfoUser userRequest = new InfoUser();
                 userRequest = db.InfoUsers.Find(userId);
                 ViewBag.userIdRequest = userId;

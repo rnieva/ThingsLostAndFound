@@ -23,6 +23,8 @@ namespace ThingsLostAndFound.Controllers
             myUsersContactList.Add(userContactDontRegisteredListbyId);
             myUsersContactList.Add(userContactRegisteredListbyId);
             user.Message.NewMessage = false;
+            // TODO: change the color the Message label in _loginPartial.cshtml , update the ticket newmessage value
+            db.SaveChanges();
             return View(myUsersContactList);
         }
     }

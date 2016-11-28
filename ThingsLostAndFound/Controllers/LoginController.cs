@@ -77,12 +77,14 @@ namespace ThingsLostAndFound.Controllers
             string infoUserTicket = "0";
             string rol = "";
             string id = "";
+            string newMessage = "";
             InfoUser user = new InfoUser();
             if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(UserPass)).FirstOrDefault()) != null)
             {
                 id = user.Id.ToString(); 
                 rol = user.Rol.ToString();
-                infoUserTicket = id + "|" + rol;
+                newMessage = user.Message.NewMessage.ToString();
+                infoUserTicket = id + "|" + rol + "||" + newMessage;
             }
             return infoUserTicket;
         }
