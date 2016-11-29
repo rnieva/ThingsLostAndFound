@@ -89,6 +89,8 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Color)
+            <input type="color" name="Color" id="Color" value=" @Html.DisplayFor(modelItem => item.Color) " class="form-control">
+            <span style="background: @Html.DisplayFor(modelItem => item.Color) ">&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Observations)
