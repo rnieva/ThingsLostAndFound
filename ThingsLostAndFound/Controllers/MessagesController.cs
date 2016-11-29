@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ThingsLostAndFound.Models;
+using ThingsLostAndFound.Security;
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -11,21 +13,51 @@ namespace ThingsLostAndFound.Controllers
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: Messages
+
         public ActionResult ShowMessages(int id) // user id registered
         {
-            // show messages from support
-            InfoUser user = db.InfoUsers.Find(id);
-            ViewBag.SupportMessages = user.Message.SupportMessages;
-            // search the messages in userContactRegistered and dont register from others users to this ID user
-            var userContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
-            var userContactRegisteredListbyId = db.UsersContactRegistereds.Where(a => a.UserIdReportFound.Equals(id)).ToList();
-            List<object> myUsersContactList = new List<object>();
-            myUsersContactList.Add(userContactDontRegisteredListbyId);
-            myUsersContactList.Add(userContactRegisteredListbyId);
-            user.Message.NewMessage = false;
-            // TODO: change the color the Message label in _loginPartial.cshtml , update the ticket newmessage value
-            db.SaveChanges();
-            return View(myUsersContactList);
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            string infoUserIdRolNewM = ticket.UserData.ToString();
+            int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+            int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+            // Only users with roll 1 and the user can read their own messages
+            if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
+            {
+                // show messages from support
+                InfoUser user = db.InfoUsers.Find(id);
+                ViewBag.SupportMessages = user.Message.SupportMessages;
+                // search the messages in userContactRegistered and dont register from others users to this ID user
+                var userContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
+                var userContactRegisteredListbyId = db.UsersContactRegistereds.Where(a => a.UserIdReportFound.Equals(id)).ToList();
+                List<object> myUsersContactList = new List<object>();
+                myUsersContactList.Add(userContactDontRegisteredListbyId);
+                myUsersContactList.Add(userContactRegisteredListbyId);
+                user.Message.NewMessage = false;
+                db.SaveChanges();
+
+                //update the cookie with new user data, now the newMessage is false
+                bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
+                if (newMessage == true)
+                {
+                    infoUserIdRolNewM = infoUserIdRolNewM.Replace("True", "False");
+                    var newticket = new FormsAuthenticationTicket(ticket.Version,
+                                                                  ticket.Name,
+                                                                  ticket.IssueDate,
+                                                                  ticket.Expiration,
+                                                                  false,
+                                                                  infoUserIdRolNewM,
+                                                                  ticket.CookiePath);
+                    authCookie.Value = FormsAuthentication.Encrypt(newticket);
+                    Response.Cookies.Set(authCookie);
+                }
+                return View(myUsersContactList);
+            }
+            else
+            {
+                return HttpNotFound();  //TODO: add view reject or error
+            }
+                
         }
     }
 }

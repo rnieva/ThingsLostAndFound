@@ -25,6 +25,7 @@ namespace ThingsLostAndFound.Security
                 int userId = Int32.Parse(infoUserIdRol.Substring(0, infoUserIdRol.IndexOf("|")));
                 string rol;
                 InfoUser user = new InfoUser();
+                //Also we can read the roll value from the cookie
                 if ((user = db.InfoUsers.Where(a => a.Id.Equals(userId)).FirstOrDefault()) != null)
                 {
                     rol = user.Rol.ToString();
