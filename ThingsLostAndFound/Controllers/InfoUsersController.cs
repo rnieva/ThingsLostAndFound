@@ -35,7 +35,7 @@ namespace ThingsLostAndFound.Controllers
             {
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 string infoUserIdRolNewM = ticket.UserData.ToString();
-                // It get user ID value from infoUserIdRol
+                // It get user ID value from infoUserIdRolNewM
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
                 if (( id == userId) || (roll == 1))     // This way, only the user with hus id can see his details

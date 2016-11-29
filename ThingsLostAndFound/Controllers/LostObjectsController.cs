@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
@@ -39,8 +40,25 @@ namespace ThingsLostAndFound.Controllers
         // GET: LostObjects/Create
         public ActionResult Create()
         {
-            ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName");
-            return View();
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRolNewM = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRolNewM
+                int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+                string name = (User.Identity.Name);
+                //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName");
+                ViewBag.UserIdreported = userId;
+                ViewBag.UserNamereported = name;
+                return View();
+            }
+            else
+            {
+                //anonymous, The user must be registered
+                return View("CreateObjMe");
+            }
         }
 
         // POST: LostObjects/Create

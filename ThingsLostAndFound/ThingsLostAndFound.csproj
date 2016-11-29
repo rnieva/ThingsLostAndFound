@@ -257,6 +257,7 @@
     <Content Include="Models\TLAFmodel.edmx.diagram">
       <DependentUpon>TLAFmodel.edmx</DependentUpon>
     </Content>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -312,6 +313,8 @@
     <Content Include="Views\InfoUsers\AddUser.cshtml" />
     <Content Include="Views\UsersContact\ContactUserRegisterFoundObject.cshtml" />
     <Content Include="Views\Messages\ShowMessages.cshtml" />
+    <Content Include="Views\LostObjects\CreateObjMe.cshtml" />
+    <Content Include="Views\FoundObjects\CreateObjMe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
