@@ -86,7 +86,13 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Color)
+            @*@Html.DisplayFor(modelItem => item.Color)*@
+            @{
+                if (item.Color != null)
+                {
+                    <span style="background: @Html.DisplayFor(modelItem => item.Color) " class="form-control">&nbsp;&nbsp;&nbsp;</span>
+                }
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Observations)
