@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "ShowMessages";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<ThingsLostAndFound.Models.UsersContactDontRegister> listUsersContactRegistered = Model.ToList()[0] as List<ThingsLostAndFound.Models.UsersContactDontRegister>;
-    List<ThingsLostAndFound.Models.UsersContactRegistered> listUsersContactDontRegistered = Model.ToList()[1] as List<ThingsLostAndFound.Models.UsersContactRegistered>;
+    List<ThingsLostAndFound.Models.UsersContactDontRegister> listUsersContactDontRegister = Model.ToList()[0] as List<ThingsLostAndFound.Models.UsersContactDontRegister>;
+    List<ThingsLostAndFound.Models.UsersContactRegistered> listUsersContactRegistered = Model.ToList()[1] as List<ThingsLostAndFound.Models.UsersContactRegistered>;
 }
 
 <html>
@@ -25,7 +25,7 @@
             </tr>
         </table>
         <p></p>
-        <b>Messages from Registered Users: </b>
+        <b>Messages from Dont Registered Users: </b>
         <p></p>
         <table class="table">
             <tr>
@@ -42,7 +42,7 @@
                     @Html.Label("Object")
                 </td>
             </tr>
-            @foreach (var item in listUsersContactRegistered)
+            @foreach (var item in listUsersContactDontRegister)
             {
                 <tr>
                     <td>
@@ -55,13 +55,13 @@
                         @Html.DisplayFor(modelItem => item.DateSendEmail)
                     </td>
                     <td>
-                        @Html.ActionLink("Object", "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
+                        @Html.ActionLink(item.FoundObject.Title, "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
                     </td>
                 </tr>
                 }
             </table>
             <p></p>
-            <b>Messages from Dont Registered Users: </b>
+            <b>Messages from Registered Users: </b>
             <p></p>
             <table class="table">
                 <tr>
@@ -77,8 +77,11 @@
                     <td>
                         @Html.Label("Object")
                     </td>
+                    <td>
+                        @Html.Label("Answer")
+                    </td>
                 </tr>
-                @foreach (var item in listUsersContactDontRegistered)
+                @foreach (var item in listUsersContactRegistered)
                {
                     <tr>
                         <td>
@@ -91,7 +94,10 @@
                             @Html.DisplayFor(modelItem => item.DateSendEmail)
                         </td>
                         <td>
-                            @Html.ActionLink("Object", "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
+                            @Html.ActionLink(item.FoundObject.Title, "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Answer", "Answer", "Messages", new { idObj = item.ObjectIdFound, idRequestLost = item.UserIdRequestLost }, null)
                         </td>
                     </tr>
                 }

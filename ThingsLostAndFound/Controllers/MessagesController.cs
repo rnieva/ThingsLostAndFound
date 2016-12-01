@@ -26,8 +26,11 @@ namespace ThingsLostAndFound.Controllers
             {
                 // show messages from support
                 InfoUser user = db.InfoUsers.Find(id);
+                int test = (int)user.MessagesID;
+                var supportMessagesListbyId = db.Messages.Where(a => a.Id.Equals(test)).ToList();
+
                 ViewBag.SupportMessages = user.Message.SupportMessages;
-                // search the messages in userContactRegistered and dont register from others users to this ID user
+                // search the messages in userContactRegistered and user contact dont register, from others users to this ID user
                 var userContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
                 var userContactRegisteredListbyId = db.UsersContactRegistereds.Where(a => a.UserIdReportFound.Equals(id)).ToList();
                 List<object> myUsersContactList = new List<object>();
@@ -36,7 +39,7 @@ namespace ThingsLostAndFound.Controllers
                 user.Message.NewMessage = false;
                 db.SaveChanges();
 
-                //update the cookie with new user data, now the newMessage is false
+                //update the cookie with new user data, now the newMessage is false, to change color label new Message
                 bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
                 if (newMessage == true)
                 {
@@ -58,6 +61,11 @@ namespace ThingsLostAndFound.Controllers
                 return HttpNotFound();  //TODO: add view reject or error
             }
                 
+        }
+        public ActionResult Answer(int idObj, int idRequestLost) // idObj is the Object Id, idRequestLost is the user that Lost the object
+        {
+            int i;
+            return View();
         }
     }
 }
