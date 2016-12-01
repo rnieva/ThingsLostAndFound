@@ -63,7 +63,12 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Color)
+            @{
+                if (Model.Color != null)
+                {
+                    <span style="background: @Html.DisplayFor(model => model.Color)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                }
+            }
         </dd>
 
         <dt>
