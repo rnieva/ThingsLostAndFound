@@ -7,22 +7,21 @@
       <Diagram DiagramId="4f93a2d6f6654bbe854b19729e1868c6" Name="Diagram1" ZoomLevel="80">
         <EntityTypeShape EntityType="TLAFModel.InfoUser" Width="1.5" PointX="4" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TLAFModel.FoundObject" Width="1.5" PointX="0.5" PointY="0.875" />
-        <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="4" PointY="3.75" />
-        <EntityTypeShape EntityType="TLAFModel.LostObject" Width="1.5" PointX="8.75" PointY="0.875" />
+        <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="4" PointY="8.25" />
+        <EntityTypeShape EntityType="TLAFModel.LostObject" Width="1.5" PointX="7.75" PointY="0.875" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable_1" />
         <AssociationConnector Association="TLAFModel.FK_LostObjects_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable" />
-        <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="4" PointY="6.625" />
+        <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="4" PointY="11.125" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable_1" />
-        <EntityTypeShape EntityType="TLAFModel.UsersContactDontRegister" Width="1.5" PointX="2.25" PointY="9.375" />
-        <AssociationConnector Association="TLAFModel.FK_UsersContactDontRegister_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostObjects_ToTable_1" />
-        <EntityTypeShape EntityType="TLAFModel.Message" Width="1.5" PointX="6.125" PointY="0.875" />
-        <EntityTypeShape EntityType="TLAFModel.UsersContactRegistered" Width="1.5" PointX="0.5" PointY="9.375" />
-        <AssociationConnector Association="TLAFModel.FK_UsersContactRegistered_ToTable" />
-        <AssociationConnector Association="TLAFModel.FK_InfoUsers_ToTable" />
-      </Diagram>
+        <EntityTypeShape EntityType="TLAFModel.Message" Width="1.5" PointX="4" PointY="4.375" />
+        <AssociationConnector Association="TLAFModel.FK_Messages_ToTable_2" />
+        <AssociationConnector Association="TLAFModel.FK_Messages_ToTable" />
+        <AssociationConnector Association="TLAFModel.FK_Messages_ToTable_1" />
+        <AssociationConnector Association="TLAFModel.FK_Messages_ToTable_3" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -55,16 +55,16 @@ namespace ThingsLostAndFound.Controllers
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
                 //the user isn´t registered
-                UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
-                usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
-                usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
-                usersContactDontRegister.ObjectIdFound = id; // Id of Object found
-                usersContactDontRegister.UserEmailRequestLost = emailUserLostObject;
-                usersContactDontRegister.Message1 = textMessage;
-                usersContactDontRegister.DateSendEmail = DateTime.Now;
-                infouser.Message.NewMessage = true;
-                db.UsersContactDontRegisters.Add(usersContactDontRegister);
-                db.SaveChanges();
+                //UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
+                //usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
+                //usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
+                //usersContactDontRegister.ObjectIdFound = id; // Id of Object found
+                //usersContactDontRegister.UserEmailRequestLost = emailUserLostObject;
+                //usersContactDontRegister.Message1 = textMessage;
+                //usersContactDontRegister.DateSendEmail = DateTime.Now;
+                //infouser.Message.NewMessage = true;
+                //db.UsersContactDontRegisters.Add(usersContactDontRegister);
+                //db.SaveChanges();
             }
             else
             {
@@ -136,18 +136,18 @@ namespace ThingsLostAndFound.Controllers
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
                 //the user is registered
-                UsersContactRegistered userContactRegister = new UsersContactRegistered();
-                userContactRegister.UserIdRequestLost = usetIdRequest; // because the user is register
-                userContactRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
-                userContactRegister.ObjectIdFound = id; // Id of Object found
-                userContactRegister.Messages = textMessage;
-                userContactRegister.DateSendEmail = DateTime.Now;
-                userContactRegister.NewMsg = true;
-                userContactRegister.MessageNumbers = 1;
-                //infouser.Message.RefMessagesContactUsersRegistered = id;
-                infouser.Message.NewMessage = true;
-                db.UsersContactRegistereds.Add(userContactRegister);
-                db.SaveChanges();
+                //UsersContactRegistered userContactRegister = new UsersContactRegistered();
+                //userContactRegister.UserIdRequestLost = usetIdRequest; // because the user is register
+                //userContactRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
+                //userContactRegister.ObjectIdFound = id; // Id of Object found
+                //userContactRegister.Messages = textMessage;
+                //userContactRegister.DateSendEmail = DateTime.Now;
+                //userContactRegister.NewMsg = true;
+                //userContactRegister.MessageNumbers = 1;
+                ////infouser.Message.RefMessagesContactUsersRegistered = id;
+                //infouser.Message.NewMessage = true;
+                //db.UsersContactRegistereds.Add(userContactRegister);
+                //db.SaveChanges();
             }
             else
             {

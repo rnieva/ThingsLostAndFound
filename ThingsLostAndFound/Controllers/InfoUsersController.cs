@@ -65,15 +65,20 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult AddUser([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,rol")] InfoUser infoUser)
         {
             if (ModelState.IsValid)
-            {
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.MessageNumbers = 1;
-                msg.SupportMessages = "Welcome to TLAF";
-                db.Messages.Add(msg);
-                infoUser.Rol = 3;
+            { 
                 infoUser.Date = DateTime.Now;
                 db.InfoUsers.Add(infoUser);
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = "Welcome to TLAF";
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = 1; // id = 1, it`s the admin
+                msg.UserIdDest = infoUser.Id;
+                msg.subject = "Support";
+                msg.FoundObjectId = null;
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = null;
+                db.Messages.Add(msg);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -93,15 +98,20 @@ namespace ThingsLostAndFound.Controllers
         {
             if (ModelState.IsValid)
             {
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.MessageNumbers = 1;
-                msg.SupportMessages = "Welcome to TLAF";
-                db.Messages.Add(msg);
                 infoUser.Rol = 3;
                 infoUser.Date = DateTime.Now;
-                infoUser.MessagesID = msg.Id;
                 db.InfoUsers.Add(infoUser);
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = "Welcome to TLAF";
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = 1; // id = 1, it`s the admin
+                msg.UserIdDest = infoUser.Id;
+                msg.subject = "Support";
+                msg.FoundObjectId = null;
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = null;
+                db.Messages.Add(msg);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -186,8 +196,8 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             InfoUser infoUser = db.InfoUsers.Find(id);
-            Message msg = db.Messages.Find(infoUser.MessagesID);
-            db.Messages.Remove(msg);
+            // Message msg = db.Messages.Find(infoUser.MessagesID); //Delete every msgs of this user
+            //db.Messages.Remove(msg);
             db.InfoUsers.Remove(infoUser);
             db.SaveChanges();
             return RedirectToAction("Index");

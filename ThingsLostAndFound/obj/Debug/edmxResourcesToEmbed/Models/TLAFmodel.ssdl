@@ -42,12 +42,11 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
-    <Property Name="UserPass" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UserPass" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="PhoneNumber" Type="nchar" MaxLength="20" />
     <Property Name="Rol" Type="int" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
-    <Property Name="MessagesID" Type="int" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="LostAndFoundObject">
     <Key>
@@ -91,35 +90,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NewMessage" Type="bit" />
-    <Property Name="SupportMessages" Type="nvarchar(max)" />
-    <Property Name="RefMessagesContactUsersDontRegistered" Type="int" />
-    <Property Name="RefMessagesContactUsersRegistered" Type="int" />
-    <Property Name="MessageNumbers" Type="int" />
-  </EntityType>
-  <EntityType Name="UsersContactDontRegister">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserIdRequestLost" Type="int" Nullable="false" />
-    <Property Name="UserIdReportFound" Type="int" Nullable="false" />
-    <Property Name="Message1" Type="nvarchar(max)" />
-    <Property Name="UserEmailRequestLost" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="DateSendEmail" Type="datetime" />
-    <Property Name="ObjectIdFound" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UsersContactRegistered">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserIdRequestLost" Type="int" Nullable="false" />
-    <Property Name="UserIdReportFound" Type="int" Nullable="false" />
-    <Property Name="Messages" Type="nvarchar(max)" />
-    <Property Name="DateSendEmail" Type="datetime" />
-    <Property Name="ObjectIdFound" Type="int" Nullable="false" />
-    <Property Name="NewMsg" Type="bit" />
-    <Property Name="MessageNumbers" Type="int" />
+    <Property Name="Message" Type="nvarchar(max)" />
+    <Property Name="UserIdSent" Type="int" />
+    <Property Name="UserIdDest" Type="int" />
+    <Property Name="subject" Type="nvarchar" MaxLength="50" />
+    <Property Name="FoundObjectId" Type="int" />
+    <Property Name="dateMessage" Type="datetime" />
+    <Property Name="emailAddressUserDontRegis" Type="nvarchar" MaxLength="50" />
+    <Property Name="LostObjectId" Type="int" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
@@ -142,18 +120,6 @@
       </Principal>
       <Dependent Role="FoundObjects">
         <PropertyRef Name="FileId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_InfoUsers_ToTable">
-    <End Role="Messages" Type="Self.Messages" Multiplicity="0..1" />
-    <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Messages">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="InfoUsers">
-        <PropertyRef Name="MessagesID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -205,27 +171,51 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_UsersContactDontRegister_ToTable">
-    <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
-    <End Role="UsersContactDontRegister" Type="Self.UsersContactDontRegister" Multiplicity="*" />
+  <Association Name="FK_Messages_ToTable">
+    <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="0..1" />
+    <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="FoundObjects">
+      <Principal Role="InfoUsers">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="UsersContactDontRegister">
-        <PropertyRef Name="ObjectIdFound" />
+      <Dependent Role="Messages">
+        <PropertyRef Name="UserIdSent" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_UsersContactRegistered_ToTable">
-    <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
-    <End Role="UsersContactRegistered" Type="Self.UsersContactRegistered" Multiplicity="*" />
+  <Association Name="FK_Messages_ToTable_1">
+    <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="0..1" />
+    <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InfoUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Messages">
+        <PropertyRef Name="UserIdDest" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messages_ToTable_2">
+    <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="0..1" />
+    <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FoundObjects">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="UsersContactRegistered">
-        <PropertyRef Name="ObjectIdFound" />
+      <Dependent Role="Messages">
+        <PropertyRef Name="FoundObjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messages_ToTable_3">
+    <End Role="LostObjects" Type="Self.LostObjects" Multiplicity="0..1" />
+    <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LostObjects">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Messages">
+        <PropertyRef Name="LostObjectId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -236,8 +226,6 @@
     <EntitySet Name="LostAndFoundObject" EntityType="Self.LostAndFoundObject" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LostObjects" EntityType="Self.LostObjects" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="UsersContactDontRegister" EntityType="Self.UsersContactDontRegister" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="UsersContactRegistered" EntityType="Self.UsersContactRegistered" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_FoundObjects_ToTable" Association="Self.FK_FoundObjects_ToTable">
       <End Role="InfoUsers" EntitySet="InfoUsers" />
       <End Role="FoundObjects" EntitySet="FoundObjects" />
@@ -245,10 +233,6 @@
     <AssociationSet Name="FK_FoundObjects_ToTable_1" Association="Self.FK_FoundObjects_ToTable_1">
       <End Role="File" EntitySet="File" />
       <End Role="FoundObjects" EntitySet="FoundObjects" />
-    </AssociationSet>
-    <AssociationSet Name="FK_InfoUsers_ToTable" Association="Self.FK_InfoUsers_ToTable">
-      <End Role="Messages" EntitySet="Messages" />
-      <End Role="InfoUsers" EntitySet="InfoUsers" />
     </AssociationSet>
     <AssociationSet Name="FK_LostAndFoundObject_ToTable" Association="Self.FK_LostAndFoundObject_ToTable">
       <End Role="LostObjects" EntitySet="LostObjects" />
@@ -266,13 +250,21 @@
       <End Role="File" EntitySet="File" />
       <End Role="LostObjects" EntitySet="LostObjects" />
     </AssociationSet>
-    <AssociationSet Name="FK_UsersContactDontRegister_ToTable" Association="Self.FK_UsersContactDontRegister_ToTable">
-      <End Role="FoundObjects" EntitySet="FoundObjects" />
-      <End Role="UsersContactDontRegister" EntitySet="UsersContactDontRegister" />
+    <AssociationSet Name="FK_Messages_ToTable" Association="Self.FK_Messages_ToTable">
+      <End Role="InfoUsers" EntitySet="InfoUsers" />
+      <End Role="Messages" EntitySet="Messages" />
     </AssociationSet>
-    <AssociationSet Name="FK_UsersContactRegistered_ToTable" Association="Self.FK_UsersContactRegistered_ToTable">
+    <AssociationSet Name="FK_Messages_ToTable_1" Association="Self.FK_Messages_ToTable_1">
+      <End Role="InfoUsers" EntitySet="InfoUsers" />
+      <End Role="Messages" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messages_ToTable_2" Association="Self.FK_Messages_ToTable_2">
       <End Role="FoundObjects" EntitySet="FoundObjects" />
-      <End Role="UsersContactRegistered" EntitySet="UsersContactRegistered" />
+      <End Role="Messages" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messages_ToTable_3" Association="Self.FK_Messages_ToTable_3">
+      <End Role="LostObjects" EntitySet="LostObjects" />
+      <End Role="Messages" EntitySet="Messages" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
