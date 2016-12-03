@@ -37,7 +37,7 @@ namespace ThingsLostAndFound.Controllers
                 string infoUserIdRolNewM = ticket.UserData.ToString();
                 // It get user ID value from infoUserIdRolNewM
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
-                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 if (( id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
                     InfoUser infoUser = db.InfoUsers.Find(id);
@@ -132,7 +132,7 @@ namespace ThingsLostAndFound.Controllers
                 string infoUserIdRolNewM = ticket.UserData.ToString();
                 // It get user ID value from infoUserIdRol
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
-                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
                     InfoUser infoUser = db.InfoUsers.Find(id);
@@ -176,7 +176,7 @@ namespace ThingsLostAndFound.Controllers
                 string infoUserIdRolNewM = ticket.UserData.ToString();
                 // It get user ID value from infoUserIdRol
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
-                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
                     InfoUser infoUser = db.InfoUsers.Find(id);

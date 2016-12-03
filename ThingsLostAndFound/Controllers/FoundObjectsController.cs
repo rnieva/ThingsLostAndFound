@@ -50,7 +50,7 @@ namespace ThingsLostAndFound.Controllers
                 string infoUserIdRolNewM = ticket.UserData.ToString();
                 // It get user ID value from infoUserIdRolNewM
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
-                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, infoUserIdRolNewM.IndexOf("||") - 2));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 string name = (User.Identity.Name);
                 //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName");
                 ViewBag.UserIdreported = userId;
