@@ -35,36 +35,37 @@ namespace ThingsLostAndFound.Controllers
                 //If the user is register, it show this view, without email
                 return View("ContactUserRegisterFoundObject");     
             }
-            //If the user isn´t register, it show this view with fileds in the form, we need the contact email
+            //If the user isn´t registered, it show this view with fileds in the form, we need the contact email
             return View();    //show a form to do a request to userFinder
         }
 
         [HttpPost]
-        public ActionResult SendRequestUser(int id, string textMessage, string emailUserLostObject)  //send an email from user lost object (user that do request (No registered in the app)) to user that found the object
+        public ActionResult SendRequestUser(int id, string textMessage, string emailUserLostObject)  //send an email from user lost object (user that do request (Not registered in the app)) to user that found the object
         {
             //with id from object, search the user that found the object and send him a email
             var foundObject = db.FoundObjects.Find(id);
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
-            var infouser = db.InfoUsers.Find(userIdReport);
-            string nameUserFounfObject = infouser.UserName;
-            string emailUserFoundObject = infouser.Email;
+            string nameUserFounfObject = foundObject.InfoUser.UserName;
+            string emailUserFoundObject = foundObject.InfoUser.Email;
             string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
             if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
                 //the user isn´t registered
-                //UsersContactDontRegister usersContactDontRegister = new UsersContactDontRegister();
-                //usersContactDontRegister.UserIdRequestLost = 999; // because the user isn´t register
-                //usersContactDontRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
-                //usersContactDontRegister.ObjectIdFound = id; // Id of Object found
-                //usersContactDontRegister.UserEmailRequestLost = emailUserLostObject;
-                //usersContactDontRegister.Message1 = textMessage;
-                //usersContactDontRegister.DateSendEmail = DateTime.Now;
-                //infouser.Message.NewMessage = true;
-                //db.UsersContactDontRegisters.Add(usersContactDontRegister);
-                //db.SaveChanges();
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = textMessage;
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = null; // null because the user that do the request is not registered
+                msg.UserIdDest = userIdReport; //user that found the object
+                msg.subject = "Found Object";
+                msg.FoundObjectId = id; // id object
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = emailUserLostObject; // user not registered
+                db.Messages.Add(msg);
+                db.SaveChanges();
             }
             else
             {
@@ -124,9 +125,8 @@ namespace ThingsLostAndFound.Controllers
             var foundObject = db.FoundObjects.Find(id);
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
-            var infouser = db.InfoUsers.Find(userIdReport);
-            string nameUserFounfObject = infouser.UserName;
-            string emailUserFoundObject = infouser.Email;
+            string nameUserFounfObject = foundObject.InfoUser.UserName;
+            string emailUserFoundObject = foundObject.InfoUser.Email;
             //with userIdReport from user that do the request, search the email of user
             var userRequest = db.InfoUsers.Find(usetIdRequest);
             string emailUserRequest = userRequest.Email;
@@ -136,18 +136,18 @@ namespace ThingsLostAndFound.Controllers
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
                 //the user is registered
-                //UsersContactRegistered userContactRegister = new UsersContactRegistered();
-                //userContactRegister.UserIdRequestLost = usetIdRequest; // because the user is register
-                //userContactRegister.UserIdReportFound = userIdReport; // Id of user found the object and created the found object report
-                //userContactRegister.ObjectIdFound = id; // Id of Object found
-                //userContactRegister.Messages = textMessage;
-                //userContactRegister.DateSendEmail = DateTime.Now;
-                //userContactRegister.NewMsg = true;
-                //userContactRegister.MessageNumbers = 1;
-                ////infouser.Message.RefMessagesContactUsersRegistered = id;
-                //infouser.Message.NewMessage = true;
-                //db.UsersContactRegistereds.Add(userContactRegister);
-                //db.SaveChanges();
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = textMessage;
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = usetIdRequest; // user that found the object
+                msg.UserIdDest = userIdReport; //user that found the object
+                msg.subject = "Found Object";
+                msg.FoundObjectId = id; // id object
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = null; // user not registered
+                db.Messages.Add(msg);
+                db.SaveChanges();
             }
             else
             {
