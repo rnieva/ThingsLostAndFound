@@ -49,7 +49,7 @@ namespace ThingsLostAndFound.Controllers
             string nameUserFounfObject = foundObject.InfoUser.UserName;
             string emailUserFoundObject = foundObject.InfoUser.Email;
             string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
-            //if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
+            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
@@ -67,11 +67,11 @@ namespace ThingsLostAndFound.Controllers
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }
-            //else
-            //{
-            //    ViewBag.result = "Request don´t sent";
+            else
+            {
+                ViewBag.result = "Request don´t sent";
 
-            //}
+            }
             return View(); // show the view with the result, successfull or not successfull if the email was sended
         }
 
@@ -151,10 +151,10 @@ namespace ThingsLostAndFound.Controllers
             }
             else
             {
-                ViewBag.result = "Request don´t sent";
+                ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
 
             }
-            return View("SendRequestUser");
+            return View("SendRequestUser"); //TODO: come back to Messages view
         }
 
 
@@ -271,10 +271,10 @@ namespace ThingsLostAndFound.Controllers
             }
             else
             {
-                ViewBag.result = "Request don´t sent";
+                ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
 
             }
-            return View("SendRequestUser");
+            return View("SendRequestUser"); //TODO: come back to Messages view
         }
     }
 }

@@ -75,7 +75,7 @@
                                 <a href="mailto: @item.emailAddressUserDontRegis">@item.emailAddressUserDontRegis</a>
                             }
                             else
-                            {  
+                            {
                                 int idtemp = 0;
                                 if (item.subject == "Found Object")
                                 {
@@ -85,7 +85,16 @@
                                 {
                                     idtemp = item.LostObjectId.Value;
                                 }
-                                @Html.ActionLink(item.InfoUser.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
+                                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                                if (item.InfoUser.UserName == ticket.Name)
+                                {
+                                    @Html.ActionLink("Send other message to " + item.InfoUser1.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(item.InfoUser.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
+                                }
                             }
                         }
                         

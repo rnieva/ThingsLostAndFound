@@ -25,26 +25,9 @@ namespace ThingsLostAndFound.Controllers
             if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
             {
                 // search messages from or to ID user
-                InfoUser user = db.InfoUsers.Find(id);
-
-
                 var testList = db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
-
-                //var supportMessagesListbyIdS = db.Messages.Where((a => a.UserIdDest == id || a.UserIdSent == id)  && a.subject == "Support").ToList();
-                //var supportMessagesListbyIdD = db.Messages.Where(a => a.UserIdSent == id && a.subject == "Support").ToList();
-
-                //var resgisteredUsersMessagesListbyIdS = db.Messages.Where(a => a.UserIdDest == id && a.subject == "Found Object").ToList();
-                //var resgisteredUsesrMessagesListbyIdD = db.Messages.Where(a => a.UserIdSent == id && a.subject == "Found Object").ToList();
-
-                //var notRegisteredUsersMessagesListbyIdS = db.Messages.Where(a => a.UserIdDest == id && a.subject == "Lost Object").ToList();
-                //var notRegisteredUsersListbyIdD = db.Messages.Where(a => a.UserIdSent == id && a.subject == "Lost Object").ToList();
-
-               
                 List<object> messagesList = new List<object>();
-                messagesList.Add(testList);
-                
-
-                var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
+                messagesList.Add(testList); var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
                 foreach (var m in newMessagesFlagList)
                 {
                     m.NewMessage = false;
@@ -73,11 +56,6 @@ namespace ThingsLostAndFound.Controllers
                 return HttpNotFound();  //TODO: add view reject or error
             }
                 
-        }
-        public ActionResult Answer(int idObj, int idRequestLost) // idObj is the Object Id, idRequestLost is the user that Lost the object
-        {
-            int i;
-            return View();
         }
     }
 }
