@@ -33,7 +33,7 @@ namespace ThingsLostAndFound.Controllers
                 ViewBag.userIdRequest = userId;
                 ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
                 //If the user is register, it show this view, without email
-                return View("ContactUserRegisterFoundObject");     
+                return View("ContactUserRegisterFoundObject");
             }
             //If the user isn´t registered, it show this view with fileds in the form, we need the contact email
             return View();    //show a form to do a request to userFinder
@@ -49,7 +49,7 @@ namespace ThingsLostAndFound.Controllers
             string nameUserFounfObject = foundObject.InfoUser.UserName;
             string emailUserFoundObject = foundObject.InfoUser.Email;
             string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
-            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
+            //if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
@@ -67,11 +67,11 @@ namespace ThingsLostAndFound.Controllers
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }
-            else
-            {
-                ViewBag.result = "Request don´t sent";
+            //else
+            //{
+            //    ViewBag.result = "Request don´t sent";
 
-            }
+            //}
             return View(); // show the view with the result, successfull or not successfull if the email was sended
         }
 
@@ -93,9 +93,9 @@ namespace ThingsLostAndFound.Controllers
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(emailrecipient));
             email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");
-            email.Subject = "Object ID: " +id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            email.Subject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
             email.Body = buildBodyEmail;
-            email.IsBodyHtml = true; 
+            email.IsBodyHtml = true;
             email.Priority = MailPriority.Normal;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.live.com";
@@ -117,9 +117,9 @@ namespace ThingsLostAndFound.Controllers
             }
 
         }
-        
+
         [HttpPost]
-        public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)  
+        public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)
         {
             //with id from object, search the user that found the object and send him a email
             var foundObject = db.FoundObjects.Find(id);
@@ -157,5 +157,124 @@ namespace ThingsLostAndFound.Controllers
             return View("SendRequestUser");
         }
 
+
+        public ActionResult SendMessage(int id, int userSendMsg, int userDestMsg, string subject)
+        { // this Actuon show a view for the user write the message and submit
+            ViewBag.idObject = id;
+            ViewBag.userSendMsg = userSendMsg;
+            ViewBag.userDestMsg = userDestMsg;
+            ViewBag.subject = subject;
+            if (id != 0) //if id=0 is a message for support
+            {
+                if (subject == "Found Object")
+                {
+                    var foundObject = db.FoundObjects.Find(id);
+                    ViewBag.titleObject = foundObject.Title;
+                    ViewBag.userNameSend = foundObject.InfoUser.UserName;
+                    var infouser = db.InfoUsers.Find(userDestMsg);
+                    ViewBag.userNameDest = infouser.UserName;
+                }
+                else
+                {
+                    // the subject is Lost Object
+                    var lostObject = db.LostObjects.Find(id);
+                    ViewBag.titleObject = lostObject.Title;
+                    ViewBag.userNameSend = lostObject.InfoUser.UserName;
+                    var infouser = db.InfoUsers.Find(userDestMsg);
+                    ViewBag.userNameDest = infouser.UserName;
+                }
+            }
+            else
+            {
+                ViewBag.titleObject = "Support";
+                var infouser = db.InfoUsers.Find(userSendMsg);
+                ViewBag.userNameSend = infouser.UserName;
+                infouser = db.InfoUsers.Find(userDestMsg);
+                ViewBag.userNameDest = infouser.UserName;
+            }
+            return View();
+        }
+
+        public string BuildBodyEmail2(string textMessage, string nameUserSend, string emailUserLostObject)
+        {
+            string buildBodyEmail = "";
+            buildBodyEmail = "Request from:<b> " + nameUserSend + " email: " + emailUserLostObject + "</b><br>"
+                       + "<b>Message:</b><br> " + textMessage + "<br>"
+                       + "---------------------------------------------------------<br>"
+                       + "Thanks for your help, please answer email<b> " + emailUserLostObject + "</b><br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return buildBodyEmail;
+        }
+
+
+        [HttpPost]
+        public ActionResult SendMessage2(int id, int userSendMsg, int userDestMsg, string subject, string textMessage)
+        {   // this Action send the message
+            //with id from object, search the user that found the object and send him a email
+            string title = "";
+            if (id != 0)
+            {
+                switch (subject)
+                {
+                    case "Found Object":
+                        var foundObject = db.FoundObjects.Find(id);
+                        title = foundObject.Title;
+                        break;
+                    case "Lost Object":
+                        var lostObject = db.LostObjects.Find(id);
+                        title = lostObject.Title;
+                        break;
+                }
+            } //TODO: use title or remove
+
+            var infouser = db.InfoUsers.Find(userSendMsg);
+            string emailUserSend = infouser.Email;
+            string nameUserSend = infouser.UserName;
+
+            infouser = db.InfoUsers.Find(userDestMsg);
+            string emailUserDest = infouser.Email;
+            string nameUserDest = infouser.UserName;
+
+
+            string buildBodyEmail = BuildBodyEmail2(textMessage, nameUserSend, emailUserSend);
+            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserSend, id) == true)
+            {
+                ViewBag.result = "Request sent successfull";
+                //Store in DB data about contact between users
+
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = textMessage;
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = userSendMsg;
+                msg.UserIdDest = userDestMsg;
+                msg.subject = subject;
+                switch (subject)
+                {
+                    case "Support":
+                        msg.FoundObjectId = null; // id object
+                        msg.LostObjectId = null;
+                        break;
+                    case "Found Object":
+                        msg.FoundObjectId = id; // id object
+                        msg.LostObjectId = null;
+                        break;
+                    case "Lost Object":
+                        msg.FoundObjectId = null; // id object
+                        msg.LostObjectId = id;
+                        break;
+                }
+                msg.emailAddressUserDontRegis = null; // user not registered
+                db.Messages.Add(msg);
+                db.SaveChanges();
+            }
+            else
+            {
+                ViewBag.result = "Request don´t sent";
+
+            }
+            return View("SendRequestUser");
+        }
     }
 }

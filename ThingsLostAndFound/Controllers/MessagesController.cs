@@ -21,41 +21,52 @@ namespace ThingsLostAndFound.Controllers
             string infoUserIdRolNewM = ticket.UserData.ToString();
             int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
             int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
-            // Only users with roll 1 and the user can read their own messages
+            // Only users with roll 1 and the specific user can read their own messages
             if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
             {
-                //// show messages from support
-                //InfoUser user = db.InfoUsers.Find(id);
-                //int test = (int)user.MessagesID;
-                //var supportMessagesListbyId = db.Messages.Where(a => a.Id.Equals(test)).ToList();
+                // search messages from or to ID user
+                InfoUser user = db.InfoUsers.Find(id);
 
-                //ViewBag.SupportMessages = user.Message.SupportMessages;
-                //// search the messages in userContactRegistered and user contact dont register, from others users to this ID user
-                //var userContactDontRegisteredListbyId = db.UsersContactDontRegisters.Where(a => a.UserIdReportFound.Equals(id)).ToList();
-                //var userContactRegisteredListbyId = db.UsersContactRegistereds.Where(a => a.UserIdReportFound.Equals(id)).ToList();
-                //List<object> myUsersContactList = new List<object>();
-                //myUsersContactList.Add(userContactDontRegisteredListbyId);
-                //myUsersContactList.Add(userContactRegisteredListbyId);
-                //user.Message.NewMessage = false;
-                //db.SaveChanges();
 
-                ////update the cookie with new user data, now the newMessage is false, to change color label new Message
-                //bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
-                //if (newMessage == true)
-                //{
-                //    infoUserIdRolNewM = infoUserIdRolNewM.Replace("True", "False");
-                //    var newticket = new FormsAuthenticationTicket(ticket.Version,
-                //                                                  ticket.Name,
-                //                                                  ticket.IssueDate,
-                //                                                  ticket.Expiration,
-                //                                                  false,
-                //                                                  infoUserIdRolNewM,
-                //                                                  ticket.CookiePath);
-                //    authCookie.Value = FormsAuthentication.Encrypt(newticket);
-                //    Response.Cookies.Set(authCookie);
-                //}
-                //return View(myUsersContactList);
-                return View();
+                var testList = db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
+
+                //var supportMessagesListbyIdS = db.Messages.Where((a => a.UserIdDest == id || a.UserIdSent == id)  && a.subject == "Support").ToList();
+                //var supportMessagesListbyIdD = db.Messages.Where(a => a.UserIdSent == id && a.subject == "Support").ToList();
+
+                //var resgisteredUsersMessagesListbyIdS = db.Messages.Where(a => a.UserIdDest == id && a.subject == "Found Object").ToList();
+                //var resgisteredUsesrMessagesListbyIdD = db.Messages.Where(a => a.UserIdSent == id && a.subject == "Found Object").ToList();
+
+                //var notRegisteredUsersMessagesListbyIdS = db.Messages.Where(a => a.UserIdDest == id && a.subject == "Lost Object").ToList();
+                //var notRegisteredUsersListbyIdD = db.Messages.Where(a => a.UserIdSent == id && a.subject == "Lost Object").ToList();
+
+               
+                List<object> messagesList = new List<object>();
+                messagesList.Add(testList);
+                
+
+                var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
+                foreach (var m in newMessagesFlagList)
+                {
+                    m.NewMessage = false;
+                }
+                db.SaveChanges();
+
+                //update the cookie with new user data, now the newMessage is false, to change color label new Message
+                bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
+                if (newMessage == true)
+                {
+                    infoUserIdRolNewM = infoUserIdRolNewM.Replace("True", "False");
+                    var newticket = new FormsAuthenticationTicket(ticket.Version,
+                                                                  ticket.Name,
+                                                                  ticket.IssueDate,
+                                                                  ticket.Expiration,
+                                                                  false,
+                                                                  infoUserIdRolNewM,
+                                                                  ticket.CookiePath);
+                    authCookie.Value = FormsAuthentication.Encrypt(newticket);
+                    Response.Cookies.Set(authCookie);
+                }
+                return View(messagesList);
             }
             else
             {

@@ -34,7 +34,16 @@
             <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + " !", "Details", "InfoUsers", new { id = userId }, null) </li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-            <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, null)</li>
+            @{
+                if (newMessage == true)
+                {
+                    <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, new { @style = "color:#FF4500;" })</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Messages", "ShowMessages", "Messages", new { id = userId }, null)</li>
+                }
+            }
             <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>
         </ul>
     }

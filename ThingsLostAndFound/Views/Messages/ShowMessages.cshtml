@@ -2,104 +2,95 @@
 @{
     ViewBag.Title = "ShowMessages";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<ThingsLostAndFound.Models.UsersContactDontRegister> listUsersContactDontRegister = Model.ToList()[0] as List<ThingsLostAndFound.Models.UsersContactDontRegister>;
-    List<ThingsLostAndFound.Models.UsersContactRegistered> listUsersContactRegistered = Model.ToList()[1] as List<ThingsLostAndFound.Models.UsersContactRegistered>;
+    List<ThingsLostAndFound.Models.Message> messagesList = Model.ToList()[0] as List<ThingsLostAndFound.Models.Message>;
 }
 
 <html>
     <body>
         <h2>Messages</h2>
         <p></p>
-            <b>Support Messages: </b>
-        <p></p>
-        <table class="table">
-            <tr>
-                <td>
-                    @Html.Label("Message")
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @ViewBag.SupportMessages
-                </td>
-            </tr>
-        </table>
-        <p></p>
-        <b>Messages from Dont Registered Users: </b>
-        <p></p>
         <table class="table">
             <tr>
                 <td>
                     @Html.Label("Message")
                 </td>
                 <td>
-                    @Html.Label("Email User")
+                    @Html.Label("Sended by")
+                </td>
+                <td>
+                    @Html.Label("to")
+                </td>
+                <td>
+                    @Html.Label("Subject")
+                </td>
+                <td>
+                    @Html.Label("Object")
                 </td>
                 <td>
                     @Html.Label("Date Message")
                 </td>
                 <td>
-                    @Html.Label("Object")
+                    @Html.Label("Response")
                 </td>
             </tr>
-            @foreach (var item in listUsersContactDontRegister)
+            @foreach (var item in messagesList)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Message1)
                     </td>
                     <td>
-                        <a href="mailto: @item.UserEmailRequestLost">@item.UserEmailRequestLost</a>
+                        @Html.DisplayFor(modelItem => item.InfoUser.UserName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DateSendEmail)
+                        @Html.DisplayFor(modelItem => item.InfoUser1.UserName)
                     </td>
                     <td>
-                        @Html.ActionLink(item.FoundObject.Title, "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
+                        @Html.DisplayFor(modelItem => item.subject)
+                    </td>
+                    <td>
+                        @{
+                            // We can see in the subject column if the object is Found or Lost
+                            if (item.FoundObjectId != null)
+                            {
+                                @Html.ActionLink(item.FoundObject.Title, "Details", "FoundObjects", new { id = item.FoundObjectId }, null)
+                            }
+                            if (item.LostObjectId != null)
+                            {
+                                @Html.ActionLink(item.LostObject.Title, "Details", "LostObjects", new { id = item.LostObjectId }, null)
+                            }
+                            if (item.subject == "Support")
+                            {
+                                @Html.Label("- -")
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dateMessage)
+                    </td>
+                    <td>
+                        @{
+                            if (item.emailAddressUserDontRegis != null)
+                            {
+                                <a href="mailto: @item.emailAddressUserDontRegis">@item.emailAddressUserDontRegis</a>
+                            }
+                            else
+                            {  
+                                int idtemp = 0;
+                                if (item.subject == "Found Object")
+                                {
+                                    idtemp = item.FoundObjectId.Value;
+                                }
+                                if (item.subject == "Lost Object")
+                                {
+                                    idtemp = item.LostObjectId.Value;
+                                }
+                                @Html.ActionLink(item.InfoUser.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
+                            }
+                        }
+                        
                     </td>
                 </tr>
-                }
-            </table>
-            <p></p>
-            <b>Messages from Registered Users: </b>
-            <p></p>
-            <table class="table">
-                <tr>
-                    <td>
-                        @Html.Label("Message")
-                    </td>
-                    <td>
-                        @Html.Label("From User")
-                    </td>
-                    <td>
-                        @Html.Label("Date Message")
-                    </td>
-                    <td>
-                        @Html.Label("Object")
-                    </td>
-                    <td>
-                        @Html.Label("Answer")
-                    </td>
-                </tr>
-                @foreach (var item in listUsersContactRegistered)
-               {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Messages)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UserIdRequestLost)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateSendEmail)
-                        </td>
-                        <td>
-                            @Html.ActionLink(item.FoundObject.Title, "Details", "FoundObjects", new { id = item.ObjectIdFound }, null)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Answer", "Answer", "Messages", new { idObj = item.ObjectIdFound, idRequestLost = item.UserIdRequestLost }, null)
-                        </td>
-                    </tr>
                 }
             </table>
 </body>

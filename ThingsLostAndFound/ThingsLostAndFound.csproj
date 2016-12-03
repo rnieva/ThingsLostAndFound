@@ -309,6 +309,7 @@
     <Content Include="Views\Messages\ShowMessages.cshtml" />
     <Content Include="Views\LostObjects\CreateObjMe.cshtml" />
     <Content Include="Views\FoundObjects\CreateObjMe.cshtml" />
+    <Content Include="Views\UsersContact\SendMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
