@@ -63,7 +63,7 @@ namespace ThingsLostAndFound.Controllers
                 msg.subject = "Found Object";
                 msg.FoundObjectId = id; // id object
                 msg.LostObjectId = null;
-                msg.emailAddressUserDontRegis = emailUserLostObject; // user not registered
+                msg.emailAddressUserDontRegis = emailUserLostObject; // only for user not registered
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }
@@ -145,7 +145,7 @@ namespace ThingsLostAndFound.Controllers
                 msg.subject = "Found Object";
                 msg.FoundObjectId = id; // id object
                 msg.LostObjectId = null;
-                msg.emailAddressUserDontRegis = null; // user not registered
+                msg.emailAddressUserDontRegis = null; // only for user not registered
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }
@@ -159,7 +159,7 @@ namespace ThingsLostAndFound.Controllers
 
 
         public ActionResult SendMessage(int id, int userSendMsg, int userDestMsg, string subject)
-        { // this Actuon show a view for the user write the message and submit
+        { // this Action show a view for the user write the message and submit, its called from ShowMessages View
             ViewBag.idObject = id;
             ViewBag.userSendMsg = userSendMsg;
             ViewBag.userDestMsg = userDestMsg;
@@ -207,7 +207,6 @@ namespace ThingsLostAndFound.Controllers
             return buildBodyEmail;
         }
 
-
         [HttpPost]
         public ActionResult SendMessage2(int id, int userSendMsg, int userDestMsg, string subject, string textMessage)
         {   // this Action send the message
@@ -231,18 +230,14 @@ namespace ThingsLostAndFound.Controllers
             var infouser = db.InfoUsers.Find(userSendMsg);
             string emailUserSend = infouser.Email;
             string nameUserSend = infouser.UserName;
-
             infouser = db.InfoUsers.Find(userDestMsg);
             string emailUserDest = infouser.Email;
             string nameUserDest = infouser.UserName;
-
-
             string buildBodyEmail = BuildBodyEmail2(textMessage, nameUserSend, emailUserSend);
             if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserSend, id) == true)
             {
                 ViewBag.result = "Request sent successfull";
-                //Store in DB data about contact between users
-
+                //Store in DB the message between the users
                 Message msg = new Message();
                 msg.NewMessage = true;
                 msg.Message1 = textMessage;
@@ -265,7 +260,7 @@ namespace ThingsLostAndFound.Controllers
                         msg.LostObjectId = id;
                         break;
                 }
-                msg.emailAddressUserDontRegis = null; // user not registered
+                msg.emailAddressUserDontRegis = null; // only for user not registered
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }

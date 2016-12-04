@@ -9,7 +9,7 @@ using ThingsLostAndFound.Security;
 
 namespace ThingsLostAndFound.Controllers
 {
-    public class MessagesController : Controller //This controller to managed the messages from Support and from others users
+    public class MessagesController : Controller //This controller get and show the messages from Support and from others users
     {
         private TLAFEntities db = new TLAFEntities();
         // GET: Messages
@@ -33,7 +33,6 @@ namespace ThingsLostAndFound.Controllers
                     m.NewMessage = false;
                 }
                 db.SaveChanges();
-
                 //update the cookie with new user data, now the newMessage is false, to change color label new Message
                 bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
                 if (newMessage == true)

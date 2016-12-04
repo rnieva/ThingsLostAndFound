@@ -55,7 +55,9 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+            @*TODO: changed userSendMsg = 1 for read this value from the cookie, in the future user with rol = 2 will be able to send messages type support*@
+            @Html.ActionLink("Send a Msg to " + item.UserName, "SendMessage", "UsersContact", new { id = 0, userSendMsg = 1, userDestMsg = item.Id, subject = "Support" }, null)
         </td>
     </tr>
 }
