@@ -96,6 +96,19 @@ namespace ThingsLostAndFound.Controllers
                     db.Files.Add(file);
                 }
                 db.LostObjects.Add(lostObject);
+
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = "Lost Object added to list";
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = 1; //  because 1 is the admin
+                msg.UserIdDest = lostObject.UserIdreported; //user that found the object
+                msg.subject = "Lost Object";
+                msg.FoundObjectId = lostObject.Id; // id object
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = null; // only for user not registered
+                db.Messages.Add(msg);
+
                 db.SaveChanges();
                 //sendEmailFoundObject(lostObject);
                 //return RedirectToAction("Index");

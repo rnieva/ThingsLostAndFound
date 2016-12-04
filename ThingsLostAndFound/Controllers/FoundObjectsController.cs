@@ -91,11 +91,24 @@ namespace ThingsLostAndFound.Controllers
                     db.Files.Add(file);
                 } else {
                     foundObject.Img = false;   // false value if there isn´t uploaded file
-                    var file = new Models.File(); // foreign key never null, create un empty file
+                    var file = new Models.File(); // foreign key never null in this case, create un empty file
                     foundObject.FileId = file.Id;
                     db.Files.Add(file);
                 }
                 db.FoundObjects.Add(foundObject);
+
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = "Found Object added to list";
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = 1; //  because 1 is the admin
+                msg.UserIdDest = foundObject.UserIdreported; //user that found the object
+                msg.subject = "Found Object";
+                msg.FoundObjectId = foundObject.Id; // id object
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = null; // only for user not registered
+                db.Messages.Add(msg);
+
                 db.SaveChanges();
                 //sendEmailFoundObject(foundObject);
                 //return RedirectToAction("Index");
