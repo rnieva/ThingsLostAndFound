@@ -3,6 +3,7 @@
     ViewBag.Title = "ShowMessages";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<ThingsLostAndFound.Models.Message> messagesList = Model.ToList()[0] as List<ThingsLostAndFound.Models.Message>;
+    List<int> idNewmsgs = Model.ToList()[1] as List<int>;
 }
 
 <html>
@@ -37,7 +38,23 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Message1)
+                        @{
+                            bool isInList = idNewmsgs.IndexOf(item.Id) != -1;
+
+                            var isInList2 = idNewmsgs.Contains(item.Id);
+
+                            if (isInList)
+                            {
+                                <font color="red">
+                                    @Html.DisplayFor(modelItem => item.Message1)
+                                </font>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Message1)
+                            }
+                         }
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.InfoUser.UserName)

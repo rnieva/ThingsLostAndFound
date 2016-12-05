@@ -22,6 +22,7 @@ namespace ThingsLostAndFound.Controllers
             int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
             int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
             // Only users with roll 1 and the specific user can read their own messages
+            List<int> idNewmsgs = new List<int>();
             if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
             {
                 // search messages from or to ID user
@@ -32,8 +33,10 @@ namespace ThingsLostAndFound.Controllers
                 foreach (var m in newMessagesFlagList)
                 {
                     m.NewMessage = false;
+                    idNewmsgs.Add(m.Id);    // store the value id of new messanges
                 }
                 db.SaveChanges();
+                messagesList.Add(idNewmsgs);
                 //update the cookie with new user data, now the newMessage is false, to change color label new Message
                 bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
                 if (newMessage == true)
