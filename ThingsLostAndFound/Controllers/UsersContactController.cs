@@ -89,7 +89,7 @@ namespace ThingsLostAndFound.Controllers
 
         protected bool sendEmailToUserThatFoundTheObject(string buildBodyEmail, string emailUserLostObject, int id)
         {
-            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient, //here go emailUserLostObject if the user isn´t registerd or emailUserRequest if the user is registerd
+            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient, //here go emailUserLostObject or emailUserFounObject if the user isn´t registerd or emailUserRequest if the user is registerd
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(emailrecipient));
             email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");
@@ -274,13 +274,12 @@ namespace ThingsLostAndFound.Controllers
 
         //Communication for Lost Object
         //TODO: join both communication
-        public ActionResult ContactUserLostObject(int id, string title, string userName, string securityQuestion) //When a user has lost a object and see it in the Found Objects List o Found Object Map, the user uses this method for contact with user that found the object
+        public ActionResult ContactUserLostObject(int id, string title, string userName) //When a user has found a object and see it in the lost Objects List o lost Object Map, the user uses this method for contact with user that lost the object
         {
-            //This info cames from listLO, It show in the form
+            //This info cames from listLO, It show in the form "Hi pal, I have your object"
             ViewBag.idObject = id;
             ViewBag.titleObject = title;
             ViewBag.userName = userName;
-            ViewBag.securityQuestion = securityQuestion;
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
             {
@@ -293,10 +292,46 @@ namespace ThingsLostAndFound.Controllers
                 ViewBag.userIdRequest = userId;
                 ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
                 //If the user is register, it show this view, without email
-                                return View("ContactUserRegisterFoundObject");
+                return View("ContactUserRegisterLostObject");
             }
             //If the user isn´t registered, it show this view with fileds in the form, we need the contact email
             return View();    //show a form to do a request to userFinder
         }
+
+        [HttpPost]
+        public ActionResult SendRequestUser2(int id, string textMessage, string emailUserFoundObject)  //send an email from user found object because he sew it in the lost object list to user that lost the object
+        {
+            //with id from object, search the user that found the object and send him a email
+            var lostObject = db.LostObjects.Find(id);
+            int userIdReport = lostObject.UserIdreported;
+            string nameUserLostObject = lostObject.InfoUser.UserName;
+            string emailUserLostObject = lostObject.InfoUser.Email;
+            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserFoundObject);
+            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
+            {
+                ViewBag.result = "Request sent successfull";
+                //Store in DB data about contact between users, depends if the user is register or not
+                //the user isn´t registered
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = textMessage;
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = null; // null because the user that do the request is not registered
+                msg.UserIdDest = userIdReport; //user that found the object
+                msg.subject = "Lost Object";
+                msg.FoundObjectId = null; 
+                msg.LostObjectId = id; // id object
+                msg.emailAddressUserDontRegis = emailUserFoundObject; // only for user not registered
+                db.Messages.Add(msg);
+                db.SaveChanges();
+            }
+            else
+            {
+                ViewBag.result = "Request don´t sent";
+
+            }
+            return View("SendRequestUser"); // show the view with the result, successfull or not successfull if the email was sended
+        }
+
     }
 }
