@@ -27,7 +27,8 @@ namespace ThingsLostAndFound.Controllers
                 // search messages from or to ID user
                 var testList = db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
                 List<object> messagesList = new List<object>();
-                messagesList.Add(testList); var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
+                messagesList.Add(testList);
+                var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
                 foreach (var m in newMessagesFlagList)
                 {
                     m.NewMessage = false;

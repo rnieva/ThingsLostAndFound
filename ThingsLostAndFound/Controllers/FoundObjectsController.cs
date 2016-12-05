@@ -127,13 +127,31 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FoundObject foundObject = db.FoundObjects.Find(id);
-            if (foundObject == null)
+
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                return HttpNotFound();
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRolNewM = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRolNewM
+                int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
+                FoundObject foundObject = db.FoundObjects.Find(id);
+                if ((foundObject.UserIdreported == userId) || (roll == 1))     // This way, only the user with hus id can see his details
+                {
+                    if (foundObject == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);  
+                    return View(foundObject);
+                }
+                else
+                {
+                    return HttpNotFound();  //TODO: add view reject or error
+                }
             }
-            ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);
-            return View(foundObject);
+            return HttpNotFound();
         }
 
         // POST: FoundObjects/Edit/5
@@ -141,7 +159,7 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,State")] FoundObject foundObject)
+        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,FileId,Img,SecurityQuestion,State")] FoundObject foundObject)
         {
             if (ModelState.IsValid)
             {
@@ -160,12 +178,29 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FoundObject foundObject = db.FoundObjects.Find(id);
-            if (foundObject == null)
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                return HttpNotFound();
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRolNewM = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRolNewM
+                int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
+                FoundObject foundObject = db.FoundObjects.Find(id);
+                if ((foundObject.UserIdreported == userId) || (roll == 1))     // This way, only the user with hus id can see his details
+                { 
+                    if (foundObject == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View(foundObject);
+                }
+                else
+                {
+                    return HttpNotFound();  //TODO: add view reject or error
+                }
             }
-            return View(foundObject);
+            return HttpNotFound();
         }
 
         // POST: FoundObjects/Delete/5

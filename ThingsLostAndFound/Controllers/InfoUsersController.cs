@@ -201,9 +201,12 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             InfoUser infoUser = db.InfoUsers.Find(id);
-            // Message msg = db.Messages.Find(infoUser.MessagesID); //Delete every msgs of this user
-            //db.Messages.Remove(msg);
-            db.InfoUsers.Remove(infoUser);
+            //TODO: delete every msg from to this user
+            //var newMessagesUserList = db.Messages.Where(a => a.UserIdDest == id && a.UserIdSent == id).ToList();
+            //foreach (var m in newMessagesUserList)
+            //{
+            //    db.Messages.Remove(m);
+            //}
             db.SaveChanges();
             return RedirectToAction("Index");
         }
