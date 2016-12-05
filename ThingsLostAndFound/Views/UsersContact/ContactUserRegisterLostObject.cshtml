@@ -3,6 +3,46 @@
     ViewBag.Title = "ContactUserRegisterLostObject";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    int id = ViewBag.idObject;
+    int usetIdRequest = ViewBag.userIdRequest;
+}
+<h2>Contact Use rRegister LostObject</h2>
 
-<h2>ContactUserRegisterLostObject</h2>
+<html>
+<body>
+    <h2>Send a Message to user</h2>
+    <p>
+        Message to <b>@ViewBag.userName</b> from <b>@ViewBag.userNameRequest</b>
+    <p>
+        Object: <b>@ViewBag.titleObject</b>
+    <p>
+        <form id="formMessage" action="/UsersContact/SendRequestRegisteredUser2" method="post">
+            <table>             
+                   <tr>
+                    <td>
+                        @Html.Hidden("id", id)
+                        @Html.Hidden("usetIdRequest", usetIdRequest)
+                        Please, write your message<p></p>
+                        <textarea id="textMessage" class="text" cols="46" rows="10" name="TextMessage"></textarea>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        <p>You are going to send a menssage <input id="menssageCheckUserFoundObject" type="checkbox" required name="menssageCheckUserFoundObject" value="checked"></p>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="submit" type="submit" value="Send Request" />
+                    </td>
+                </tr>
+                </table>
+    </form>
 
+</body>
+</html>
+<script type="text/javascript" language="JavaScript">
+
+</script>
