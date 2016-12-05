@@ -271,5 +271,32 @@ namespace ThingsLostAndFound.Controllers
             }
             return View("SendRequestUser"); //TODO: come back to Messages view
         }
+
+        //Communication for Lost Object
+        //TODO: join both communication
+        public ActionResult ContactUserLostObject(int id, string title, string userName, string securityQuestion) //When a user has lost a object and see it in the Found Objects List o Found Object Map, the user uses this method for contact with user that found the object
+        {
+            //This info cames from listLO, It show in the form
+            ViewBag.idObject = id;
+            ViewBag.titleObject = title;
+            ViewBag.userName = userName;
+            ViewBag.securityQuestion = securityQuestion;
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRolNewM = ticket.UserData.ToString();
+                int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
+                InfoUser userRequest = new InfoUser();
+                userRequest = db.InfoUsers.Find(userId);
+                ViewBag.userIdRequest = userId;
+                ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
+                //If the user is register, it show this view, without email
+                                return View("ContactUserRegisterFoundObject");
+            }
+            //If the user isn´t registered, it show this view with fileds in the form, we need the contact email
+            return View();    //show a form to do a request to userFinder
+        }
     }
 }

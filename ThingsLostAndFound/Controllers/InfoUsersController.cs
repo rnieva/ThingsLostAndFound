@@ -65,7 +65,9 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult AddUser([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,rol")] InfoUser infoUser)
         {
             if (ModelState.IsValid)
-            { 
+            {
+                string passEncrypt = Crypto.Hash(infoUser.UserPass);
+                infoUser.UserPass = passEncrypt;
                 infoUser.Date = DateTime.Now;
                 db.InfoUsers.Add(infoUser);
                 Message msg = new Message();
@@ -98,6 +100,9 @@ namespace ThingsLostAndFound.Controllers
         {
             if (ModelState.IsValid)
             {
+                //TODO: changed type of encrypt 
+                string passEncrypt = Crypto.Hash(infoUser.UserPass);
+                infoUser.UserPass = passEncrypt;
                 infoUser.Rol = 3;
                 infoUser.Date = DateTime.Now;
                 db.InfoUsers.Add(infoUser);

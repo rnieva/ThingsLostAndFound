@@ -219,6 +219,7 @@
       <DependentUpon>TLAFmodel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Crypto.cs" />
     <Compile Include="Security\RoleAuthorizationAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

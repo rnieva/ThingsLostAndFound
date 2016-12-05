@@ -12,7 +12,7 @@ namespace ThingsLostAndFound.Controllers
         private TLAFEntities db = new TLAFEntities();
         // GET: FindMatches
         public ActionResult SearchMatchesInLostObject(FoundObject foundObject)
-        {
+        {   //If the user create a Found Object report it will have be check in Lost Object List
             int Id = foundObject.Id;
             int UserIdreported = foundObject.Id;
             System.DateTime Date = foundObject.Date;
@@ -88,7 +88,7 @@ namespace ThingsLostAndFound.Controllers
         }
 
         public ActionResult SearchMatchesInFoundObject(LostObject lostObject)
-        {
+        {//If the user create a Lost Object report it will have be check in Found Object List
 
             return View();
         }

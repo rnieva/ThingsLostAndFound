@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using ThingsLostAndFound.Models;
+using ThingsLostAndFound.Security;
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -28,10 +29,11 @@ namespace ThingsLostAndFound.Controllers
         [HttpPost]
         public ActionResult Login(Models.InfoUser user)
         {
-                if (IsValid(user.UserName, user.UserPass))
+            string passEncrypt = Crypto.Hash(user.UserPass);
+            if (IsValid(user.UserName, passEncrypt))
                 {
                     //FormsAuthentication.SetAuthCookie(user.UserName, false);    // this action authenticate to user, set to user authenticated at HttpContext.Current.User
-                    string infoUserTicket = GetInfoUserTicket(user.UserName, user.UserPass);
+                    string infoUserTicket = GetInfoUserTicket(user.UserName, passEncrypt);
                     FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
                         user.UserName,
                         DateTime.Now,
@@ -51,16 +53,15 @@ namespace ThingsLostAndFound.Controllers
                 return View(user);
         }
 
-        private bool IsValid(string UserName, string UserPass)
+        private bool IsValid(string UserName, string passEncrypt)
         {
             bool IsValid = false;
-            // TODO: add Encrypt use this to check the credentials
             // TODO: delete this var user.....
-            var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(UserPass)).FirstOrDefault();
+            var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(passEncrypt)).FirstOrDefault();
             var userList = from p in db.InfoUsers select p;
             foreach (var p in userList)
             {
-                if ((p.UserName == UserName) && (p.UserPass == UserPass))
+                if ((p.UserName == UserName) && (p.UserPass == passEncrypt))
                 {
                     IsValid = true;
                 }
@@ -72,7 +73,7 @@ namespace ThingsLostAndFound.Controllers
             return IsValid;
         }
 
-        private string GetInfoUserTicket(string UserName, string UserPass)
+        private string GetInfoUserTicket(string UserName, string passEncrypt)
         {
             string infoUserTicket = "0";
             string rol = "";
@@ -80,7 +81,7 @@ namespace ThingsLostAndFound.Controllers
             string newMessage = "";
             InfoUser user = new InfoUser();
             Message messageNew = new Message();
-            if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(UserPass)).FirstOrDefault()) != null)
+            if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(passEncrypt)).FirstOrDefault()) != null)
             {
                 id = user.Id.ToString();
                 rol = user.Rol.ToString();
