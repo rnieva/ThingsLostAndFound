@@ -156,7 +156,7 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,Rol,Date")] InfoUser infoUser)
+        public ActionResult Edit([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,Rol,Date")] InfoUser infoUser, string oldPass, string newPass, string newPass2)
         {
             if (ModelState.IsValid)
             {
@@ -165,6 +165,66 @@ namespace ThingsLostAndFound.Controllers
                 return RedirectToAction("Index");
             }
             return View(infoUser);
+        }
+
+        
+        public ActionResult ChangePass(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ChangePass(int id, string oldPass, string newPass, string newPass2)
+        {
+            ViewBag.id = id;
+            InfoUser infoUser = new InfoUser();
+            infoUser = db.InfoUsers.Find(id);
+            string oldPassEncrypt = Crypto.Hash(oldPass);
+            string passNewEncrypt = Crypto.Hash(newPass);
+            string passNew2Encrypt = Crypto.Hash(newPass2);
+            if (oldPassEncrypt == infoUser.UserPass)
+            {
+                if (oldPassEncrypt == passNewEncrypt)
+                {
+                    ViewBag.msgPass = "The same password";
+                    return View();
+                }
+                else
+                {
+                    if (passNewEncrypt == passNew2Encrypt)
+                    {
+
+                        infoUser.UserPass = passNewEncrypt;
+                        db.Entry(infoUser).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.msgPass = "It´s not the same password";
+                        return View();
+                    }
+
+                }
+            }
+            else
+            {
+                ViewBag.msgPass = "Wrong Password";
+                return View();
+            }
+        }
+
+        public ActionResult sendNewPassByEmail(int? id)
+        {
+            InfoUser infoUser = new InfoUser();
+            infoUser = db.InfoUsers.Find(id);
+            string newPass = "1234"; //TODO: generate a random password
+            string newPassEn = Crypto.Hash(newPass);
+            infoUser.UserPass = newPassEn;
+            //TODO: send email with the new password (newPass) and tell that change the password for security
+            // If email okay show a view okay if not shoe noOk view
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: InfoUsers/Delete/5

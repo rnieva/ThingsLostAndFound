@@ -16,6 +16,7 @@ namespace ThingsLostAndFound.Models
             public string UserName { get; set; }
 
             [Display(Name = "User Password")]
+            [MinLength(4)]
             [Required(ErrorMessage = "UserPass is required")]
             public string UserPass { get; set; }
 

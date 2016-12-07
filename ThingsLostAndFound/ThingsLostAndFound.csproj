@@ -313,6 +313,7 @@
     <Content Include="Views\UsersContact\SendMessage.cshtml" />
     <Content Include="Views\UsersContact\ContactUserLostObject.cshtml" />
     <Content Include="Views\UsersContact\ContactUserRegisterLostObject.cshtml" />
+    <Content Include="Views\InfoUsers\ChangePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

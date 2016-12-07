@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "ChangePass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<body>
+    <h2>ChangePass</h2>
+    <font size="3" color="red">@ViewBag.msgPass</font>
+    <form id="changePass" action="/InfoUsers/ChangePass/@ViewBag.id" method="post">
+        @Html.AntiForgeryToken()
+        Enter old pass: <input type="password" name="oldPass" value="" class="form-control"><br>
+        Enter new pass: <input type="password" name="newPass" value="" class="form-control"><br>
+        Repeat new pass: <input type="password" name="newPass2" value="" class="form-control"><br>
+        <input type="submit" value="Change Pass" class="btn btn-default" />
+    </form>
+    <br /><br /><br /><br />
+    <div>
+        @Html.ActionLink("Back to Index", "Index", "Home")
+    </div>
+</body>
+</html>
+
