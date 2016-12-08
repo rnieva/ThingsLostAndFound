@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -197,7 +198,32 @@ namespace ThingsLostAndFound.Controllers
 
                         infoUser.UserPass = passNewEncrypt;
                         db.Entry(infoUser).State = EntityState.Modified;
+                        //db.SaveChanges();
+                        string textMessage = "Password changed";
+                        Message msg = new Message();
+                        msg.NewMessage = true;
+                        msg.Message1 = textMessage;
+                        msg.dateMessage = DateTime.Now;
+                        msg.UserIdSent = 1; // admin
+                        msg.UserIdDest = id; //user that found the object
+                        msg.subject = "Support";
+                        msg.FoundObjectId = null; // id object
+                        msg.LostObjectId = null;
+                        msg.emailAddressUserDontRegis = null; // only for user not registered
+                        db.Messages.Add(msg);
                         db.SaveChanges();
+                        string emailUserSend = "emailSupport@TLAF.com";
+                        string emailRecipient = infoUser.Email;
+                        string emailSubject = "Subject: Support - Pass changed " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                        string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, "Admin", emailUserSend);
+                        if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                        { 
+                            //return RedirectToAction("Logout", "Login");
+                        }
+                        else
+                        {
+                            // Error sending email but new pass changed
+                        }
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -222,11 +248,32 @@ namespace ThingsLostAndFound.Controllers
             string newPass = Crypto.RandomString(6); //TODO: generate a random password
             string newPassEn = Crypto.Hash(newPass);
             infoUser.UserPass = newPassEn;
-            //db.Entry(infoUser).State = EntityState.Modified;
-            //db.SaveChanges();
-            //TODO: send email with the new password (newPass) and tell that change the password for security
-            // If email okay show a view okay if not shoe noOk view, and add a msg for the user
-
+            db.Entry(infoUser).State = EntityState.Modified;
+            Message msg = new Message();
+            msg.NewMessage = true;
+            msg.Message1 = "New Password sent by email, please change your new password";
+            msg.dateMessage = DateTime.Now;
+            msg.UserIdSent = 1; // admin
+            msg.UserIdDest = id; //user that found the object
+            msg.subject = "Support";
+            msg.FoundObjectId = null; // id object
+            msg.LostObjectId = null;
+            msg.emailAddressUserDontRegis = null; // only for user not registered
+            db.Messages.Add(msg);
+            db.SaveChanges();
+            string emailUserSend = "emailSupport@TLAF.com";
+            string emailRecipient = infoUser.Email;
+            string emailSubject = "Subject: Support - New Pass " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            string textMessage = "New Password: " + newPass + " , please change your new password";
+            string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, "Admin", emailUserSend);
+            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+            { 
+                //return RedirectToAction("Logout", "Login");
+            }
+            else
+            {
+                // Error sending email but new pass saved
+            }
             return RedirectToAction("Index", "Home");
         }
 

@@ -258,18 +258,6 @@ namespace ThingsLostAndFound.Controllers
             return View();
         }
 
-        public string BuildBodyEmail2(string textMessage, string nameUserSend, string emailUserLostObject)
-        {
-            string buildBodyEmail = "";
-            buildBodyEmail = "Request from:<b> " + nameUserSend + " email: " + emailUserLostObject + "</b><br>"
-                       + "<b>Message:</b><br> " + textMessage + "<br>"
-                       + "---------------------------------------------------------<br>"
-                       + "Thanks for your help, please answer email<b> " + emailUserLostObject + "</b><br>"
-                       + "----------------------------------------------------------<br><br>"
-                       + "Message sent: " + DateTime.Now.ToShortDateString();
-            return buildBodyEmail;
-        }
-
         [HttpPost]
         public ActionResult SendMessage2(int id, int userSendMsg, int userDestMsg, string subject, string textMessage)
         {   // this Action send the message
