@@ -219,11 +219,14 @@ namespace ThingsLostAndFound.Controllers
         {
             InfoUser infoUser = new InfoUser();
             infoUser = db.InfoUsers.Find(id);
-            string newPass = "1234"; //TODO: generate a random password
+            string newPass = Crypto.RandomString(6); //TODO: generate a random password
             string newPassEn = Crypto.Hash(newPass);
             infoUser.UserPass = newPassEn;
+            //db.Entry(infoUser).State = EntityState.Modified;
+            //db.SaveChanges();
             //TODO: send email with the new password (newPass) and tell that change the password for security
-            // If email okay show a view okay if not shoe noOk view
+            // If email okay show a view okay if not shoe noOk view, and add a msg for the user
+
             return RedirectToAction("Index", "Home");
         }
 

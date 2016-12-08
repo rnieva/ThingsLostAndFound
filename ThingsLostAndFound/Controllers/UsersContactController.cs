@@ -7,13 +7,15 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using ThingsLostAndFound.Models;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class UsersContactController : Controller    // This controller do the communication with users
     {
         private TLAFEntities db = new TLAFEntities();
-        // GET: UsersContact
+
+        //Communication for Found Object, from users LO to users FO
         public ActionResult ContactUserFoundObject(int id, string title, string userName, string securityQuestion) //When a user has lost a object and see it in the Found Objects List o Found Object Map, the user uses this method for contact with user that found the object
         {
             //This info cames from listFO, It show in the form
@@ -47,9 +49,10 @@ namespace ThingsLostAndFound.Controllers
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
             string nameUserFounfObject = foundObject.InfoUser.UserName;
-            string emailUserFoundObject = foundObject.InfoUser.Email;
-            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserLostObject);
-            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
+            string emailRecipient = foundObject.InfoUser.Email;
+            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            string emailBody = sendEmail.BuildBodyEmailUserLOToUserFO(textMessage, emailUserLostObject);
+            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
@@ -75,49 +78,6 @@ namespace ThingsLostAndFound.Controllers
             return View(); // show the view with the result, successfull or not successfull if the email was sended
         }
 
-        public string BuildBodyEmail(string textMessage, string emailUserLostObject)
-        {
-            string buildBodyEmail = "";
-            buildBodyEmail = "Request from:<b> " + emailUserLostObject + "</b><br>"
-                       + "<b>Message:</b><br> " + textMessage + "<br>"
-                       + "---------------------------------------------------------<br>"
-                       + "Thanks for your help, please answer email<b> " + emailUserLostObject + "</b><br>"
-                       + "----------------------------------------------------------<br><br>"
-                       + "Message sent: " + DateTime.Now.ToShortDateString();
-            return buildBodyEmail;
-        }
-        //TODO: changed the name of this method because it used from Lost and Found object list
-        protected bool sendEmailToUserThatFoundTheObject(string buildBodyEmail, string emailUserLostObject, int id)
-        {
-            string emailrecipient = System.Configuration.ConfigurationManager.AppSettings["testRecipientEmailCredentialvalue"];  //email recipient, //here go emailUserLostObject or emailUserFounObject if the user isn´t registerd or emailUserRequest if the user is registerd
-            MailMessage email = new MailMessage();
-            email.To.Add(new MailAddress(emailrecipient));
-            email.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], "ThingsLostAndFound");
-            email.Subject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            email.Body = buildBodyEmail;
-            email.IsBodyHtml = true;
-            email.Priority = MailPriority.Normal;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.live.com";
-            smtp.Port = 25;
-            smtp.EnableSsl = true;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(System.Configuration.ConfigurationManager.AppSettings["emailCredentialvalue"], System.Configuration.ConfigurationManager.AppSettings["passEmailCredentialvalue"]); // email and pass user
-            try
-            {
-                smtp.Send(email);
-                email.Dispose();
-                System.Diagnostics.Debug.WriteLine("Email sent");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error to sent email: " + ex.Message);
-                return false;
-            }
-
-        }
-
         [HttpPost]
         public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)
         {
@@ -126,12 +86,13 @@ namespace ThingsLostAndFound.Controllers
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
             string nameUserFounfObject = foundObject.InfoUser.UserName;
-            string emailUserFoundObject = foundObject.InfoUser.Email;
+            string emailRecipient = foundObject.InfoUser.Email;
             //with userIdReport from user that do the request, search the email of user
             var userRequest = db.InfoUsers.Find(usetIdRequest);
-            string emailUserRequest = userRequest.Email;
-            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserRequest);
-            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserRequest, id) == true)
+            string emailUserLostObject = userRequest.Email; 
+            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            string emailBody = sendEmail.BuildBodyEmailUserLOToUserFO(textMessage, emailUserLostObject);
+            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
@@ -157,7 +118,7 @@ namespace ThingsLostAndFound.Controllers
             return View("SendRequestUser"); //TODO: come back to Messages view
         }
 
-        //Communication for Lost Object
+        //Communication for Lost Object, from users FO to users LO
         //TODO: join both communication
         public ActionResult ContactUserLostObject(int id, string title, string userName) //When a user has found a object and see it in the lost Objects List o lost Object Map, the user uses this method for contact with user that lost the object
         {
@@ -190,9 +151,10 @@ namespace ThingsLostAndFound.Controllers
             var lostObject = db.LostObjects.Find(id);
             int userIdReport = lostObject.UserIdreported;
             string nameUserLostObject = lostObject.InfoUser.UserName;
-            string emailUserLostObject = lostObject.InfoUser.Email;
-            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserFoundObject);
-            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserLostObject, id) == true)
+            string emailRecipient = lostObject.InfoUser.Email;
+            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            string emailBody = sendEmail.BuildBodyEmailUserFOToUserLO(textMessage, emailUserFoundObject);
+            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
@@ -224,13 +186,14 @@ namespace ThingsLostAndFound.Controllers
             //with id from object, search the user that found the object and send him a email
             var lostObject = db.LostObjects.Find(id);
             int userIdReport = lostObject.UserIdreported;
-            string nameUserFounfObject = lostObject.InfoUser.UserName;
-            string emailUserFoundObject = lostObject.InfoUser.Email;
-            //with userIdReport from user that do the request, search the email of user
+            string nameUserLostObject = lostObject.InfoUser.UserName;
+            string emailRecipient = lostObject.InfoUser.Email;
+            //with userIdReport from user that do the request, search the address email 
             var userRequest = db.InfoUsers.Find(usetIdRequest);
             string emailUserRequest = userRequest.Email;
-            string buildBodyEmail = BuildBodyEmail(textMessage, emailUserRequest);
-            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserRequest, id) == true)
+            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            string emailBody = sendEmail.BuildBodyEmailUserFOToUserLO(textMessage, emailUserRequest);
+            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB data about contact between users, depends if the user is register or not
@@ -325,16 +288,16 @@ namespace ThingsLostAndFound.Controllers
                         title = lostObject.Title;
                         break;
                 }
-            } //TODO: use title or remove
-
+            } 
             var infouser = db.InfoUsers.Find(userSendMsg);
             string emailUserSend = infouser.Email;
             string nameUserSend = infouser.UserName;
             infouser = db.InfoUsers.Find(userDestMsg);
-            string emailUserDest = infouser.Email;
+            string emailRecipient = infouser.Email; //emailUserDest
             string nameUserDest = infouser.UserName;
-            string buildBodyEmail = BuildBodyEmail2(textMessage, nameUserSend, emailUserSend);
-            if (sendEmailToUserThatFoundTheObject(buildBodyEmail, emailUserSend, id) == true)
+            string emailSubject = "Subject: " + subject + " Object: "+ title + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, nameUserSend, emailUserSend);
+            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
             {
                 ViewBag.result = "Request sent successfull";
                 //Store in DB the message between the users

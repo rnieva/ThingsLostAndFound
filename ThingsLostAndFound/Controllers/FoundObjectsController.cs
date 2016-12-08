@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
@@ -96,7 +97,6 @@ namespace ThingsLostAndFound.Controllers
                     db.Files.Add(file);
                 }
                 db.FoundObjects.Add(foundObject);
-
                 Message msg = new Message();
                 msg.NewMessage = true;
                 msg.Message1 = "Found Object added to list";
@@ -108,9 +108,19 @@ namespace ThingsLostAndFound.Controllers
                 msg.LostObjectId = null;
                 msg.emailAddressUserDontRegis = null; // only for user not registered
                 db.Messages.Add(msg);
-
                 db.SaveChanges();
-                //sendEmailFoundObject(foundObject);
+                string emailBody = sendEmail.BuildBodyEmailNewFO(foundObject);
+                string emailSubject = foundObject.Id + "# Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                string emailRecipient = infoUser.Email;
+                if (sendEmail.sendEmailUser(emailBody,emailSubject, emailRecipient) == true)
+                {
+                    return RedirectToAction("SearchMatchesInLostObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(foundObject)); // I use 2RouteValueDictionary" to pass a value of this type
+                }
+                else
+                {
+                    //error send email
+                }
                 //return RedirectToAction("Index");
                 // After the user has created a report, always check if there is any coincidences with data in the DB 
                 return RedirectToAction("SearchMatchesInLostObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(foundObject) ); // I use 2RouteValueDictionary" to pass a value of this type

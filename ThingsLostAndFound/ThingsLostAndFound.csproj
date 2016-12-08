@@ -221,6 +221,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Crypto.cs" />
     <Compile Include="Security\RoleAuthorizationAttribute.cs" />
+    <Compile Include="Services\sendEmail.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\TLAF.mdf" />
