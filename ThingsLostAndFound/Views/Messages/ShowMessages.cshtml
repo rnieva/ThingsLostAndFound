@@ -33,13 +33,16 @@
                 <td>
                     @Html.Label("Response")
                 </td>
+                <td>
+                    @Html.Label("Delete")
+                </td>
             </tr>
             @foreach (var item in messagesList)
             {
                 <tr>
                     <td>
                         @{
-                            bool isInList = idNewmsgs.IndexOf(item.Id) != -1;
+                            bool isInList = idNewmsgs.IndexOf(item.Id) != -1;   //check if the msg is new
 
                             var isInList2 = idNewmsgs.Contains(item.Id);
 
@@ -92,7 +95,7 @@
                             }
                             else
                             {
-                                int idtemp = 0;
+                                int idtemp = 0; // Msg Support 
                                 if (item.subject == "Found Object")
                                 {
                                     idtemp = item.FoundObjectId.Value;
@@ -114,6 +117,9 @@
                             }
                         }
                         
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteMessages", new { id = item.Id })
                     </td>
                 </tr>
                 }

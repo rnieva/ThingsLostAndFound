@@ -317,6 +317,7 @@ namespace ThingsLostAndFound.Controllers
             //{
             //    db.Messages.Remove(m);
             //}
+            db.InfoUsers.Remove(infoUser);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

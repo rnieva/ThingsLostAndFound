@@ -58,7 +58,24 @@ namespace ThingsLostAndFound.Controllers
             {
                 return HttpNotFound();  //TODO: add view reject or error
             }
-                
+
+        }
+
+        public ActionResult DeleteMessages(int id) // id Message to delete
+        {
+            //delete Message
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            string infoUserIdRolNewM = ticket.UserData.ToString();
+            int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+
+            Message mgsForDelete = new Message();
+            mgsForDelete = db.Messages.Find(id);
+            db.Messages.Remove(mgsForDelete);
+            db.SaveChanges();
+
+
+            return RedirectToAction("ShowMessages", new { id = userId }); // add id user
         }
     }
 }
