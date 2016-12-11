@@ -98,6 +98,8 @@
     <Property Name="dateMessage" Type="datetime" />
     <Property Name="emailAddressUserDontRegis" Type="nvarchar" MaxLength="50" />
     <Property Name="LostObjectId" Type="int" />
+    <Property Name="ShowMsgUserId1" Type="int" />
+    <Property Name="ShowMsgUserId2" Type="int" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />

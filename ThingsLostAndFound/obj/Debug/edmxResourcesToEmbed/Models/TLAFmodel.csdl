@@ -238,6 +238,8 @@
     <NavigationProperty Name="InfoUser" Relationship="TLAFModel.FK_Messages_ToTable" FromRole="Message" ToRole="InfoUser" />
     <NavigationProperty Name="InfoUser1" Relationship="TLAFModel.FK_Messages_ToTable_1" FromRole="Message" ToRole="InfoUser" />
     <NavigationProperty Name="LostObject" Relationship="TLAFModel.FK_Messages_ToTable_3" FromRole="Message" ToRole="LostObject" />
+    <Property Name="ShowMsgUserId1" Type="Int32" />
+    <Property Name="ShowMsgUserId2" Type="Int32" />
   </EntityType>
   <Association Name="FK_Messages_ToTable_2">
     <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="0..1" />

@@ -38,6 +38,10 @@ public partial class Message
 
     public Nullable<int> LostObjectId { get; set; }
 
+    public Nullable<int> ShowMsgUserId1 { get; set; }
+
+    public Nullable<int> ShowMsgUserId2 { get; set; }
+
 
 
     public virtual FoundObject FoundObject { get; set; }

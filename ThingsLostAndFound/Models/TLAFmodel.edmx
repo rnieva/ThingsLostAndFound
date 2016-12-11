@@ -103,6 +103,8 @@
           <Property Name="dateMessage" Type="datetime" />
           <Property Name="emailAddressUserDontRegis" Type="nvarchar" MaxLength="50" />
           <Property Name="LostObjectId" Type="int" />
+          <Property Name="ShowMsgUserId1" Type="int" />
+          <Property Name="ShowMsgUserId2" Type="int" />
         </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
@@ -514,6 +516,8 @@
           <NavigationProperty Name="InfoUser" Relationship="TLAFModel.FK_Messages_ToTable" FromRole="Message" ToRole="InfoUser" />
           <NavigationProperty Name="InfoUser1" Relationship="TLAFModel.FK_Messages_ToTable_1" FromRole="Message" ToRole="InfoUser" />
           <NavigationProperty Name="LostObject" Relationship="TLAFModel.FK_Messages_ToTable_3" FromRole="Message" ToRole="LostObject" />
+          <Property Name="ShowMsgUserId1" Type="Int32" />
+          <Property Name="ShowMsgUserId2" Type="Int32" />
         </EntityType>
         <Association Name="FK_Messages_ToTable_2">
           <End Type="TLAFModel.FoundObject" Role="FoundObject" Multiplicity="0..1" />
@@ -661,6 +665,8 @@
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="TLAFModel.Message">
               <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="ShowMsgUserId2" ColumnName="ShowMsgUserId2" />
+                <ScalarProperty Name="ShowMsgUserId1" ColumnName="ShowMsgUserId1" />
                 <ScalarProperty Name="LostObjectId" ColumnName="LostObjectId" />
                 <ScalarProperty Name="emailAddressUserDontRegis" ColumnName="emailAddressUserDontRegis" />
                 <ScalarProperty Name="dateMessage" ColumnName="dateMessage" />

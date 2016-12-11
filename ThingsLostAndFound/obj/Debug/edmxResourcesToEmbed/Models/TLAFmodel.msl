@@ -93,6 +93,8 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="TLAFModel.Message">
         <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="ShowMsgUserId2" ColumnName="ShowMsgUserId2" />
+          <ScalarProperty Name="ShowMsgUserId1" ColumnName="ShowMsgUserId1" />
           <ScalarProperty Name="LostObjectId" ColumnName="LostObjectId" />
           <ScalarProperty Name="emailAddressUserDontRegis" ColumnName="emailAddressUserDontRegis" />
           <ScalarProperty Name="dateMessage" ColumnName="dateMessage" />
