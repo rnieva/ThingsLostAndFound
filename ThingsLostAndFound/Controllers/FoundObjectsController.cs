@@ -22,7 +22,8 @@ namespace ThingsLostAndFound.Controllers
         // GET: FoundObjects
         public ActionResult Index()
         {
-            var foundObjects = db.FoundObjects.Include(f => f.InfoUser);
+            //var foundObjects = db.FoundObjects.Include(f => f.InfoUser);
+            var foundObjects= db.FoundObjects.Where(f => f.State == false);
             return View(foundObjects.ToList());
         }
 

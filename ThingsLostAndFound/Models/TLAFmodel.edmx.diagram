@@ -7,13 +7,13 @@
       <Diagram DiagramId="4f93a2d6f6654bbe854b19729e1868c6" Name="Diagram1" ZoomLevel="80">
         <EntityTypeShape EntityType="TLAFModel.InfoUser" Width="1.5" PointX="4" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TLAFModel.FoundObject" Width="1.5" PointX="0.5" PointY="0.875" />
-        <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="4" PointY="8.25" />
+        <EntityTypeShape EntityType="TLAFModel.LostAndFoundObject" Width="1.5" PointX="4" PointY="8.875" />
         <EntityTypeShape EntityType="TLAFModel.LostObject" Width="1.5" PointX="7.75" PointY="0.875" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable_1" />
         <AssociationConnector Association="TLAFModel.FK_LostObjects_ToTable" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable" />
-        <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="4" PointY="11.125" />
+        <EntityTypeShape EntityType="TLAFModel.File" Width="1.5" PointX="4" PointY="11.75" />
         <AssociationConnector Association="TLAFModel.FK_FoundObjects_ToTable_1" />
         <AssociationConnector Association="TLAFModel.FK_LostObjects_ToTable_1" />
         <EntityTypeShape EntityType="TLAFModel.Message" Width="1.5" PointX="4" PointY="4.375" />
