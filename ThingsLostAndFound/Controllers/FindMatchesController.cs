@@ -33,69 +33,63 @@ namespace ThingsLostAndFound.Controllers
             
             int numberResults = 0;
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
-            var listLostObjects = from p in db.LostObjects select p;
-
-            var LostObjectMatchesList2 = from p in db.LostObjects where p.Category == Category select p;
-            var LostObjectMatchesList3 = from p in db.LostObjects where p.Category == Category && p.Location == Location select p;
-
-            foreach (var p in listLostObjects)
+            // check matches from much coincidences to less coincidences
+            LostObjectMatchesList = (from p in db.LostObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+            if (LostObjectMatchesList.Count == 0)
             {
-                if (p.Category == Category)
+                LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+                if (LostObjectMatchesList.Count == 0)
                 {
-                    switch (p.Category) // Depens category the filters are different
+                    LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Location == Location select p).ToList();
+                    if (LostObjectMatchesList.Count == 0)
                     {
-                        case "Animals Pets":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Bags, Luggage":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Clothing":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Electronics":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Jewelry":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Toys":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Tickets":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        case "Personal":
-                            LostObjectMatchesList.Add(p);
-                            numberResults++;
-                            break;
-                        default:
-                            System.Diagnostics.Debug.WriteLine("Not coincidences");
-                            ViewBag.msg = "Not coincidences";
-                            break;
+                        LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category select p).ToList();
                     }
                 }
-                //if (p.Category == Category)
-                //{
-                //    LostObjectMatchesList.Add(p);
-                //    numberResults++;
-                //}
             }
+            numberResults = LostObjectMatchesList.Count;
             ViewData["numberResults"] = numberResults;
-            return View(LostObjectMatchesList2);
+            return View(LostObjectMatchesList);
         }
 
         public ActionResult SearchMatchesInFoundObject(LostObject lostObject)
         {//If the user create a Lost Object report it will have be check in Found Object List
+            int Id = lostObject.Id;
+            int UserIdreported = lostObject.Id;
+            System.DateTime Date = lostObject.Date;
+            string Category = lostObject.Category;
+            string Brand = lostObject.Brand;
+            string Model = lostObject.Model;
+            string SerialID = lostObject.SerialID;
+            string Title = lostObject.Title;
+            string Color = lostObject.Color;
+            string Observations = lostObject.Observations;
+            string Address = lostObject.Address;
+            string ZipCode = lostObject.ZipCode;
+            string MapLocation = lostObject.MapLocation;
+            string LocationObservations = lostObject.LocationObservations;
+            string Location = lostObject.Location;
+            string CityTownRoad = lostObject.CityTownRoad;
 
-            return View();
+            int numberResults = 0;
+            List<FoundObject> FoundObjectMatchesList = new List<FoundObject>();
+            // check matches from much coincidences to less coincidences
+            FoundObjectMatchesList = (from p in db.FoundObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+            if (FoundObjectMatchesList.Count == 0)
+            {
+                FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+                if (FoundObjectMatchesList.Count == 0)
+                {
+                    FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Location == Location select p).ToList();
+                    if (FoundObjectMatchesList.Count == 0)
+                    {
+                        FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category select p).ToList();
+                    }
+                }
+            }
+            numberResults = FoundObjectMatchesList.Count;
+            ViewData["numberResults"] = numberResults;
+            return View(FoundObjectMatchesList);
         }
     }
 }

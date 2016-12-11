@@ -1,11 +1,10 @@
-﻿@model IEnumerable<ThingsLostAndFound.Models.LostObject>
-
+﻿@model IEnumerable<ThingsLostAndFound.Models.FoundObject>
 @{
-    ViewBag.Title = "SearchMatchesInLostObject";
+    ViewBag.Title = "SearchMatchesInFoundObject";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Search Matches In Lost Object</h2>
+<h2>SearchMatchesInFoundObject</h2>
 
 @{
     int results = (int)ViewData["numberResults"];
@@ -76,7 +75,6 @@
                 </th>
                 <th></th>
             </tr>
-
             @foreach (var item in Model)
             {
                 <tr>
@@ -140,15 +138,13 @@
                         @Html.DisplayFor(modelItem => item.File.FileName)
                     </td>
                     <td>
-                        @Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName }, null)
+                        @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName }, null)
                         <p></p>
-                        @Html.ActionLink("Details", "Details", "LostObjects", new { id = item.Id }, null)
+                        @Html.ActionLink("Details", "Details", "FoundObjects", new { id = item.Id }, null)
                     </td>
-
                 </tr>
-            }
+                 }
         </table>
-    }
+         }
     @Html.ActionLink("Home", "Index", "Home")
 }
-
