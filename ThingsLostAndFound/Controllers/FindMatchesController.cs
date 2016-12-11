@@ -34,6 +34,10 @@ namespace ThingsLostAndFound.Controllers
             int numberResults = 0;
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
             var listLostObjects = from p in db.LostObjects select p;
+
+            var LostObjectMatchesList2 = from p in db.LostObjects where p.Category == Category select p;
+            var LostObjectMatchesList3 = from p in db.LostObjects where p.Category == Category && p.Location == Location select p;
+
             foreach (var p in listLostObjects)
             {
                 if (p.Category == Category)
@@ -74,6 +78,7 @@ namespace ThingsLostAndFound.Controllers
                             break;
                         default:
                             System.Diagnostics.Debug.WriteLine("Not coincidences");
+                            ViewBag.msg = "Not coincidences";
                             break;
                     }
                 }
@@ -84,7 +89,7 @@ namespace ThingsLostAndFound.Controllers
                 //}
             }
             ViewData["numberResults"] = numberResults;
-            return View(LostObjectMatchesList);
+            return View(LostObjectMatchesList2);
         }
 
         public ActionResult SearchMatchesInFoundObject(LostObject lostObject)

@@ -221,6 +221,8 @@ namespace ThingsLostAndFound.Controllers
             FoundObject foundObject = db.FoundObjects.Find(id);
             var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             db.Files.Remove(file);
+            var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
+            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object
             db.FoundObjects.Remove(foundObject);
             db.SaveChanges();
             return RedirectToAction("Index");
