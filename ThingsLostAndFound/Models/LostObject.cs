@@ -22,9 +22,9 @@ public partial class LostObject
     public LostObject()
     {
 
-        this.LostAndFoundObjects = new HashSet<LostAndFoundObject>();
-
         this.Messages = new HashSet<Message>();
+
+        this.LostAndFoundObjects = new HashSet<LostAndFoundObject>();
 
     }
 
@@ -73,15 +73,15 @@ public partial class LostObject
 
     public virtual InfoUser InfoUser { get; set; }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<LostAndFoundObject> LostAndFoundObjects { get; set; }
-
     public virtual File File { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Message> Messages { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<LostAndFoundObject> LostAndFoundObjects { get; set; }
 
 }
 

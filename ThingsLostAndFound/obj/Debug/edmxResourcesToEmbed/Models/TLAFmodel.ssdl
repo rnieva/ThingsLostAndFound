@@ -53,11 +53,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserIdreportedLost" Type="int" Nullable="false" />
-    <Property Name="UserIdreportFound" Type="int" Nullable="false" />
+    <Property Name="UserIdreportedLost" Type="int" />
+    <Property Name="UserIdreportFound" Type="int" />
     <Property Name="date" Type="date" Nullable="false" />
-    <Property Name="ObjectIDLost" Type="int" Nullable="false" />
-    <Property Name="ObjectIDFound" Type="int" Nullable="false" />
+    <Property Name="ObjectIDLost" Type="int" />
+    <Property Name="ObjectIDFound" Type="int" />
+    <Property Name="ContactNameuser" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="LostObjects">
     <Key>
@@ -125,8 +126,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_LostAndFoundObject_ToTable">
-    <End Role="LostObjects" Type="Self.LostObjects" Multiplicity="1" />
+  <Association Name="FK_LostAndFoundObject_ToTable_">
+    <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="0..1" />
+    <End Role="LostAndFoundObject" Type="Self.LostAndFoundObject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoundObjects">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LostAndFoundObject">
+        <PropertyRef Name="ObjectIDFound" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LostAndFoundObject_ToTable_1">
+    <End Role="LostObjects" Type="Self.LostObjects" Multiplicity="0..1" />
     <End Role="LostAndFoundObject" Type="Self.LostAndFoundObject" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LostObjects">
@@ -137,15 +150,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_LostAndFoundObject_ToTable_1">
-    <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="1" />
+  <Association Name="FK_LostAndFoundObject_ToTable_2">
+    <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="0..1" />
     <End Role="LostAndFoundObject" Type="Self.LostAndFoundObject" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="FoundObjects">
+      <Principal Role="InfoUsers">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="LostAndFoundObject">
-        <PropertyRef Name="ObjectIDFound" />
+        <PropertyRef Name="UserIdreportedLost" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LostAndFoundObject_ToTable_3">
+    <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="0..1" />
+    <End Role="LostAndFoundObject" Type="Self.LostAndFoundObject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InfoUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LostAndFoundObject">
+        <PropertyRef Name="UserIdreportFound" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -236,12 +261,20 @@
       <End Role="File" EntitySet="File" />
       <End Role="FoundObjects" EntitySet="FoundObjects" />
     </AssociationSet>
-    <AssociationSet Name="FK_LostAndFoundObject_ToTable" Association="Self.FK_LostAndFoundObject_ToTable">
-      <End Role="LostObjects" EntitySet="LostObjects" />
+    <AssociationSet Name="FK_LostAndFoundObject_ToTable_" Association="Self.FK_LostAndFoundObject_ToTable_">
+      <End Role="FoundObjects" EntitySet="FoundObjects" />
       <End Role="LostAndFoundObject" EntitySet="LostAndFoundObject" />
     </AssociationSet>
     <AssociationSet Name="FK_LostAndFoundObject_ToTable_1" Association="Self.FK_LostAndFoundObject_ToTable_1">
-      <End Role="FoundObjects" EntitySet="FoundObjects" />
+      <End Role="LostObjects" EntitySet="LostObjects" />
+      <End Role="LostAndFoundObject" EntitySet="LostAndFoundObject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LostAndFoundObject_ToTable_2" Association="Self.FK_LostAndFoundObject_ToTable_2">
+      <End Role="InfoUsers" EntitySet="InfoUsers" />
+      <End Role="LostAndFoundObject" EntitySet="LostAndFoundObject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LostAndFoundObject_ToTable_3" Association="Self.FK_LostAndFoundObject_ToTable_3">
+      <End Role="InfoUsers" EntitySet="InfoUsers" />
       <End Role="LostAndFoundObject" EntitySet="LostAndFoundObject" />
     </AssociationSet>
     <AssociationSet Name="FK_LostObjects_ToTable" Association="Self.FK_LostObjects_ToTable">

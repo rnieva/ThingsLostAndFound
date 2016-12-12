@@ -20,17 +20,23 @@ public partial class LostAndFoundObject
 
     public int Id { get; set; }
 
-    public int UserIdreportedLost { get; set; }
+    public Nullable<int> UserIdreportedLost { get; set; }
 
-    public int UserIdreportFound { get; set; }
+    public Nullable<int> UserIdreportFound { get; set; }
 
     public System.DateTime date { get; set; }
 
-    public int ObjectIDLost { get; set; }
+    public Nullable<int> ObjectIDLost { get; set; }
 
-    public int ObjectIDFound { get; set; }
+    public Nullable<int> ObjectIDFound { get; set; }
+
+    public string ContactNameuser { get; set; }
 
 
+
+    public virtual InfoUser InfoUser { get; set; }
+
+    public virtual InfoUser InfoUser1 { get; set; }
 
     public virtual FoundObject FoundObject { get; set; }
 

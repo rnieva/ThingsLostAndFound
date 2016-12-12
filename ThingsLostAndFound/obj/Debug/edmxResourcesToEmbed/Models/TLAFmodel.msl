@@ -44,6 +44,7 @@
     <EntitySetMapping Name="LostAndFoundObjects">
       <EntityTypeMapping TypeName="TLAFModel.LostAndFoundObject">
         <MappingFragment StoreEntitySet="LostAndFoundObject">
+          <ScalarProperty Name="ContactNameuser" ColumnName="ContactNameuser" />
           <ScalarProperty Name="ObjectIDFound" ColumnName="ObjectIDFound" />
           <ScalarProperty Name="ObjectIDLost" ColumnName="ObjectIDLost" />
           <ScalarProperty Name="date" ColumnName="date" />

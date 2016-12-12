@@ -217,15 +217,24 @@ namespace ThingsLostAndFound.Controllers
         // POST: FoundObjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int idUser,string nameContact, bool checkObjectSolved = true, bool checkUserCreateObject = true)
         {
+            LostAndFoundObject lostAndFoundObject = new LostAndFoundObject();
+            lostAndFoundObject.date = DateTime.Now;
+            lostAndFoundObject.ObjectIDFound = id;
+            lostAndFoundObject.ObjectIDLost = null;
+            lostAndFoundObject.UserIdreportFound = idUser;
+            lostAndFoundObject.UserIdreportedLost = null;
+            lostAndFoundObject.ContactNameuser = nameContact;
             FoundObject foundObject = db.FoundObjects.Find(id);
-            var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
-            db.Files.Remove(file);
-            var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
-            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object
-            db.FoundObjects.Remove(foundObject);
-            db.SaveChanges();
+            foundObject.State = true;
+            //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
+            //db.Files.Remove(file);
+            //var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
+            //db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object
+            //db.Entry(foundObject).State = EntityState.Modified;
+            ////db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 

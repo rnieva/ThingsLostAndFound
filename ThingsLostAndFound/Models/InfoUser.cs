@@ -30,6 +30,10 @@ public partial class InfoUser
 
         this.Messages1 = new HashSet<Message>();
 
+        this.LostAndFoundObjects = new HashSet<LostAndFoundObject>();
+
+        this.LostAndFoundObjects1 = new HashSet<LostAndFoundObject>();
+
     }
 
 
@@ -64,6 +68,14 @@ public partial class InfoUser
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Message> Messages1 { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<LostAndFoundObject> LostAndFoundObjects { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<LostAndFoundObject> LostAndFoundObjects1 { get; set; }
 
 }
 
