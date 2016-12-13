@@ -224,17 +224,41 @@ namespace ThingsLostAndFound.Controllers
             lostAndFoundObject.ObjectIDFound = id;
             lostAndFoundObject.ObjectIDLost = null;
             lostAndFoundObject.UserIdreportFound = idUser;
-            lostAndFoundObject.UserIdreportedLost = null;
-            lostAndFoundObject.ContactNameuser = nameContact;
+            if (checkObjectSolved == false)  // this is the user found the object
+            {
+                InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault();
+                if (infoUser != null)
+                {
+                    lostAndFoundObject.UserIdreportedLost = infoUser.Id;
+                    lostAndFoundObject.ContactNameuser = nameContact;
+                }
+                else
+                {
+                    lostAndFoundObject.UserIdreportedLost = null;
+                    lostAndFoundObject.ContactNameuser = nameContact;
+                }
+                
+            }
+            else   // this is the user wants to forget the object 
+            {
+                lostAndFoundObject.UserIdreportedLost = null;
+                lostAndFoundObject.ContactNameuser = null;
+            }
+            db.LostAndFoundObjects.Add(lostAndFoundObject);
             FoundObject foundObject = db.FoundObjects.Find(id);
             foundObject.State = true;
+            db.Entry(foundObject).State = EntityState.Modified;
             //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             //db.Files.Remove(file);
-            //var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
-            //db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object
-            //db.Entry(foundObject).State = EntityState.Modified;
-            ////db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
-            //db.SaveChanges();
+            var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
+            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
+            //foreach (var msg in msgListAbouthisObject)
+            //{
+            //    msg.ShowMsgUserId1 = idUser;
+            //    //db.Entry(mgs).State = EntityState.Modified;
+            //}
+            //db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

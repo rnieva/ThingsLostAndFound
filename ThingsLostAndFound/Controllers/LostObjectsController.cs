@@ -20,7 +20,7 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult Index()
         {
             //var lostObjects = db.LostObjects.Include(l => l.InfoUser);
-            var lostObjects = db.FoundObjects.Where(l => l.State == false);
+            var lostObjects = db.LostObjects.Where(l => l.State == false);
             return View(lostObjects.ToList());
         }
 
@@ -182,14 +182,47 @@ namespace ThingsLostAndFound.Controllers
         // POST: LostObjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int idUser, string nameContact, bool checkObjectSolved = true, bool checkUserCreateObject = true)
         {
+            LostAndFoundObject lostAndFoundObject = new LostAndFoundObject();
+            lostAndFoundObject.date = DateTime.Now;
+            lostAndFoundObject.ObjectIDFound = null;
+            lostAndFoundObject.ObjectIDLost = id;
+            lostAndFoundObject.UserIdreportedLost = idUser;
+            if (checkObjectSolved == false)  // this is the user lost the object
+            {
+                InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault();
+                if (infoUser != null)
+                {
+                    lostAndFoundObject.UserIdreportFound = infoUser.Id;
+                    lostAndFoundObject.ContactNameuser = nameContact;
+                }
+                else
+                {
+                    lostAndFoundObject.UserIdreportFound = null;
+                    lostAndFoundObject.ContactNameuser = nameContact;
+                }
+
+            }
+            else   // this is the user wants to forget the object 
+            {
+                lostAndFoundObject.UserIdreportFound = null;
+                lostAndFoundObject.ContactNameuser = null;
+            }
+            db.LostAndFoundObjects.Add(lostAndFoundObject);
             LostObject lostObject = db.LostObjects.Find(id);
-            var file = db.Files.Find(lostObject.FileId);    //ADD delete the upload file if it have one
-            db.Files.Remove(file);
-            db.LostObjects.Remove(lostObject);
-            var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
-            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object
+            lostObject.State = true;
+            db.Entry(lostObject).State = EntityState.Modified;
+            //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
+            //db.Files.Remove(file);
+            var msgListAbouthisObject = db.Messages.Where(a => a.LostObjectId == id).ToList();
+            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
+            //foreach (var msg in msgListAbouthisObject)
+            //{
+            //    msg.ShowMsgUserId1 = idUser;
+            //    //db.Entry(mgs).State = EntityState.Modified;
+            //}
+            //db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
             db.SaveChanges();
             return RedirectToAction("Index");
         }
