@@ -10,7 +10,7 @@ namespace ThingsLostAndFound.Controllers
     public class FindMatchesController : Controller     // This controller searches the matches when a user create a new report of lost or found object
     {
         private TLAFEntities db = new TLAFEntities();
-        // GET: FindMatches
+       
         public ActionResult SearchMatchesInLostObject(FoundObject foundObject)
         {   //If the user create a Found Object report it will have be check in Lost Object List
             int Id = foundObject.Id;
@@ -91,5 +91,44 @@ namespace ThingsLostAndFound.Controllers
             ViewData["numberResults"] = numberResults;
             return View(FoundObjectMatchesList);
         }
+
+        // GET 
+        public ActionResult SearchFoundOrLostObject()
+        {
+            return View();
+        }
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchFoundOrLostObject([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, string TypeObject)
+        { // like model of object I use a found Object in the form, but I use these data for Found Object and Lost Object
+            if (TypeObject == "FoundObject")
+            {
+                return RedirectToAction("SearchMatchesInLostObject", foundObject);   //A Found Object will be checked in Lost Object List 
+            }
+            else
+            {
+                // Created a temp Lost Object from data form of "Found object"
+                LostObject lostObject = new LostObject();
+                lostObject.Date= foundObject.Date;
+                lostObject.Category = foundObject.Category;
+                lostObject.Brand = foundObject.Brand;
+                lostObject.Model = foundObject.Model;
+                lostObject.SerialID = foundObject.SerialID;
+                lostObject.Title = foundObject.Title;
+                lostObject.Color = foundObject.Color;
+                lostObject.Observations = foundObject.Observations;
+                lostObject.Address = foundObject.Address;
+                lostObject.ZipCode = foundObject.ZipCode;
+                lostObject.MapLocation = foundObject.MapLocation;
+                lostObject.LocationObservations = foundObject.LocationObservations;
+                lostObject.Location = foundObject.Location;
+                lostObject.CityTownRoad = foundObject.CityTownRoad;
+                return RedirectToAction("SearchMatchesInFoundObject", lostObject);
+            }
+            
+        }
+
     }
 }
