@@ -112,7 +112,7 @@ namespace ThingsLostAndFound.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SearchFoundOrLostObject([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, string TypeObject)
-        { // like model of object I use a found Object in the form, but I use these data for Found Object and Lost Object
+        { // like model of object I use "Found Object Model" in the form, but I use these data for both -  Found Object and Lost Object
             if (TypeObject == "FoundObject")
             {
                 return RedirectToAction("SearchMatchesInLostObject", foundObject);   //A Found Object will be checked in Lost Object List 

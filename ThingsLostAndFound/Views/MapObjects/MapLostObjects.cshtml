@@ -1,0 +1,113 @@
+﻿@{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@mapsKey"></script>
+@*@model ThingsLostAndFound.Models.InfoMarkerFoundObject*@
+@model IEnumerable<ThingsLostAndFound.Models.InfoMarkerLostObject>
+@using System.Threading;
+@using System.Globalization;
+@{
+    ViewBag.Title = "Lost Objects Map";
+    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US"); //for change , by . in Lat and Log
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lost Objects Map</title>
+</head>
+<body>
+    <h2>Lost Object Map</h2>
+    <div>
+        <div id="map_canvas" style="height: 500px; width: 900px;"></div>
+    </div>
+</body>
+</html>
+<style>
+    .infoDiv {
+        height: 200px;
+        width: 300px;
+        -webkit-user-select: none;
+        background-color: red;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var map;
+        var marker;
+        initMap();
+        showMarkersFO();
+
+        function initMap() {
+            var centerPosition = new google.maps.LatLng(55.942071, -3.200165);
+            var options = {
+                zoom: 11,
+                center: centerPosition,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map($('#map_canvas')[0], options);
+            if (navigator.geolocation) //center the map in user location
+            {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(pos);
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                                  'Error: The Geolocation service failed.' :
+                                  'Error: Your browser doesn\'t support geolocation.');
+        }
+
+        function showMarkersFO() {
+            var bounds = new google.maps.LatLngBounds();
+            var la = [];
+            var lo = [];
+            var info = [];
+            var titles = [];
+            var infohtml;
+            @foreach (var marker in Model)
+            {
+            <text>
+                la.push(@marker.Latitude);
+                lo.push(@marker.Longitude);
+                titles.push("@marker.Title");
+                infohtml = "<div><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>ID: @marker.Id<p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;  //TODO: add picture
+                info.push(infohtml);
+            </text>
+                                                                                                                                                                                                                    }
+            var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
+            var marker, i;
+            for (i = 0; i < la.length; i++) // for example I choose as index the latitude
+            {
+                var point = new google.maps.LatLng(la[i], lo[i]);
+                bounds.extend(point);
+                marker = new google.maps.Marker({
+                    position: point,
+                    title: titles[i],
+                    icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    map: map
+               });
+               google.maps.event.addListener(marker, 'click', (function(marker, i) //Closures
+               {
+                    return function()
+                    {
+                        infoWindow.setContent(info[i]);
+                        infoWindow.open(map, marker);
+                    }
+                })(marker, i)); //Closures
+            }
+        }
+
+    </script>
+}

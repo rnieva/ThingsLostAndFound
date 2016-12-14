@@ -1,17 +1,13 @@
 ﻿@{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
-
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@mapsKey"></script>
-
 @*@model ThingsLostAndFound.Models.InfoMarkerFoundObject*@
 @model IEnumerable<ThingsLostAndFound.Models.InfoMarkerFoundObject>
 @using System.Threading;
 @using System.Globalization;
-
 @{
     ViewBag.Title = "Found Objects Map";
     Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US"); //for change , by . in Lat and Log
 }
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -19,15 +15,11 @@
 </head>
 <body>
     <h2>Found Object Map</h2>
-    <div> 
-
+    <div>
         <div id="map_canvas" style="height: 500px; width: 900px;"></div>
-
     </div>
-
 </body>
 </html>
-
 <style>
     .infoDiv {
         height: 200px;
@@ -37,10 +29,10 @@
     }
 </style>
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">        var map;
+    <script type="text/javascript">
+        var map;
         var marker;
         initMap();
         showMarkersFO();
@@ -53,7 +45,6 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             map = new google.maps.Map($('#map_canvas')[0], options);
-
             if (navigator.geolocation) //center the map in user location
             {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -119,4 +110,4 @@
         }
 
     </script>
-    }
+}

@@ -8,12 +8,12 @@ using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
 {
-    public class MapFoundObjectsController : Controller
+    public class MapObjectsController : Controller
     {
         private TLAFEntities db = new TLAFEntities();
 
         // GET: MapFoundObjects
-        public ActionResult Index()
+        public ActionResult MapFoundObjects()
         {
             // It create a marker list with the info of each found object 
             List<InfoMarkerFoundObject> listMarkers = new List<InfoMarkerFoundObject>();
@@ -56,6 +56,53 @@ namespace ThingsLostAndFound.Controllers
             }
             return View(listMarkers);   //this view show a map with found object
         }
+
+        public ActionResult MapLostObjects()
+        {
+            // It create a marker list with the info of each found object 
+            List<InfoMarkerLostObject> listMarkers = new List<InfoMarkerLostObject>();
+            string coordinatesLostObject = "";
+            double LatitudeT = 0.0;
+            double LongitudeT = 0.0;
+            var listLostObjects = from p in db.LostObjects select p;
+            foreach (var p in listLostObjects)
+            {
+                coordinatesLostObject = p.MapLocation; //Read from DB (MapLocation field, format 55.947662,-3.182259) the coordinates 
+                int i = coordinatesLostObject.IndexOf(',');
+                string sub1 = coordinatesLostObject.Substring(0, i);
+                int j = (coordinatesLostObject.Length) - (i + 1);
+                string sub2 = coordinatesLostObject.Substring(i + 1, j);
+                LatitudeT = Convert.ToDouble(sub1, CultureInfo.InvariantCulture);
+                LongitudeT = Convert.ToDouble(sub2, CultureInfo.InvariantCulture);
+                var marker = new InfoMarkerLostObject  //add a marker with all information about one object
+                {
+                    Latitude = LatitudeT,
+                    Longitude = LongitudeT,
+                    Id = p.Id,
+                    UserIdreported = p.UserIdreported,
+                    Date = p.Date,
+                    Category = p.Category,
+                    Brand = p.Brand,
+                    Model = p.Model,
+                    SerialID = p.SerialID,
+                    Title = p.Title,
+                    Color = p.Color,
+                    Observations = p.Observations,
+                    Address = p.Address,
+                    ZipCode = p.ZipCode,
+                    LocationObservations = p.LocationObservations,
+                    Location = p.Location,
+                    CityTownRoad = p.CityTownRoad,
+                    UserNameReport = p.InfoUser.UserName
+                };
+                listMarkers.Add(marker);
+            }
+            return View(listMarkers);   //this view show a map with found object
+        }
+
+        //TODO: join both actions and to do just 1 action for lost and found objects
+
+
 
         protected override void Dispose(bool disposing)
         {

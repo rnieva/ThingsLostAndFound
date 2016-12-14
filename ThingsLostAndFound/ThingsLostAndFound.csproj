@@ -174,7 +174,7 @@
     <Compile Include="Controllers\InfoUsersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LostObjectsController.cs" />
-    <Compile Include="Controllers\MapFoundObjectsController.cs" />
+    <Compile Include="Controllers\MapObjectsController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\ShowObjectUsersController.cs" />
     <Compile Include="Controllers\UsersContactController.cs" />
@@ -190,6 +190,7 @@
     <Compile Include="Models\FoundObjectMap.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InfoMarkerFoundObject.cs" />
+    <Compile Include="Models\InfoMarkerLostObject.cs" />
     <Compile Include="Models\InfoUser.cs">
       <DependentUpon>TLAFmodel.tt</DependentUpon>
     </Compile>
@@ -301,7 +302,6 @@
     <Content Include="Views\FoundObjects\Details.cshtml" />
     <Content Include="Views\FoundObjects\Edit.cshtml" />
     <Content Include="Views\FoundObjects\Index.cshtml" />
-    <Content Include="Views\MapFoundObjects\Index.cshtml" />
     <Content Include="Views\UsersContact\ContactUserFoundObject.cshtml" />
     <Content Include="Views\UsersContact\SendRequestUser.cshtml" />
     <Content Include="Views\FindMatches\SearchMatchesInLostObject.cshtml" />
@@ -319,6 +319,8 @@
     <Content Include="Views\FindMatches\SearchMatchesInFoundObject.cshtml" />
     <Content Include="Views\ShowObjectUsers\ShowObjects.cshtml" />
     <Content Include="Views\FindMatches\SearchFoundOrLostObject.cshtml" />
+    <Content Include="Views\MapObjects\MapFoundObjects.cshtml" />
+    <Content Include="Views\MapObjects\MapLostObjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
