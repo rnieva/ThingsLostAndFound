@@ -321,6 +321,7 @@
     <Content Include="Views\FindMatches\SearchFoundOrLostObject.cshtml" />
     <Content Include="Views\MapObjects\MapFoundObjects.cshtml" />
     <Content Include="Views\MapObjects\MapLostObjects.cshtml" />
+    <Content Include="Views\MapObjects\MapFoundAndLostObjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

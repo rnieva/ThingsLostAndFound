@@ -102,6 +102,85 @@ namespace ThingsLostAndFound.Controllers
 
         //TODO: join both actions and to do just 1 action for lost and found objects
 
+        public ActionResult MapFoundAndLostObjects()
+        {
+            List<InfoMarkerFoundObject> listFoundMarkers = new List<InfoMarkerFoundObject>();
+            List<InfoMarkerLostObject> listLostMarkers = new List<InfoMarkerLostObject>();
+            List<object> listMarkers = new List<object>();
+            string coordinatesObject = "";
+            double LatitudeT = 0.0;
+            double LongitudeT = 0.0;
+            var listLostObjects = from p in db.LostObjects select p;
+            var listFoundObjects = from p in db.FoundObjects select p;
+            foreach (var p in listFoundObjects)
+            {
+                coordinatesObject = p.MapLocation; //Read from DB (MapLocation field, format 55.947662,-3.182259) the coordinates 
+                int i = coordinatesObject.IndexOf(',');
+                string sub1 = coordinatesObject.Substring(0, i);
+                int j = (coordinatesObject.Length) - (i + 1);
+                string sub2 = coordinatesObject.Substring(i + 1, j);
+                LatitudeT = Convert.ToDouble(sub1, CultureInfo.InvariantCulture);
+                LongitudeT = Convert.ToDouble(sub2, CultureInfo.InvariantCulture);
+                var marker = new InfoMarkerFoundObject  //add a marker with all information about one object
+                {
+                    Latitude = LatitudeT,
+                    Longitude = LongitudeT,
+                    Id = p.Id,
+                    UserIdreported = p.UserIdreported,
+                    Date = p.Date,
+                    Category = p.Category,
+                    Brand = p.Brand,
+                    Model = p.Model,
+                    SerialID = p.SerialID,
+                    Title = p.Title,
+                    Color = p.Color,
+                    Observations = p.Observations,
+                    Address = p.Address,
+                    ZipCode = p.ZipCode,
+                    LocationObservations = p.LocationObservations,
+                    Location = p.Location,
+                    CityTownRoad = p.CityTownRoad,
+                    SecurityQuestion = p.SecurityQuestion,
+                    UserNameReport = p.InfoUser.UserName
+                };
+                listFoundMarkers.Add(marker);
+            }
+            foreach (var p in listLostObjects)
+            {
+                coordinatesObject = p.MapLocation; //Read from DB (MapLocation field, format 55.947662,-3.182259) the coordinates 
+                int i = coordinatesObject.IndexOf(',');
+                string sub1 = coordinatesObject.Substring(0, i);
+                int j = (coordinatesObject.Length) - (i + 1);
+                string sub2 = coordinatesObject.Substring(i + 1, j);
+                LatitudeT = Convert.ToDouble(sub1, CultureInfo.InvariantCulture);
+                LongitudeT = Convert.ToDouble(sub2, CultureInfo.InvariantCulture);
+                var marker = new InfoMarkerLostObject  //add a marker with all information about one object
+                {
+                    Latitude = LatitudeT,
+                    Longitude = LongitudeT,
+                    Id = p.Id,
+                    UserIdreported = p.UserIdreported,
+                    Date = p.Date,
+                    Category = p.Category,
+                    Brand = p.Brand,
+                    Model = p.Model,
+                    SerialID = p.SerialID,
+                    Title = p.Title,
+                    Color = p.Color,
+                    Observations = p.Observations,
+                    Address = p.Address,
+                    ZipCode = p.ZipCode,
+                    LocationObservations = p.LocationObservations,
+                    Location = p.Location,
+                    CityTownRoad = p.CityTownRoad,
+                    UserNameReport = p.InfoUser.UserName
+                };
+                listLostMarkers.Add(marker);
+            }
+            listMarkers.Add(listFoundMarkers);
+            listMarkers.Add(listLostMarkers);
+            return View(listMarkers);
+        }
 
 
         protected override void Dispose(bool disposing)

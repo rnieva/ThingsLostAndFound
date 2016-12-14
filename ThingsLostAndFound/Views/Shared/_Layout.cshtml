@@ -23,6 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("ThingsLostAndFound", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
@@ -35,7 +36,8 @@
                     <li>@Html.ActionLink("Lost Object Report", "Create", "LostObjects")</li>
                     <li>@Html.ActionLink("Lost Object Map", "MapLostObjects", "MapObjects")</li>   
                     <li>@Html.ActionLink("Found Object Report", "Create", "FoundObjects")</li>
-                    <li>@Html.ActionLink("Found Object Map", "MapFoundObjects", "MapObjects")</li>                  
+                    <li>@Html.ActionLink("Found Object Map", "MapFoundObjects", "MapObjects")</li>     
+                    <li>@Html.ActionLink("Lost and Found Object Map", "MapFoundAndLostObjects", "MapObjects")</li>                 
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
