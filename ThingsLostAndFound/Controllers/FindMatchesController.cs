@@ -43,7 +43,12 @@ namespace ThingsLostAndFound.Controllers
                     LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Location == Location select p).ToList();
                     if (LostObjectMatchesList.Count == 0)
                     {
-                        LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category select p).ToList();
+                        LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title select p).ToList();
+                        if (LostObjectMatchesList.Count == 0)
+                        {
+                            LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category select p).ToList();
+
+                        }
                     }
                 }
             }
@@ -83,7 +88,12 @@ namespace ThingsLostAndFound.Controllers
                     FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Location == Location select p).ToList();
                     if (FoundObjectMatchesList.Count == 0)
                     {
-                        FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category select p).ToList();
+                        FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title select p).ToList();
+                        if (FoundObjectMatchesList.Count == 0)
+                        {
+                            FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category select p).ToList();
+
+                        }
                     }
                 }
             }
