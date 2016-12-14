@@ -1,0 +1,192 @@
+﻿@model IEnumerable<object>
+@{
+    ViewBag.Title = "ShowObjects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ThingsLostAndFound.Models.FoundObject> foundObjectList = Model.ToList()[0] as List<ThingsLostAndFound.Models.FoundObject>;
+    List<ThingsLostAndFound.Models.LostObject> lostObjectList = Model.ToList()[1] as List<ThingsLostAndFound.Models.LostObject>;
+}
+
+<h2>User Objects</h2>
+
+<html>
+<body>
+    @{
+        if (ViewBag.objectNumber == 0)
+        {
+            <p>Any object created by the user</p>
+        }
+        else
+        {
+    <p>Object created by the user: @ViewBag.objectNumber</p>
+    <table class="table">
+    <tr>
+        <td>
+            @Html.Label("F/L Object")
+        </td>
+        <td>
+            @Html.Label("Date")
+        </td>
+        <td>
+            @Html.Label("Title")
+        </td>
+        <td>
+            @Html.Label("Category")
+        </td>
+        <td>
+            @Html.Label("Brand")
+        </td>
+        <td>
+            @Html.Label("Model")
+        </td>
+        <td>
+            @Html.Label("Serial Id")
+        </td>
+        <td>
+            @Html.Label("Color")
+        </td>
+        <td>
+            @Html.Label("Observations")
+        </td>
+        <td>
+            @Html.Label("Address")
+        </td>
+        <td>
+            @Html.Label("ZipCode")
+        </td>
+        <td>
+            @Html.Label("MapLocation")
+        </td>
+        <td>
+            @Html.Label("LocationObservations")
+        </td>
+        <td>
+            @Html.Label("Location")
+        </td>
+        <td>
+            @Html.Label("CityTownRoad")
+        </td>
+    </tr>
+    @foreach (var item in foundObjectList)
+    {
+        <tr>
+            <td>
+                Found Object
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialID)
+            </td>
+            <td>
+                @{
+                    if (item.Color != null)
+                    {
+                        <span style="background: @Html.DisplayFor(modelItem => item.Color) " class="form-control">&nbsp;&nbsp;&nbsp;</span>
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observations)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MapLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationObservations)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityTownRoad)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "FoundObjects", new { id = item.Id }, null) |
+                @Html.ActionLink("Edit", "Edit", "FoundObjects", new { id = item.Id }, null)
+            </td>
+            </tr>
+    }
+            @foreach (var item in lostObjectList)
+            {
+                <tr>
+                    <td>
+                        Lost Object
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SerialID)
+                    </td>
+                    <td>
+                        @{
+                            if (item.Color != null)
+                            {
+                                <span style="background: @Html.DisplayFor(modelItem => item.Color) " class="form-control">&nbsp;&nbsp;&nbsp;</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observations)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ZipCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MapLocation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocationObservations)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CityTownRoad)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", "LostObjects", new { id = item.Id }, null) |
+                        @Html.ActionLink("Edit", "Edit", "LostObjects", new { id = item.Id }, null)
+                </tr>
+            }
+    </table>
+            }
+        }
+</body>
+
+</html>
+

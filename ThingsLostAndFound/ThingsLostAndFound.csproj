@@ -176,6 +176,7 @@
     <Compile Include="Controllers\LostObjectsController.cs" />
     <Compile Include="Controllers\MapFoundObjectsController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\ShowObjectUsersController.cs" />
     <Compile Include="Controllers\UsersContactController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -316,6 +317,7 @@
     <Content Include="Views\UsersContact\ContactUserRegisterLostObject.cshtml" />
     <Content Include="Views\InfoUsers\ChangePass.cshtml" />
     <Content Include="Views\FindMatches\SearchMatchesInFoundObject.cshtml" />
+    <Content Include="Views\ShowObjectUsers\ShowObjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
