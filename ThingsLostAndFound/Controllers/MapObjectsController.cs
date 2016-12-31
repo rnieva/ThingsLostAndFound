@@ -50,7 +50,9 @@ namespace ThingsLostAndFound.Controllers
                     Location = p.Location,
                     CityTownRoad = p.CityTownRoad,
                     SecurityQuestion = p.SecurityQuestion,
-                    UserNameReport = p.InfoUser.UserName
+                    UserNameReport = p.InfoUser.UserName,
+                    FileId = p.FileId,
+                    Img = (bool)p.Img
                 };
                 listMarkers.Add(marker);
             }

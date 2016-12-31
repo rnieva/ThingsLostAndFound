@@ -14,7 +14,15 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult Index(int id)
         {
             var fileToRetrieve = db.Files.Find(id);
-            return File(fileToRetrieve.Content, fileToRetrieve.ContentType);
+            if (fileToRetrieve.Content != null)
+            {
+                return File(fileToRetrieve.Content, fileToRetrieve.ContentType);
+            }
+            else
+            {
+                return null;
+            }
+            
         }
     }
 }

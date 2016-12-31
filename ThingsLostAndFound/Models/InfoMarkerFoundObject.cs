@@ -27,5 +27,7 @@ namespace ThingsLostAndFound.Models
         public string Location { get; set; }
         public string CityTownRoad { get; set; }
         public string SecurityQuestion { get; set; }
+        public int FileId { get; set; }
+        public Boolean Img { get; set; }
     }
 }
