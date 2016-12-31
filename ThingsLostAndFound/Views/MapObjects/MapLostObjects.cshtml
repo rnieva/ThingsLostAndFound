@@ -82,7 +82,15 @@
                 la.push(@marker.Latitude);
                 lo.push(@marker.Longitude);
                 titles.push("@marker.Title");
-                infohtml = "<div><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>ID: @marker.Id<p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;  //TODO: add picture
+                 @if (marker.Img == true)
+                 { <text>
+                     infohtml = "<div><b>Lost Object</b><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>@marker.Location<p>" + "<p><img src=~/File?id=@marker.FileId alt= height=42 width=42 /></p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;  
+                     </text>
+                 }else
+                 { <text>
+                     infohtml = "<div><b>Lost Object</b><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>@marker.Location<p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;  
+                     </text>
+                 }
                 info.push(infohtml);
             </text>
                                                                                                                                                                                                                     }

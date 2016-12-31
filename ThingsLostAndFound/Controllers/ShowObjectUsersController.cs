@@ -8,10 +8,10 @@ using ThingsLostAndFound.Models;
 
 namespace ThingsLostAndFound.Controllers
 {
-    public class ShowObjectUsersController : Controller
+    public class ShowObjectUsersController : Controller  
     {
         private TLAFEntities db = new TLAFEntities();
-        public ActionResult ShowObjects(int id) // user id registered
+        public ActionResult ShowObjects(int id) // user id registered , show the objects created by the user
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
