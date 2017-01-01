@@ -65,6 +65,9 @@
         <td>
             @Html.Label("CityTownRoad")
         </td>
+        <td>
+            @Html.Label("Picture")
+        </td>
     </tr>
     @foreach (var item in foundObjectList)
     {
@@ -120,10 +123,17 @@
                 @Html.DisplayFor(modelItem => item.CityTownRoad)
             </td>
             <td>
+                @if (item.Img == true)
+                {
+                    <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+                }
+            </td>
+
+            <td>
                 @Html.ActionLink("Delete", "Delete", "FoundObjects", new { id = item.Id }, null) |
                 @Html.ActionLink("Edit", "Edit", "FoundObjects", new { id = item.Id }, null)
             </td>
-            </tr>
+        </tr>
     }
             @foreach (var item in lostObjectList)
             {
@@ -177,6 +187,12 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CityTownRoad)
+                    </td>
+                    <td>
+                        @if (item.Img == true)
+                        {
+                            <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+                        }
                     </td>
                     <td>
                         @Html.ActionLink("Delete", "Delete", "LostObjects", new { id = item.Id }, null) |
