@@ -170,15 +170,32 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,FileId,Img,SecurityQuestion,State")] FoundObject foundObject)
+        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,State,FileId,Img,SecurityQuestion,ContactState")] FoundObject foundObject, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var file = db.Files.Find(foundObject.FileId);
+                    file.FileName = System.IO.Path.GetFileName(upload.FileName);
+                    file.ContentType = upload.ContentType;
+                    file.FileType = System.IO.Path.GetExtension(upload.FileName);
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        file.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    foundObject.Img = true;     //There is a uploaded file
+                    db.Entry(file).State = EntityState.Modified;
+                }
+                else
+                {
+                    // keep the same img
+                }
                 db.Entry(foundObject).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);
+            //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);
             return View(foundObject);
         }
 
