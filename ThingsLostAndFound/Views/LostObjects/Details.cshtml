@@ -132,7 +132,16 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Img)
+            @{
+                if (Model.File.FileName != null)
+                {
+                    <img src="~/File?id=@Model.File.Id" alt="picture" height="62" width="95" />     @*the File controller give the file(picture) from DB using Id*@
+                }
+                else
+                {
+                    @Html.DisplayName("No picture")
+                }
+            }
         </dd>
 
         <dt>
@@ -147,5 +156,7 @@
 </div>
 <p>
     @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = Model.Id, title = Model.Title, userName = Model.InfoUser.UserName}, null)
+    <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

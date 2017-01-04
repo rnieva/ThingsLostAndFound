@@ -138,13 +138,32 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LostObject lostObject = db.LostObjects.Find(id);
-            if (lostObject == null)
+
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                return HttpNotFound();
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                string infoUserIdRolNewM = ticket.UserData.ToString();
+                // It get user ID value from infoUserIdRolNewM
+                int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
+                int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
+                LostObject lostObject = db.LostObjects.Find(id);
+                if ((lostObject.UserIdreported == userId) || (roll == 1))     // This way, only the user with hus id can see his details
+                {
+                    if (lostObject == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);  
+                    return View(lostObject);
+                }
+                else
+                {
+                    return HttpNotFound();  //TODO: add view reject or error
+                }
             }
-            ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", lostObject.UserIdreported);
-            return View(lostObject);
+            return HttpNotFound();
+            
         }
 
         // POST: LostObjects/Edit/5
