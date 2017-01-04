@@ -8,7 +8,7 @@
 
 
 @*@using (Html.BeginForm())*@
-@using (Html.BeginForm("Edit", "LostObjects", FormMethod.Post, new { enctype = "multipart/form-data" })) //I have to put this for pass files to controller
+@using (Html.BeginForm("Edit", "LostObjects", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validate();", name = "form" })) //I have to put this for pass files to controller
 {
     @Html.AntiForgeryToken()
 
@@ -25,7 +25,6 @@
                 <input type="hidden" id="UserIdreported" name="UserIdreported" value="@Model.UserIdreported">
             </div>
         </div>
-
 
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -171,7 +170,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Picture</label>
             <div class="col-md-10">
-                <input type="file" id="file" name="upload" />
+                <input type="file" id="file" name="upload" onchange="validate_fileupload(this.value);" />
             </div>
         </div>
 
@@ -194,4 +193,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/validate_fileUpload.js")"></script>
 }

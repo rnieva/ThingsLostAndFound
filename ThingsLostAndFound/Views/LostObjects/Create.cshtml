@@ -11,7 +11,7 @@
 <h2>Lost Object</h2>
 
 
-@using (Html.BeginForm("Create", "LostObjects", FormMethod.Post, new { enctype = "multipart/form-data" })) //I have to put this for pass files to controller
+@using (Html.BeginForm("Create", "LostObjects", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validate();", name = "form" })) //I have to put this for pass files to controller
 {
     @Html.AntiForgeryToken()
 
@@ -101,7 +101,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-2">Picture</label>
                     <div class="col-md-10">
-                        <input type="file" id="file" name="upload" />
+                        <input type="file" id="file" name="upload" onchange="validate_fileupload(this.value);" />
                     </div>
                 </div>
 
@@ -174,6 +174,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/validate_fileUpload.js")"></script>
+
     <script type="text/javascript">
                     initMap()
                     var map;
@@ -269,53 +271,6 @@
                     }
 
 
-                    // Add validation for uploaded file
-
-                /*    function getNameFromPath(strFilepath) {
-                        var objRE = new RegExp(/([^\/\\]+)$/);
-                        var strName = objRE.exec(strFilepath);
-
-                        if (strName == null) {
-                            return null;
-                        }
-                        else {
-                            return strName[0];
-                        }
-                    }
-
-                    $(function () {
-                        $("#file").change(function () {
-                            var file = getNameFromPath($(this).val());
-                            if (file != null) {
-                                var extension = file.substr((file.lastIndexOf('.') + 1));
-                                switch (extension) {
-                                    case 'jpg':
-                                    case 'png':
-                                    case 'gif':
-                                        flag = true;
-                                        break;
-                                    default:
-                                        flag = false;
-                                }
-                            }
-                            if (flag == false) {
-                                $("#validationTxt").text("You can upload only jpg,png,gif extension file");
-                                return false;
-                            }
-                            else {
-                                //var size = GetFileSize('file');
-                                //if (size > 3) {
-                                //    $("#validationTxt").text("You can upload file up to 1 MB");
-                                //}
-                                //else {
-                                //    $("#validationTxt").text("");
-                                //}
-                            }
-                        });
-                    }); */
-
-
-                    //color
 
     </script>
 }

@@ -9,7 +9,7 @@
 
 
 @*@using (Html.BeginForm())*@
-@using (Html.BeginForm("Edit", "FoundObjects", FormMethod.Post, new { enctype = "multipart/form-data" })) //I have to put this for pass files to controller
+@using (Html.BeginForm("Edit", "FoundObjects", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validate();", name = "form" })) //I have to put this for pass files to controller
 {
     @Html.AntiForgeryToken()
 
@@ -171,7 +171,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Picture</label>
             <div class="col-md-10">
-                <input type="file" id="file" name="upload" />
+                <input type="file" id="file" name="upload" onchange="validate_fileupload(this.value);"/>
             </div>
         </div>
 
@@ -192,4 +192,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/validate_fileUpload.js")"></script>
 }
