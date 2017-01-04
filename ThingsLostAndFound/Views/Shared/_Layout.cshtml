@@ -18,25 +18,33 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("ThingsLostAndFound", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                     <li>@Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches")</li>   
-                    <li>@Html.ActionLink("LO List", "Index", "LostObjects")</li>   
-                    <li>@Html.ActionLink("FO List", "Index", "FoundObjects")</li>
-                    <li>@Html.ActionLink("Lost Object Report", "Create", "LostObjects")</li>
-                    <li>@Html.ActionLink("Lost Object Map", "MapLostObjects", "MapObjects")</li>   
-                    <li>@Html.ActionLink("Found Object Report", "Create", "FoundObjects")</li>
-                    <li>@Html.ActionLink("Found Object Map", "MapFoundObjects", "MapObjects")</li>     
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lost Object <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Lost Object List", "Index", "LostObjects")</li> 
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Lost Object Report", "Create", "LostObjects")</li>
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Lost Object Map", "MapLostObjects", "MapObjects")</li>  
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Found Object <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Found Object List", "Index", "FoundObjects")</li>
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Found Object Report", "Create", "FoundObjects")</li>
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Found Object Map", "MapFoundObjects", "MapObjects")</li> 
+                        </ul>
+                    </li>    
                     <li>@Html.ActionLink("Lost and Found Object Map", "MapFoundAndLostObjects", "MapObjects")</li>                 
                 </ul>
                 @Html.Partial("_LoginPartial")
