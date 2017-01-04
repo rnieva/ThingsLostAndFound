@@ -7,10 +7,11 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())*@
+@using (Html.BeginForm("Edit", "LostObjects", FormMethod.Post, new { enctype = "multipart/form-data" })) //I have to put this for pass files to controller
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>LostObject</h4>
         <hr />
@@ -154,6 +155,24 @@
                 </div>
             </div>
         </div>*@
+
+        @if (Model.Img == true)
+        {
+
+            <div class="form-group">
+                @Html.Label("Picture", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <img src="~/File?id=@Model.FileId" alt="No Img" height="62" width="95" /> @*the File controller give the file(picture) from DB using Id*@
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Picture</label>
+            <div class="col-md-10">
+                <input type="file" id="file" name="upload" />
+            </div>
+        </div>
 
         <input type="hidden" id="State" name="State" value="@Model.State.ToString()">
         <input type="hidden" id="FileId" name="FileId" value="@Model.FileId">

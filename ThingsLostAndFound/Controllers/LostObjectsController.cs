@@ -152,10 +152,27 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,State,FileId,Img,ContactState")] LostObject lostObject)
+        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,State,FileId,Img,ContactState")] LostObject lostObject, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var file = db.Files.Find(lostObject.FileId);
+                    file.FileName = System.IO.Path.GetFileName(upload.FileName);
+                    file.ContentType = upload.ContentType;
+                    file.FileType = System.IO.Path.GetExtension(upload.FileName);
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        file.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    lostObject.Img = true;     //There is a uploaded file
+                    db.Entry(file).State = EntityState.Modified;
+                }
+                else
+                {
+                    // keep the same img
+                }
                 db.Entry(lostObject).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
