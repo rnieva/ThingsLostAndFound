@@ -23,7 +23,7 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult Index()
         {
             //var foundObjects = db.FoundObjects.Include(f => f.InfoUser);
-            var foundObjects= db.FoundObjects.Where(f => f.State == false);
+            var foundObjects= db.FoundObjects.Where(f => f.State == false);  //Objects with state true alredy solved
             return View(foundObjects.ToList());
         }
 

@@ -23,3 +23,8 @@ select,
 textarea {
     max-width: 280px;
 }
+/*override it in the Site.css file instead of changing the base bootstrap css file itself*/
+.navbar-inverse {
+  background-color: #b6ff00;
+  border-color: #080808;
+}
