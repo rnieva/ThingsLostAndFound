@@ -1,29 +1,33 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<html>
+<body>
 
-<div class="jumbotron">
-    <h1>Things Lost and Found</h1>
-    <p class="lead">Search and found lost objects</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>LOST</h2>
-        <p>
-            Have you lost anything?
-        </p>
-        <p><a class="btn btn-default" @Html.ActionLink("Lost Object Report", "Create", "LostObjects")</a></p>
+    <div class="row">
+        <div class="col-md-6 text-center" style="background-color:saddlebrown">
+			<h2>LOST</h2>
+			<p>
+				Have you lost anything?
+			</p>
+			<h4>1- Search it</h4>
+			<p><a class="btn btn-default" @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches")</a></p>
+            <h4>2 - Login or Register</h4>
+            <p><a class="btn btn-default" @Html.ActionLink("Log in", "Login", "Login")</a></p>
+            <h4>3- Create a report</h4>
+            <p><a class="btn btn-default" @Html.ActionLink("Lost Object Report", "Create", "LostObjects")</a></p>
+        </div>
+        
+        <div class="col-md-6 text-center" style="background-color:rosybrown">
+            <h2>FOUND</h2>
+            <p>Have you found anything?</p>
+            <h4>1- Check it in our DB</h4>
+            <p><a class="btn btn-default" @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches")</a></p>
+            <h4>2 - Login or Register</h4>
+            <p><a class="btn btn-default" @Html.ActionLink("Log in", "Login", "Login")</a></p>
+            <h4>3- Create a report</h4>
+            <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "FoundObjects")</a></p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Search</h2>
-        <p>Search a Lost or Found Object</p>
-        <p><a class="btn btn-default" @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches")</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>FOUND</h2>
-        <p>Have you found anything?</p>
-        <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "FoundObjects")</a></p>
-    </div>
-</div>
+</body>
+</html>

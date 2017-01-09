@@ -18,7 +18,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 @if (Request.IsAuthenticated)
                 {
                     int id = ViewBag.UserIdreported;
@@ -111,7 +111,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-6">
+            <div class="col-md-6">
                     <h4>Location</h4>
                     <p></p>
                         <div id="map_canvas" style="height: 250px; width: 500px;"></div>

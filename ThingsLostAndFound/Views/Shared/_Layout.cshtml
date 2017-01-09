@@ -18,7 +18,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                      </button>
                 @Html.ActionLink("ThingsLostAndFound", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
@@ -52,8 +52,30 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
-        <hr />
+        <div class="row content">
+            <div class="col-md-1">
+                <div class="well">
+                    <p>ADS</p>
+                </div>
+                <div class="well">
+                    <p>ADS</p>
+                </div>
+            </div>
+            <div class="col-md-10">
+                @RenderBody()
+                 <hr />
+                <hr>
+            </div>
+            <div class="col-md-1">
+                <div class="well">
+                    <p>ADS</p>
+                </div>
+                <div class="well">
+                    <p>ADS</p>
+                </div>
+            </div>
+        </div>
+
         <footer>
             <p>&copy; @DateTime.Now.Year - ThingsLostAndFound</p>
         </footer>

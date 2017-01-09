@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Search a Found or Lost Object</h2>
+<h2>Search an Object</h2>
 <hr />
 <html>
 <body>
@@ -16,11 +16,11 @@
                     <div class="col-sm-6">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
-                            @Html.Label("Type of Object", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.Label("Have you?", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 <select id="TypeObject" name="TypeObject" class="form-control">
-                                    <option value="FoundObject">Found Object</option>
-                                    <option value="LostObject">Lost Object</option>
+                                    <option value="FoundObject">Found an Object</option>
+                                    <option value="LostObject">Lost an Object</option>
                                 </select>
                             </div>
                         </div>
