@@ -3295,7 +3295,7 @@ input[type="button"].btn-block {
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
 .dropdown-menu > .disabled > a:focus {
-  color: #999999;
+  color: #ff0000;
 }
 
 .dropdown-menu > .disabled > a:hover,

@@ -28,13 +28,21 @@ textarea {
     font-family:  Arial, Helvetica, sans-serif;
 }
 .navbar-inverse {
-  background-color: #b6ff00;
+  background-color: #ff6a00;
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
   color: #080808;
 }
 .navbar-inverse .navbar-nav > li > a {
-  color: #ff0000;
+  color: #080808;
 }
-
+.dropdown-menu {
+  background-color: #d1c5c5;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #080808;
+}
