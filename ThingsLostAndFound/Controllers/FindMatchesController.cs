@@ -103,8 +103,9 @@ namespace ThingsLostAndFound.Controllers
         }
 
         // GET 
-        public ActionResult SearchFoundOrLostObject()
+        public ActionResult SearchFoundOrLostObject(string select)
         {
+            ViewBag.select = select;
             return View();
         }
 

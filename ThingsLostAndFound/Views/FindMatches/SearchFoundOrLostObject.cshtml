@@ -2,6 +2,18 @@
 @{
     ViewBag.Title = "SearchFoundOrLostObject";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var selectedFo = "";
+    var selectedLo = "";
+    if (ViewBag.select == "fo")
+    {
+        selectedFo = "selected";
+        selectedLo = "";
+    }
+    else
+    {
+        selectedFo = "";
+        selectedLo = "selected";
+    }
 }
 
 <h2>Search an Object</h2>
@@ -19,8 +31,8 @@
                             @Html.Label("Have you?", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 <select id="TypeObject" name="TypeObject" class="form-control">
-                                    <option value="FoundObject">Found an Object</option>
-                                    <option value="LostObject">Lost an Object</option>
+                                    <option @selectedFo value="FoundObject">Found an Object</option>
+                                    <option @selectedLo value="LostObject">Lost an Object</option>
                                 </select>
                             </div>
                         </div>
@@ -130,7 +142,7 @@
                             @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                               
                             </div>
                         </div>
 
@@ -138,7 +150,7 @@
                             @Html.LabelFor(model => model.CityTownRoad, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownListFor(model => model.CityTownRoad, new MultiSelectList(new[] { "City", "Town", "River", "Beach", "Forest", "Park", "Pub", "Restaurat", "Shop" }), "Select", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.CityTownRoad, "", new { @class = "text-danger" })
+                             
                             </div>
                         </div>
                     </div>

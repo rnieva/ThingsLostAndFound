@@ -31,9 +31,6 @@
                 @Html.DisplayNameFor(model => model.ZipCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MapLocation)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Location)
             </th>
             <th>
@@ -76,9 +73,6 @@
                     @Html.DisplayFor(modelItem => item.ZipCode)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MapLocation)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
@@ -87,7 +81,7 @@
                 <td>
                     @if (item.Img == true)
                     {
-                        <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+                        <img src="~/File?id=@item.FileId" alt="No Img" height="62" width="95" /> @*the File controller give the file(picture) from DB using Id*@
                     }
                 </td>
                 <td>
