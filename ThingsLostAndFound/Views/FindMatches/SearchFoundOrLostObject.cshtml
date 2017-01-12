@@ -4,19 +4,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var selectedFo = "";
     var selectedLo = "";
-    if (ViewBag.select == "fo")
+    if (ViewBag.select != null)     //if the user selected Search from the main page Lost or Found Object, or if the user click in Search Menu Bar
     {
-        selectedFo = "selected";
-        selectedLo = "";
+        if (ViewBag.select == "fo")
+        {
+            selectedFo = "selected";
+            selectedLo = "";
+            <h2>Search an Found Object</h2>
+        }
+        else
+        {
+            selectedFo = "";
+            selectedLo = "selected";
+            <h2>Search an Lost Object</h2>
+        }
+
     }
     else
     {
-        selectedFo = "";
-        selectedLo = "selected";
+        <h2>Search an Object</h2>
     }
 }
-
-<h2>Search an Object</h2>
 <hr />
 <html>
 <body>
@@ -27,16 +35,25 @@
                 <div class="row">
                     <div class="col-sm-6">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.Label("Have you?", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <select id="TypeObject" name="TypeObject" class="form-control">
-                                    <option @selectedFo value="FoundObject">Found an Object</option>
-                                    <option @selectedLo value="LostObject">Lost an Object</option>
-                                </select>
-                            </div>
-                        </div>
-
+                        
+                        @{
+                            if (ViewBag.select == null)
+                            {
+                                <div class="form-group">
+                                    @Html.Label("Have you?", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <select id="TypeObject" name="TypeObject" class="form-control">
+                                            <option @selectedFo value="FoundObject">Found an Object</option>
+                                            <option @selectedLo value="LostObject">Lost an Object</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <input type="hidden" id="TypeObject" name="TypeObject" value="@selectedFo">
+                            }
+                        }
                         <div class="form-group">
                             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -142,7 +159,7 @@
                             @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                               
+                                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -150,7 +167,7 @@
                             @Html.LabelFor(model => model.CityTownRoad, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownListFor(model => model.CityTownRoad, new MultiSelectList(new[] { "City", "Town", "River", "Beach", "Forest", "Park", "Pub", "Restaurat", "Shop" }), "Select", new { @class = "form-control" })
-                             
+                                @Html.ValidationMessageFor(model => model.CityTownRoad, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
