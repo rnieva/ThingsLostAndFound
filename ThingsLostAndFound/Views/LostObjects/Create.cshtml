@@ -8,9 +8,6 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Lost Object</h2>
-
-
 @using (Html.BeginForm("Create", "LostObjects", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validate();", name = "form" })) //I have to put this for pass files to controller
 {
     @Html.AntiForgeryToken()
@@ -26,8 +23,8 @@
                     int id = ViewBag.UserIdreported;
                     string userName = ViewBag.UserNamereported;
                     <div class="form-group">
-                        User: @Html.LabelFor(model => model.UserIdreported, userName, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
+                            @*@Html.LabelFor(model => model.UserIdreported, userName)*@
                             @Html.Hidden("UserIdreported", id)
                         </div>
                     </div>
@@ -102,14 +99,14 @@
                     <label class="control-label col-md-2">Picture</label>
                     <div class="col-md-10">
                         <input type="file" id="file" name="upload" onchange="validate_fileupload(this.value);" />
-                    </div>
+                    </div> 
                 </div>
 
             </div>
             <div class="col-sm-6">
                 <h4>Location</h4>
                 <p></p>
-                <div id="map_canvas" style="height: 250px; width: 500px;"></div>
+                <div id="map_canvas" style="height: 250px; width: 450px;"></div>
                 <p></p>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -162,7 +159,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create Report" class="btn btn-default" />
+                <input type="submit" value="Create Report" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -245,11 +242,12 @@
                         var ZipCodeForm = document.getElementById('ZipCode');
                         var latlng = { lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1]) };
                         geocoder.geocode({ 'location': latlng }, function (results, status) {
+                            var resultTemp = results;
                             if (status == google.maps.GeocoderStatus.OK) {
                                 if (results[0]) {
                                     AddressForm.value = results[0].formatted_address;  //TODO: add if para controlar los resultados
-                                    if (results[0].address_components[4]) {
-                                        LocationForm.value = results[0].address_components[4].long_name;
+                                    if (results[0].address_components[2]) {
+                                        LocationForm.value = results[0].address_components[2].long_name;
                                     }
                                     if (results[0].address_components[7]) {
                                         ZipCodeForm.value = results[0].address_components[7].long_name;

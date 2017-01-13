@@ -33,31 +33,13 @@
             @Html.Label("Category")
         </td>
         <td>
-            @Html.Label("Brand")
-        </td>
-        <td>
-            @Html.Label("Model")
-        </td>
-        <td>
-            @Html.Label("Serial Id")
-        </td>
-        <td>
             @Html.Label("Color")
-        </td>
-        <td>
-            @Html.Label("Observations")
         </td>
         <td>
             @Html.Label("Address")
         </td>
         <td>
             @Html.Label("ZipCode")
-        </td>
-        <td>
-            @Html.Label("MapLocation")
-        </td>
-        <td>
-            @Html.Label("LocationObservations")
         </td>
         <td>
             @Html.Label("Location")
@@ -85,15 +67,6 @@
                 @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SerialID)
-            </td>
-            <td>
                 @{
                     if (item.Color != null)
                     {
@@ -102,19 +75,10 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Observations)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MapLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationObservations)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
@@ -125,7 +89,7 @@
             <td>
                 @if (item.Img == true)
                 {
-                    <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+                    <img src="~/File?id=@item.FileId" alt="No Img" height="62" width="92" /> @*the File controller give the file(picture) from DB using Id*@
                 }
             </td>
 
@@ -151,15 +115,6 @@
                         @Html.DisplayFor(modelItem => item.Category)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Brand)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Model)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SerialID)
-                    </td>
-                    <td>
                         @{
                             if (item.Color != null)
                             {
@@ -168,19 +123,10 @@
                         }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Observations)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Address)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ZipCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MapLocation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationObservations)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Location)
@@ -191,7 +137,7 @@
                     <td>
                         @if (item.Img == true)
                         {
-                            <img src="~/File?id=@item.FileId" alt="No Img" height="42" width="42" /> @*the File controller give the file(picture) from DB using Id*@
+                            <img src="~/File?id=@item.FileId" alt="No Img" height="62" width="92" /> @*the File controller give the file(picture) from DB using Id*@
                         }
                     </td>
                     <td>
