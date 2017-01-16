@@ -7,14 +7,13 @@
 @{
     ViewBag.Title = "Found Object Form";
 }
-<h2>Found Object</h2>
 
 @using (Html.BeginForm("Create", "FoundObjects", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validate();", name = "form" })) //I have to put this for pass files to controller
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Create a report about an found object</h4>
+        <h4>Create a <em>Found Object</em> report</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
@@ -114,7 +113,7 @@
             <div class="col-md-6">
                     <h4>Location</h4>
                     <p></p>
-                        <div id="map_canvas" style="height: 250px; width: 500px;"></div>
+                        <div id="map_canvas" style="height: 250px; width: 450px;"></div>
                     <p></p>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })

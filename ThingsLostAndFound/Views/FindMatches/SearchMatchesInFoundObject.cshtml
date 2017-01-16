@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>SearchMatchesInFoundObject</h2>
+<h2>Search Matches In Found Object</h2>
 
 @{
     int results = (int)ViewData["numberResults"];
@@ -92,25 +92,27 @@
                     <td>
                         @if (item.Img == true)
                         {
-                            <img src="~/File?id=@item.FileId" alt="No Img" height=62" width="92" /> @*the File controller give the file(picture) from DB using Id*@
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InfoUser.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.File.FileName)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName }, null)
-                        <p></p>
-                        @Html.ActionLink("Details", "Details", "FoundObjects", new { id = item.Id }, null)
-                    </td>
-                </tr>
-                 }
-        </table>
-         }
-   <div>
+                            <img src="~/File?id=@item.FileId" alt="No Img" height="62" width="92" /> @*the File controller give the file(picture) from DB using Id*@
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InfoUser.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.File.FileName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName, securityQuestion = item.SecurityQuestion }, null)
+                            <p></p>
+                            @Html.ActionLink("Details", "Details", "FoundObjects", new { id = item.Id }, null)
+                        </td>
+
+                    </tr>
+                    }
+                </table>
+                }
+    <div>
         <a href="/" class="btn btn-info" role="button">Back to Home</a>
-   </div>
-}
+    </div>
+ }
+    
