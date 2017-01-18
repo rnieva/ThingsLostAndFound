@@ -1,7 +1,6 @@
 ﻿// initiate the map. 
 initMap()
 var map;
-
 function initMap() {
     var centerPosition = new google.maps.LatLng(55.942071, -3.200165);
     var options = {

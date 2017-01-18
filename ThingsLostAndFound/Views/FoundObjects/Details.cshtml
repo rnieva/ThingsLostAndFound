@@ -1,6 +1,7 @@
 ﻿@model ThingsLostAndFound.Models.FoundObject
 @{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@mapsKey"></script>
+
 @{
     ViewBag.Title = "Details";
 }
@@ -158,7 +159,7 @@
     </div>
     <div class="col-md-6">
         <hr />
-        <div id="map_canvas" style="height: 250px; width: 450px;"></div>
+                 <div id="map_canvas" style="height: 250px; width: 450px;"></div>
         <hr />
             @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |  //I comment this because any user can edit a object apart form Admin and the user that created the report*@
             @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = Model.Id, title = Model.Title, userName = Model.InfoUser.UserName, securityQuestion = Model.SecurityQuestion }, new { @class = "btn btn-info" })
@@ -167,17 +168,15 @@
 </div>
     <a href="~/FoundObjects/Index" class="btn btn-info" role="button">Back to List</a>
 <p></p>
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
     <script src="@Url.Content("~/Scripts/mapAddOneMarker.js")"></script>
     <script>
-        var mapLocation = "@Model.MapLocation";
-        var title = "@Model.Title";
-        addMarker(mapLocation, title);
+            var mapLocation = "@Model.MapLocation";http://localhost:52205/Scripts/mapInit.js
+            var title = "@Model.Title";
+            addMarker(mapLocation, title);
     </script>
-        
-  
-
 }
-

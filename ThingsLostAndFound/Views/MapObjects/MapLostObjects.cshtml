@@ -31,43 +31,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
     <script type="text/javascript">
         var map;
         var marker;
-        initMap();
         showMarkersFO();
 
-        function initMap() {
-            var centerPosition = new google.maps.LatLng(55.942071, -3.200165);
-            var options = {
-                zoom: 11,
-                center: centerPosition,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            map = new google.maps.Map($('#map_canvas')[0], options);
-            if (navigator.geolocation) //center the map in user location
-            {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    map.setCenter(pos);
-                }, function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-        }
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                                  'Error: The Geolocation service failed.' :
-                                  'Error: Your browser doesn\'t support geolocation.');
-        }
 
         function showMarkersFO() {
             var bounds = new google.maps.LatLngBounds();
@@ -76,24 +45,25 @@
             var info = [];
             var titles = [];
             var infohtml;
-            @foreach (var marker in Model)
+           @foreach (var marker in Model)
             {
-            <text>
+                <text>
                 la.push(@marker.Latitude);
                 lo.push(@marker.Longitude);
                 titles.push("@marker.Title");
-                 @if (marker.Img == true)
+               @if (marker.Img == true)
                  { <text>
-                     infohtml = "<div><b>Lost Object</b><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>@marker.Location<p>" + "<p><img src=~/File?id=@marker.FileId alt= height=42 width=42 /></p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;  
+                     infohtml = "<div><b>Lost Object</b><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>@marker.Location<p>" + "<p><img src=~/File?id=@marker.FileId alt= height=42 width=42 /></p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;
                      </text>
-                 }else
+                 }
+                 else
                  { <text>
-                     infohtml = "<div><b>Lost Object</b><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>@marker.Location<p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;  
+                     infohtml = "<div><b>Lost Object</b><h2>@marker.Title</h2></div><p> @marker.Category<p> @marker.Address<p>@marker.Location<p>" + `@Html.ActionLink("More Info", "Details", "LostObjects", new { id = @marker.Id }, null)` + "<p>" + `@Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = @marker.Id, title = @marker.Title, userName = @marker.UserNameReport }, null)`;
                      </text>
                  }
                 info.push(infohtml);
-            </text>
-                                                                                                                                                                                                                    }
+                </text>
+            }
             var infoWindow = new google.maps.InfoWindow({ content: "Loading..." });
             var marker, i;
             for (i = 0; i < la.length; i++) // for example I choose as index the latitude
@@ -105,9 +75,9 @@
                     title: titles[i],
                     icon:'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
                     map: map
-               });
-               google.maps.event.addListener(marker, 'click', (function(marker, i) //Closures
-               {
+                });
+                google.maps.event.addListener(marker, 'click', (function(marker, i) //Closures
+                {
                     return function()
                     {
                         infoWindow.setContent(info[i]);
