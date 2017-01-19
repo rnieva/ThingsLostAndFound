@@ -267,7 +267,9 @@
     <Content Include="Scripts\mapAddOneMarker.js" />
     <Content Include="Scripts\mapData.js" />
     <Content Include="Scripts\mapInit.js" />
-    <Content Include="Scripts\mapShowMarkers.js" />
+    <Content Include="Scripts\mapShowMarkersFO.js" />
+    <Content Include="Scripts\mapShowMarkersFOLO.js" />
+    <Content Include="Scripts\mapShowMarkersLO.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

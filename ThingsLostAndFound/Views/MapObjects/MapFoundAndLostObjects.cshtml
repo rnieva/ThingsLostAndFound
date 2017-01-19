@@ -34,8 +34,15 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
+<script src="@Url.Content("~/Scripts/mapShowMarkersFOLO.js")"></script>
     <script type="text/javascript">
-        var map;
+        var objectListFO = @(Html.Raw(Json.Encode(Model.ToList()[0])));  // pass the model (list of objects) to script
+        var objectListLO = @(Html.Raw(Json.Encode(Model.ToList()[1])));  // pass the model (list of objects) to script
+        showMarkersFOLO(objectListFO,objectListLO);
+
+
+        // this is a old script, the main different is the Razor part using <text> 
+        @*var map;
         var marker;
         showMarkersFO();
         function showMarkersFO() {
@@ -130,7 +137,8 @@
                     }
                 })(marker, i)); //Closures
             }
-        }
+        }*@
 
+    
     </script>
 }

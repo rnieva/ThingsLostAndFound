@@ -32,12 +32,14 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
+    <script src="@Url.Content("~/Scripts/mapShowMarkersLO.js")"></script>
     <script type="text/javascript">
-        var map;
+        var objectList = @(Html.Raw(Json.Encode(Model)));  // pass the model (list of objects) to script
+        showMarkersLO(objectList);
+
+        @*var map;
         var marker;
         showMarkersFO();
-
-
         function showMarkersFO() {
             var bounds = new google.maps.LatLngBounds();
             var la = [];
@@ -85,7 +87,7 @@
                     }
                 })(marker, i)); //Closures
             }
-        }
+        }*@
 
     </script>
 }

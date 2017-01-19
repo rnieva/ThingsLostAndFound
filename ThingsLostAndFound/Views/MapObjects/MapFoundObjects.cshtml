@@ -32,9 +32,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
-    <script src="@Url.Content("~/Scripts/mapShowMarkers.js")"></script>
+    <script src="@Url.Content("~/Scripts/mapShowMarkersFO.js")"></script>
     <script type="text/javascript">
-        var fol = @(Html.Raw(Json.Encode(Model)));  // pass the model to script
-        showMarkersFO(fol);
+        var objectList = @(Html.Raw(Json.Encode(Model)));  // pass the model (list of objects) to script
+        showMarkersFO(objectList);
     </script>
 }
