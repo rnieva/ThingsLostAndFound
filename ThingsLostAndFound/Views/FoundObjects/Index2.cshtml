@@ -1,0 +1,44 @@
+﻿@model ThingsLostAndFound.Models.IndexViewModel
+
+<html>
+<body>
+            <ul>
+                 @Html.Partial("Index",Model.Items)
+            </ul>
+
+            <!-- pager -->
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage > 1)
+                    {
+                        <li>
+                            <a href="/FoundObjects/Index2">First</a>
+                        </li>
+                        <li>
+                            <a href="/FoundObjects/Index2?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                        </li>
+                    }
+
+                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                            <a href="/FoundObjects/Index2?page=@page">@page</a>
+                        </li>
+                    }
+
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li>
+                            <a href="/FoundObjects/Index2?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                        </li>
+                            <li>
+                                <a href="/FoundObjects/Index2?page=@(Model.Pager.TotalPages)">Last</a>
+                            </li>
+                    }
+                </ul>
+            }
+
+    <hr />
+</body>
+</html>

@@ -181,6 +181,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\File.cs">
       <DependentUpon>TLAFmodel.tt</DependentUpon>
     </Compile>
@@ -329,6 +330,7 @@
     <Content Include="Views\MapObjects\MapFoundObjects.cshtml" />
     <Content Include="Views\MapObjects\MapLostObjects.cshtml" />
     <Content Include="Views\MapObjects\MapFoundAndLostObjects.cshtml" />
+    <Content Include="Views\FoundObjects\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

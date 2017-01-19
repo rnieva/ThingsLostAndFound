@@ -27,6 +27,27 @@ namespace ThingsLostAndFound.Controllers
             return View(foundObjects.ToList());
         }
 
+        [HttpGet]
+        public ActionResult Index2(int? page)
+        {
+            //var dummyItems = Enumerable.Range(1, 150).Select(x => "Item " + x);
+            var foundObjects = db.FoundObjects.Where(f => f.State == false);
+            var dummyItems = foundObjects;
+            var pager = new Pager(dummyItems.Count(), page);
+
+            
+
+            var viewModel = new IndexViewModel
+            {
+                //Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Items = dummyItems.OrderByDescending(x => x.Date).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                //Items = foundObjects,
+                Pager = pager
+            };
+
+            return View(viewModel);
+        }
+
         // GET: FoundObjects/Details/5
         public ActionResult Details(int? id)
         {
