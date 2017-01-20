@@ -21,7 +21,7 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult Index(int? page)
         {
             var lostObjectsList = db.LostObjects.Where(l => l.State == false);
-            var pager = new Pager(lostObjectsList.Count(), page);
+            var pager = new Pager(lostObjectsList.Count(), page, 5); //number of objects per page
             var viewModel = new IndexViewModel
             {
                 LostObjectList = lostObjectsList.OrderByDescending(x => x.Date).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),

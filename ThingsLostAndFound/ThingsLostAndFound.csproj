@@ -317,7 +317,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\InfoUsers\AddUser.cshtml" />
     <Content Include="Views\UsersContact\ContactUserRegisterFoundObject.cshtml" />
-    <Content Include="Views\Messages\ShowMessages.cshtml" />
+    <Content Include="Views\Messages\_ShowMessages.cshtml" />
     <Content Include="Views\LostObjects\CreateObjMe.cshtml" />
     <Content Include="Views\FoundObjects\CreateObjMe.cshtml" />
     <Content Include="Views\UsersContact\SendMessage.cshtml" />
@@ -332,6 +332,7 @@
     <Content Include="Views\MapObjects\MapFoundAndLostObjects.cshtml" />
     <Content Include="Views\FoundObjects\Index.cshtml" />
     <Content Include="Views\LostObjects\_IndexLO.cshtml" />
+    <Content Include="Views\Messages\ShowMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

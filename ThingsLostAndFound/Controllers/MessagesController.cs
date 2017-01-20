@@ -15,7 +15,7 @@ namespace ThingsLostAndFound.Controllers
         private TLAFEntities db = new TLAFEntities();
         // GET: Messages
 
-        public ActionResult ShowMessages(int id) // user id registered
+        public ActionResult ShowMessages(int id, int? page) // user id registered
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -62,7 +62,19 @@ namespace ThingsLostAndFound.Controllers
                     authCookie.Value = FormsAuthentication.Encrypt(newticket);
                     Response.Cookies.Set(authCookie);
                 }
-                return View(messagesViewList);
+                
+                //TODO: revisar los new messages para que se conserve el rojo
+                var pager = new Pager(msgsUsersList.Count(), page, 10); //10 is the numner of messages per page
+                var viewModel = new IndexViewModel
+                {
+                    MessagesList = msgsUsersList.OrderByDescending(x => x.dateMessage).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    IdNewmsgs = idNewmsgs,
+                    Pager = pager
+                };
+                ViewBag.id = id;
+                return View(viewModel);
+
+                //return View(messagesViewList); //before the add "Pagination2" it sent to View a list<Objects> with two lists
             }
             else
             {

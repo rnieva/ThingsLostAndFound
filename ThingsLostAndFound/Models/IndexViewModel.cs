@@ -11,12 +11,14 @@ namespace ThingsLostAndFound.Models
         //Several List depends of the view executed
         public IEnumerable<Models.FoundObject> FoundObjectList { get; set; }
         public IEnumerable<Models.LostObject> LostObjectList { get; set; }
+        public IEnumerable<Models.Message> MessagesList { get; set; }
+        public List<int> IdNewmsgs { get; set; }
         public Pager Pager { get; set; }
     }
 
     public class Pager
     {
-        public Pager(int totalItems, int? page, int pageSize = 4)
+        public Pager(int totalItems, int? page, int pageSize)
         {
             // calculate total, start and end pages, pageSize is the number of objects per page
             var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);

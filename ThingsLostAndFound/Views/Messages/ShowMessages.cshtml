@@ -1,132 +1,43 @@
-﻿@model IEnumerable<object>
-@{
-    ViewBag.Title = "ShowMessages";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    List<ThingsLostAndFound.Models.Message> messagesList = Model.ToList()[0] as List<ThingsLostAndFound.Models.Message>;
-    List<int> idNewmsgs = Model.ToList()[1] as List<int>;
-}
+﻿@model ThingsLostAndFound.Models.IndexViewModel
 
 <html>
-    <body>
-        <h2>Messages</h2>
-        <p></p>
-        <table class="table">
-            <tr>
-                <td>
-                    @Html.Label("Message")
-                </td>
-                <td>
-                    @Html.Label("Sended by")
-                </td>
-                <td>
-                    @Html.Label("to")
-                </td>
-                <td>
-                    @Html.Label("Subject")
-                </td>
-                <td>
-                    @Html.Label("Object")
-                </td>
-                <td>
-                    @Html.Label("Date Message")
-                </td>
-                <td>
-                    @Html.Label("Response")
-                </td>
-                <td>
-                    @Html.Label("Delete")
-                </td>
-            </tr>
-            @foreach (var item in messagesList)
+<body>
+    <ul>
+        @Html.Partial("_ShowMessages", Model)
+    </ul>
+
+    <!-- pager -->
+    @if (Model.Pager.EndPage > 1)
             {
-                <tr>
-                    <td>
-                        @{
-                            bool isInList = idNewmsgs.IndexOf(item.Id) != -1;   //check if the msg is new
+        <ul class="pagination">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li>
+                    <a href="/Messages/ShowMessages/?id=@ViewBag.id">First</a>
+                </li>
+                        <li>
+                            <a href="/Messages/ShowMessages/?id=@ViewBag.id&page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                        </li>
+            }
 
-                            var isInList2 = idNewmsgs.Contains(item.Id);
+            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                    <a href="/Messages/ShowMessages/?id=@ViewBag.id&page=@page">@page</a>
+                </li>
+            }
 
-                            if (isInList)
-                            {
-                                <font color="red">
-                                    @Html.DisplayFor(modelItem => item.Message1)
-                                </font>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(modelItem => item.Message1)
-                            }
-                         }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InfoUser.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InfoUser1.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.subject)
-                    </td>
-                    <td>
-                        @{
-                            // We can see in the subject column if the object is Found or Lost
-                            if (item.FoundObjectId != null)
-                            {
-                                @Html.ActionLink(item.FoundObject.Title, "Details", "FoundObjects", new { id = item.FoundObjectId }, null)
-                            }
-                            if (item.LostObjectId != null)
-                            {
-                                @Html.ActionLink(item.LostObject.Title, "Details", "LostObjects", new { id = item.LostObjectId }, null)
-                            }
-                            if (item.subject == "Support")
-                            {
-                                @Html.Label("- -")
-                            }
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.dateMessage)
-                    </td>
-                    <td>
-                        @{
-                            if (item.emailAddressUserDontRegis != null)
-                            {
-                                <a href="mailto: @item.emailAddressUserDontRegis">@item.emailAddressUserDontRegis</a>
-                            }
-                            else
-                            {
-                                int idtemp = 0; // Msg Support 
-                                if (item.subject == "Found Object")
-                                {
-                                    idtemp = item.FoundObjectId.Value;
-                                }
-                                if (item.subject == "Lost Object")
-                                {
-                                    idtemp = item.LostObjectId.Value;
-                                }
-                                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                                if (item.InfoUser.UserName == ticket.Name)
-                                {
-                                    @Html.ActionLink("Send other message to " + item.InfoUser1.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
-                                }
-                                else
-                                {
-                                    @Html.ActionLink(item.InfoUser.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
-                                }
-                            }
-                        }
-                        
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "DeleteMessages", new { id = item.Id })
-                    </td>
-                </tr>
-                }
-            </table>
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li>
+                    <a href="/Messages/ShowMessages/?id=@ViewBag.id&page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                </li>
+                        <li>
+                            <a href="/Messages/ShowMessages/?id=@ViewBag.id&page=@(Model.Pager.TotalPages)">Last</a>
+                        </li>
+            }
+        </ul>
+    }
+    <hr />
 </body>
 </html>
-
-
-
-
