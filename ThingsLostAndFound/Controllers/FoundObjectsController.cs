@@ -20,31 +20,15 @@ namespace ThingsLostAndFound.Controllers
         private TLAFEntities db = new TLAFEntities();
 
         // GET: FoundObjects
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            //var foundObjects = db.FoundObjects.Include(f => f.InfoUser);
-            var foundObjects= db.FoundObjects.Where(f => f.State == false);  //Objects with state true alredy solved
-            return View(foundObjects.ToList());
-        }
-
-        [HttpGet]
-        public ActionResult Index2(int? page)
-        {
-            //var dummyItems = Enumerable.Range(1, 150).Select(x => "Item " + x);
-            var foundObjects = db.FoundObjects.Where(f => f.State == false);
-            var dummyItems = foundObjects;
-            var pager = new Pager(dummyItems.Count(), page);
-
-            
-
+            var foundObjectsList = db.FoundObjects.Where(f => f.State == false);
+            var pager = new Pager(foundObjectsList.Count(), page);
             var viewModel = new IndexViewModel
             {
-                //Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Items = dummyItems.OrderByDescending(x => x.Date).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                //Items = foundObjects,
+                FoundObjectList = foundObjectsList.OrderByDescending(x => x.Date).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
                 Pager = pager
             };
-
             return View(viewModel);
         }
 

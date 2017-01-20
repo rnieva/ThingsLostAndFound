@@ -8,8 +8,9 @@ namespace ThingsLostAndFound.Models
 {
     public class IndexViewModel
     {
-        //public IEnumerable<string> Items { get; set; }
-        public IEnumerable<Models.FoundObject> Items { get; set; }
+        //Several List depends of the view executed
+        public IEnumerable<Models.FoundObject> FoundObjectList { get; set; }
+        public IEnumerable<Models.LostObject> LostObjectList { get; set; }
         public Pager Pager { get; set; }
     }
 
@@ -17,7 +18,7 @@ namespace ThingsLostAndFound.Models
     {
         public Pager(int totalItems, int? page, int pageSize = 4)
         {
-            // calculate total, start and end pages
+            // calculate total, start and end pages, pageSize is the number of objects per page
             var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             var currentPage = page != null ? (int)page : 1;
             var startPage = currentPage - 5;

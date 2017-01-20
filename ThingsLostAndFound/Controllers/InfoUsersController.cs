@@ -104,7 +104,7 @@ namespace ThingsLostAndFound.Controllers
                 //TODO: changed type of encrypt 
                 string passEncrypt = Crypto.Hash(infoUser.UserPass);
                 infoUser.UserPass = passEncrypt;
-                infoUser.Rol = 3;
+                infoUser.Rol = 3;  // ROL = 3 normal user
                 infoUser.Date = DateTime.Now;
                 db.InfoUsers.Add(infoUser);
                 Message msg = new Message();

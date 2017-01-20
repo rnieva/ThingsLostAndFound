@@ -1,121 +1,43 @@
-﻿@model IEnumerable<ThingsLostAndFound.Models.FoundObject>
+﻿@model ThingsLostAndFound.Models.IndexViewModel
 
-@{
-    ViewBag.Title = "Index";
-}
 <html>
 <body>
-    <h3>Found Objects List</h3>
-    @*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>*@
-    
-   
+            <ul>
+                 @Html.Partial("_IndexFO",Model.FoundObjectList)
+            </ul>
 
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-                @*Date Found Object*@
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ZipCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CityTownRoad)
-            </th>
-            <th>
-                Picture
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InfoUser.UserName)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.Color)*@
-                    @{
-                        if (item.Color != null)
-                        {
-                            <span style="background: @Html.DisplayFor(modelItem => item.Color) " class="form-control">&nbsp;&nbsp;&nbsp;</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ZipCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CityTownRoad)
-                </td>
-                <td>
-                    @if (item.Img == true)
+            <!-- pager -->
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage > 1)
                     {
-                        <img src="~/File?id=@item.FileId" alt="No Img" height="62" width="95" /> @*the File controller give the file(picture) from DB using Id*@
+                        <li>
+                            <a href="/FoundObjects/">First</a>
+                        </li>
+                        <li>
+                            <a href="/FoundObjects/?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                        </li>
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InfoUser.UserName)
-                </td>
-                <td>
-                    @* TODO: add only admin and user that create report can edit and delete the report *@
-                    @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = item.Id, title = item.Title, userName = item.InfoUser.UserName, securityQuestion = item.SecurityQuestion }, null)
-                    <p></p>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id })
-                    @if (Request.IsAuthenticated)
-                    {  /* TODO: checked if the user created this object*/
-                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                        string infoUserIdRolNewM = ticket.UserData.ToString();
-                        int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
-                        int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
-                        if ((userId == item.InfoUser.Id) || (roll == 1))
-                        {
-                            <p></p>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            <p></p>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                        }
+
+                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                            <a href="/FoundObjects/?page=@page">@page</a>
+                        </li>
                     }
-                </td>
-            </tr>
 
-                        }
-
-    </table>
-
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li>
+                            <a href="/FoundObjects/?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                        </li>
+                        <li>
+                            <a href="/FoundObjects/?page=@(Model.Pager.TotalPages)">Last</a>
+                        </li>
+                    }
+                </ul>
+            }
+    <hr />
 </body>
 </html>

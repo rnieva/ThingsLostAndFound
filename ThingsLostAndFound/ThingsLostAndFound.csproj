@@ -309,7 +309,7 @@
     <Content Include="Views\FoundObjects\Delete.cshtml" />
     <Content Include="Views\FoundObjects\Details.cshtml" />
     <Content Include="Views\FoundObjects\Edit.cshtml" />
-    <Content Include="Views\FoundObjects\Index.cshtml" />
+    <Content Include="Views\FoundObjects\_IndexFO.cshtml" />
     <Content Include="Views\UsersContact\ContactUserFoundObject.cshtml" />
     <Content Include="Views\UsersContact\SendRequestUser.cshtml" />
     <Content Include="Views\FindMatches\SearchMatchesInLostObject.cshtml" />
@@ -330,7 +330,8 @@
     <Content Include="Views\MapObjects\MapFoundObjects.cshtml" />
     <Content Include="Views\MapObjects\MapLostObjects.cshtml" />
     <Content Include="Views\MapObjects\MapFoundAndLostObjects.cshtml" />
-    <Content Include="Views\FoundObjects\Index2.cshtml" />
+    <Content Include="Views\FoundObjects\Index.cshtml" />
+    <Content Include="Views\LostObjects\_IndexLO.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

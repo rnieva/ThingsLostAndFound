@@ -17,11 +17,17 @@ namespace ThingsLostAndFound.Controllers
         private TLAFEntities db = new TLAFEntities();
 
         // GET: LostObjects
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(int? page)
         {
-            //var lostObjects = db.LostObjects.Include(l => l.InfoUser);
-            var lostObjects = db.LostObjects.Where(l => l.State == false);
-            return View(lostObjects.ToList());
+            var lostObjectsList = db.LostObjects.Where(l => l.State == false);
+            var pager = new Pager(lostObjectsList.Count(), page);
+            var viewModel = new IndexViewModel
+            {
+                LostObjectList = lostObjectsList.OrderByDescending(x => x.Date).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager
+            };
+            return View(viewModel);
         }
 
         // GET: LostObjects/Details/5
