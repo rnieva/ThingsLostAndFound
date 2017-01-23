@@ -103,6 +103,7 @@
     <Property Name="ContactState" Type="Boolean" />
     <NavigationProperty Name="Messages" Relationship="TLAFModel.FK_Messages_ToTable_2" FromRole="FoundObject" ToRole="Message" />
     <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_" FromRole="FoundObject" ToRole="LostAndFoundObject" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="LostAndFoundObject">
     <Key>
@@ -148,6 +149,7 @@
     <NavigationProperty Name="File" Relationship="TLAFModel.FK_LostObjects_ToTable_1" FromRole="LostObject" ToRole="File" />
     <NavigationProperty Name="Messages" Relationship="TLAFModel.FK_Messages_ToTable_3" FromRole="LostObject" ToRole="Message" />
     <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_1" FromRole="LostObject" ToRole="LostAndFoundObject" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Type="TLAFModel.InfoUser" Role="InfoUser" Multiplicity="1" />

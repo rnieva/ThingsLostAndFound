@@ -30,6 +30,7 @@ namespace ThingsLostAndFound.Controllers
             string Location = foundObject.Location;
             string CityTownRoad = foundObject.CityTownRoad;
             string SecurityQuestion = foundObject.SecurityQuestion;
+            string Country = foundObject.Country;
             
             int numberResults = 0;
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
@@ -78,6 +79,7 @@ namespace ThingsLostAndFound.Controllers
             string LocationObservations = lostObject.LocationObservations;
             string Location = lostObject.Location;
             string CityTownRoad = lostObject.CityTownRoad;
+            string Country = lostObject.Country;
 
             int numberResults = 0;
             List<FoundObject> FoundObjectMatchesList = new List<FoundObject>();
@@ -119,7 +121,7 @@ namespace ThingsLostAndFound.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SearchFoundOrLostObject([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, string TypeObject)
+        public ActionResult SearchFoundOrLostObject([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion, Country")] FoundObject foundObject, string TypeObject)
         { // like model of object I use "Found Object Model" in the form, but I use these data for both -  Found Object and Lost Object
             if (TypeObject == "FoundObject")
             {
@@ -143,6 +145,7 @@ namespace ThingsLostAndFound.Controllers
                 lostObject.LocationObservations = foundObject.LocationObservations;
                 lostObject.Location = foundObject.Location;
                 lostObject.CityTownRoad = foundObject.CityTownRoad;
+                lostObject.Country = foundObject.Country;
                 return RedirectToAction("SearchMatchesInFoundObject", lostObject);
             }
             

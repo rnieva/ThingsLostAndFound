@@ -35,6 +35,7 @@
     <Property Name="Img" Type="bit" />
     <Property Name="SecurityQuestion" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ContactState" Type="bit" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="InfoUsers">
     <Key>
@@ -84,6 +85,7 @@
     <Property Name="FileId" Type="int" Nullable="false" />
     <Property Name="Img" Type="bit" />
     <Property Name="ContactState" Type="bit" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Messages">
     <Key>

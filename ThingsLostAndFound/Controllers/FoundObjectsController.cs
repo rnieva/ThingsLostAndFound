@@ -75,7 +75,7 @@ namespace ThingsLostAndFound.Controllers
         // POST: FoundObjects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,Country,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion")] FoundObject foundObject, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace ThingsLostAndFound.Controllers
                     db.Files.Add(file);
                 }
                 db.FoundObjects.Add(foundObject);
-                Message msg = new Message();
+                Message msg = new Message();    //new message with new object
                 msg.NewMessage = true;
                 msg.Message1 = "Found Object added to list";
                 msg.dateMessage = DateTime.Now;
@@ -175,7 +175,7 @@ namespace ThingsLostAndFound.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,State,FileId,Img,SecurityQuestion,ContactState")] FoundObject foundObject, HttpPostedFileBase upload)
+        public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,Country,LocationObservations,Location,CityTownRoad,State,FileId,Img,SecurityQuestion,ContactState")] FoundObject foundObject, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {

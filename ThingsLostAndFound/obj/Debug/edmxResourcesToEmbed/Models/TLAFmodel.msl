@@ -17,6 +17,7 @@
     <EntitySetMapping Name="FoundObjects">
       <EntityTypeMapping TypeName="TLAFModel.FoundObject">
         <MappingFragment StoreEntitySet="FoundObjects">
+          <ScalarProperty Name="Country" ColumnName="Country" />
           <ScalarProperty Name="ContactState" ColumnName="ContactState" />
           <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
           <ScalarProperty Name="FileId" ColumnName="FileId" />
@@ -57,6 +58,7 @@
     <EntitySetMapping Name="LostObjects">
       <EntityTypeMapping TypeName="TLAFModel.LostObject">
         <MappingFragment StoreEntitySet="LostObjects">
+          <ScalarProperty Name="Country" ColumnName="Country" />
           <ScalarProperty Name="ContactState" ColumnName="ContactState" />
           <ScalarProperty Name="FileId" ColumnName="FileId" />
           <ScalarProperty Name="State" ColumnName="State" />

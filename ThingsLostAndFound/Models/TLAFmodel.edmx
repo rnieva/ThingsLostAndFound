@@ -40,6 +40,7 @@
           <Property Name="Img" Type="bit" />
           <Property Name="SecurityQuestion" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ContactState" Type="bit" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="InfoUsers">
           <Key>
@@ -89,6 +90,7 @@
           <Property Name="FileId" Type="int" Nullable="false" />
           <Property Name="Img" Type="bit" />
           <Property Name="ContactState" Type="bit" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Messages">
           <Key>
@@ -414,6 +416,7 @@
           <Property Name="ContactState" Type="Boolean" />
           <NavigationProperty Name="Messages" Relationship="TLAFModel.FK_Messages_ToTable_2" FromRole="FoundObject" ToRole="Message" />
           <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_" FromRole="FoundObject" ToRole="LostAndFoundObject" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LostAndFoundObject">
           <Key>
@@ -459,6 +462,7 @@
           <NavigationProperty Name="File" Relationship="TLAFModel.FK_LostObjects_ToTable_1" FromRole="LostObject" ToRole="File" />
           <NavigationProperty Name="Messages" Relationship="TLAFModel.FK_Messages_ToTable_3" FromRole="LostObject" ToRole="Message" />
           <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_1" FromRole="LostObject" ToRole="LostAndFoundObject" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Type="TLAFModel.InfoUser" Role="InfoUser" Multiplicity="1" />
@@ -659,6 +663,7 @@
           <EntitySetMapping Name="FoundObjects">
             <EntityTypeMapping TypeName="TLAFModel.FoundObject">
               <MappingFragment StoreEntitySet="FoundObjects">
+                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="ContactState" ColumnName="ContactState" />
                 <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
                 <ScalarProperty Name="FileId" ColumnName="FileId" />
@@ -699,6 +704,7 @@
           <EntitySetMapping Name="LostObjects">
             <EntityTypeMapping TypeName="TLAFModel.LostObject">
               <MappingFragment StoreEntitySet="LostObjects">
+                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="ContactState" ColumnName="ContactState" />
                 <ScalarProperty Name="FileId" ColumnName="FileId" />
                 <ScalarProperty Name="State" ColumnName="State" />

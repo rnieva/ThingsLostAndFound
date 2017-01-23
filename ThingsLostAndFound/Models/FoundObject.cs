@@ -71,6 +71,8 @@ public partial class FoundObject
 
     public Nullable<bool> ContactState { get; set; }
 
+    public string Country { get; set; }
+
 
 
     public virtual InfoUser InfoUser { get; set; }
