@@ -38,11 +38,18 @@ textarea {
   color: #080808;
 }
 .dropdown-menu {
-  background-color: #d1c5c5;
+  background-color: #ff6a00;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   color: #ffffff;
   text-decoration: none;
   background-color: #080808;
+}
+a.classname
+{
+     background: url('Images/Search Icon.png') no-repeat top left;
+     width: 150px;
+     height: 350px;
+     color: red;
 }

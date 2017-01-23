@@ -63,29 +63,39 @@ function geocodeLatLng(latlngStr, geocoder) { //get info from lat and lng
     var AddressForm = document.getElementById('Address');
     var LocationForm = document.getElementById('Location');
     var ZipCodeForm = document.getElementById('ZipCode');
+    var CountryForm = document.getElementById('Country');
     var latlng = { lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1]) };
     geocoder.geocode({ 'location': latlng }, function (results, status) {
         var resultTemp = results;
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[0]) {
                 AddressForm.value = results[0].formatted_address;  //TODO: add if para controlar los resultados
-                if (results[0].address_components[2]) {
-                    LocationForm.value = results[0].address_components[2].long_name;
-                }
-                if (results[0].address_components[7]) {
-                    ZipCodeForm.value = results[0].address_components[7].long_name;
+                for (var i = 0; i < results[0].address_components.length; i++) {
+                    for (var j = 0; j < results[0].address_components[i].types.length; j++) {
+                        if (results[0].address_components[i].types[j] == "country") {
+                            CountryForm.value = results[0].address_components[i].long_name;
+                        }
+                        if (results[0].address_components[i].types[j] == "postal_code") {
+                            ZipCodeForm.value = results[0].address_components[i].long_name;
+                        }
+                        if (results[0].address_components[i].types[j] == "locality") {
+                            LocationForm.value = results[0].address_components[i].long_name;
+                        }
+                    }
                 }
             } else {
                 window.alert('No results found');
                 AddressForm.value = "";
                 LocationForm.value = "";
                 ZipCodeForm.value = "";
+                CountryForm.value = "";
             }
         } else {
             window.alert('Geocoder failed due to: ' + status);
             AddressForm.value = "";
             LocationForm.value = "";
             ZipCodeForm.value = "";
+            CountryForm.value = "";
         }
     });
 
