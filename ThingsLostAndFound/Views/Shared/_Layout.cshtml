@@ -55,36 +55,14 @@
         <div class="container body-content">
             <div class="row content">
                 <div class="col-md-1">
-                    <div class="well well-sm">
-                        <p>ADS</p>
-                    </div>
-                    <div class="well">
-                        <p>ADS</p>
-                    </div>
-                    <div class="well well-lg">
-                        <p>ADS</p>
-                    </div>
-                    <div class="well">
-                        <p>ADS</p>
-                    </div>
+                    @Html.Partial("~/Views/PartialViews/_leftSide.cshtml")
                 </div>
                 <div class="col-md-10">
                     @RenderBody()
                     <br />
                 </div>
                 <div class="col-md-1">
-                    <div class="well">
-                        <p>ADS</p>
-                    </div>
-                    <div class="well">
-                        <p>ADS</p>
-                    </div>
-                    <div class="well">
-                        <p>ADS</p>
-                    </div>
-                    <div class="well">
-                        <p>ADS</p>
-                    </div>
+                    @Html.Partial("~/Views/PartialViews/_rightSide.cshtml")
                 </div>
             </div>
             <footer>

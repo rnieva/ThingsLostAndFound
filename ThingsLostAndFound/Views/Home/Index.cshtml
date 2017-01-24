@@ -3,19 +3,24 @@
 }
 <html>
 <body>
-    <div class="row"> @* background-color:lightskyblue *@
+    <div class="row">
         <div class="col-md-6 text-center">
-            <div class="jumbotron" style="background-color:lightskyblue">
+            <div class="jumbotron" style="background-color:lightcoral">
                 <h2>LOST</h2>
                 <p><h3>Have you lost anything?</h3></p>
                 <h4>Step 1- Search it</h4>
-                <p> @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches", new { select = "lo" }, new { @class = "classname" })
+                <p>
+                     @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches", new { select = "lo" }, new { @class = "searchBtn" })
                 </p>
                 <h4>If not found...</h4>
                 <h4>Step 2 - Login or Register to create a report</h4>
-                <p><a class="btn btn-default" @Html.ActionLink("Log in", "Login", "Login")</a></p>
+                <p>
+                     <a class="loginBtn" @Html.ActionLink("Log in", "Login", "Login")</a>
+                </p>
                 <h4>Step 3- Create a report</h4>
-                <p><a class="btn btn-default" @Html.ActionLink("Lost Object Report", "Create", "LostObjects")</a></p>
+                <p>
+                     <a class="createReportBtn" @Html.ActionLink("Lost Object Report", "Create", "LostObjects")</a>
+                </p>
             </div>
         </div>
         
@@ -24,12 +29,18 @@
                 <h2>FOUND</h2>
                 <p><h3>Have you found anything?</h3></p>
                 <h4>Step 1- Check it in our DB</h4>
-                <p><a class="btn btn-default" @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches", new { select = "fo" }, null)</a></p>
+                <p>
+                    @Html.ActionLink("Search", "SearchFoundOrLostObject", "FindMatches", new { select = "fo" }, new { @class = "searchBtn" })
+                </p>
                 <h4>If not found...</h4>
                 <h4>Step 2 - Login or Register to create a report</h4>
-                <p><a class="btn btn-default" @Html.ActionLink("Log in", "Login", "Login")</a></p>
+                <p>
+                    <a class="loginBtn" @Html.ActionLink("Log in", "Login", "Login")</a>
+                </p>
                 <h4>Step 3- Create a report</h4>
-                <p><a class="btn btn-default" @Html.ActionLink("Found Object Report", "Create", "FoundObjects")</a></p>
+                <p>
+                     @Html.ActionLink("Found Object Report", "Create", "FoundObjects", null, new { @class = "createReportBtn" })
+                </p>
             </div>
         </div>
     </div>

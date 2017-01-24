@@ -233,6 +233,8 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\CreateReport.png" />
+    <Content Include="Content\Images\login.png" />
     <Content Include="Content\Images\Search Icon.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -334,6 +336,8 @@
     <Content Include="Views\FoundObjects\Index.cshtml" />
     <Content Include="Views\LostObjects\_IndexLO.cshtml" />
     <Content Include="Views\Messages\ShowMessages.cshtml" />
+    <Content Include="Views\PartialViews\_leftSide.cshtml" />
+    <Content Include="Views\PartialViews\_rightSide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -346,9 +350,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\PartialViews\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
