@@ -76,9 +76,18 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+            
+        
+             <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })*@
+                @{
+                     if (Model.Color == null)
+                     {
+                         @Html.Label("No color selected")
+                     }
+                 }
+                 <input type="color" name="Color" id="Color" value="@Model.Color" class="form-control">
+                  @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
             </div>
         </div>
 

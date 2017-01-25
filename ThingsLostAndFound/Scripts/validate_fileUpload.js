@@ -1,5 +1,5 @@
 ﻿// Add validation for uploaded file, size and extension
-var flag = false;
+var flag = true; // If the user doesn´t upload any file
 function validate_fileupload(fileName) {
     var allowed_extensions = new Array("jpg", "png", "gif", "jpeg", "bmp");
     var file_extension = fileName.split('.').pop(); // split function will split the filename by dot(.), and pop function will pop the last element from the array which will give you the extension as well. If there will be no extension then it will return the filename.

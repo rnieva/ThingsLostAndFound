@@ -29,7 +29,7 @@ textarea {
     font-family:  Arial, Helvetica, sans-serif;
 }
 .navbar-inverse {
-  background-color: #658b1e;
+  background-color: #ffd800;
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
@@ -39,7 +39,7 @@ textarea {
   color: #080808;
 }
 .dropdown-menu {
-  background-color: #ff6a00;
+  background-color: #ffd800;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
