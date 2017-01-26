@@ -258,12 +258,21 @@ namespace ThingsLostAndFound.Controllers
             //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             //db.Files.Remove(file);
             var msgListAbouthisObject = db.Messages.Where(a => a.LostObjectId == id).ToList();
-            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
-            //foreach (var msg in msgListAbouthisObject)
-            //{
-            //    msg.ShowMsgUserId1 = idUser;
-            //    //db.Entry(mgs).State = EntityState.Modified;
-            //}
+            //db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
+            foreach (var msg in msgListAbouthisObject)
+            {
+                if (msg.ShowMsgUserId1 == null)
+                {
+                    msg.ShowMsgUserId1 = idUser; // REMARK: it update the value and I dont use --> db.Entry(m).State = EntityState.Modified;
+                                                 //db.Entry(mgsForNotShow).State = EntityState.Modified;
+                }
+                else
+                {   // if it entry here its because a first user delete the message before
+                    msg.ShowMsgUserId2 = idUser;
+                    //db.Entry(mgsForNotShow).State = EntityState.Modified;
+                }
+            }
+
             //db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -121,19 +121,18 @@ namespace ThingsLostAndFound.Controllers
                 string emailRecipient = infoUser.Email;
                 if (sendEmail.sendEmailUser(emailBody,emailSubject, emailRecipient) == true)
                 {
+                    // After the user has created a report, always check if there is any coincidences with data in the DB 
                     return RedirectToAction("SearchMatchesInLostObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(foundObject)); // I use 2RouteValueDictionary" to pass a value of this type
                 }
                 else
                 {
-                    //error send email
+                    System.Diagnostics.Debug.WriteLine("error send email");
                 }
-                //return RedirectToAction("Index");
                 // After the user has created a report, always check if there is any coincidences with data in the DB 
                 return RedirectToAction("SearchMatchesInLostObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(foundObject) ); // I use 2RouteValueDictionary" to pass a value of this type
             }
-
             ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);
-            return View(foundObject);
+            return View(foundObject); //If not is valid
         }
 
         // GET: FoundObjects/Edit/5
@@ -248,7 +247,7 @@ namespace ThingsLostAndFound.Controllers
             lostAndFoundObject.UserIdreportFound = idUser;
             if (checkObjectSolved == false)  // this is the user found the object
             {
-                InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault();
+                InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault(); //to get the id of ContactUser
                 if (infoUser != null)
                 {
                     lostAndFoundObject.UserIdreportedLost = infoUser.Id;
@@ -273,12 +272,21 @@ namespace ThingsLostAndFound.Controllers
             //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             //db.Files.Remove(file);
             var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
-            db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
-            //foreach (var msg in msgListAbouthisObject)
-            //{
-            //    msg.ShowMsgUserId1 = idUser;
-            //    //db.Entry(mgs).State = EntityState.Modified;
-            //}
+            //db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
+            foreach (var msg in msgListAbouthisObject)
+            {
+                if (msg.ShowMsgUserId1 == null)
+                {
+                    msg.ShowMsgUserId1 = idUser; // REMARK: it update the value and I dont use --> db.Entry(m).State = EntityState.Modified;
+                                                           //db.Entry(mgsForNotShow).State = EntityState.Modified;
+                }
+                else
+                {   // if it entry here its because a first user delete the message before
+                    msg.ShowMsgUserId2 = idUser;
+                    //db.Entry(mgsForNotShow).State = EntityState.Modified;
+                }
+            }
+
             //db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
             db.SaveChanges();
             return RedirectToAction("Index");

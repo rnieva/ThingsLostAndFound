@@ -35,7 +35,7 @@ namespace ThingsLostAndFound.Controllers
             int numberResults = 0;
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
             // check matches from much coincidences to less coincidences
-            LostObjectMatchesList = (from p in db.LostObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+            LostObjectMatchesList = (from p in db.LostObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country select p).ToList();
             if (LostObjectMatchesList.Count == 0)
             {
                 LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
@@ -84,7 +84,7 @@ namespace ThingsLostAndFound.Controllers
             int numberResults = 0;
             List<FoundObject> FoundObjectMatchesList = new List<FoundObject>();
             // check matches from much coincidences to less coincidences
-            FoundObjectMatchesList = (from p in db.FoundObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+            FoundObjectMatchesList = (from p in db.FoundObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country select p).ToList();
             if (FoundObjectMatchesList.Count == 0)
             {
                 FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
@@ -121,7 +121,7 @@ namespace ThingsLostAndFound.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SearchFoundOrLostObject([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion, Country")] FoundObject foundObject, string TypeObject)
+        public ActionResult SearchFoundOrLostObject([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,LocationObservations,Location,CityTownRoad,Img,SecurityQuestion,Country")] FoundObject foundObject, string TypeObject)
         { // like model of object I use "Found Object Model" in the form, but I use these data for both -  Found Object and Lost Object
             if (TypeObject == "FoundObject")
             {

@@ -29,7 +29,7 @@ namespace ThingsLostAndFound.Controllers
         [HttpPost]
         public ActionResult Login(Models.InfoUser user)
         {
-            string passEncrypt = Crypto.Hash(user.UserPass);
+            string passEncrypt = Crypto.Hash(user.UserPass); //TODO add Salted
             if (IsValid(user.UserName, passEncrypt))
                 {
                     //FormsAuthentication.SetAuthCookie(user.UserName, false);    // this action authenticate to user, set to user authenticated at HttpContext.Current.User
@@ -56,20 +56,25 @@ namespace ThingsLostAndFound.Controllers
         private bool IsValid(string UserName, string passEncrypt)
         {
             bool IsValid = false;
-            // TODO: delete this var user.....
             var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(passEncrypt)).FirstOrDefault();
-            var userList = from p in db.InfoUsers select p;
-            foreach (var p in userList)
+            if ((user != null) && (user.UserName == UserName)) //double check with username
             {
-                if ((p.UserName == UserName) && (p.UserPass == passEncrypt))
-                {
-                    IsValid = true;
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("");
-                }
+                IsValid = true;
             }
+
+            //var userList = from p in db.InfoUsers select p;
+            //foreach (var p in userList)
+            //{
+            //    if ((p.UserName == UserName) && (p.UserPass == passEncrypt))
+            //    {
+            //        IsValid = true;
+            //    }
+            //    else
+            //    {
+            //        System.Diagnostics.Debug.WriteLine("");
+            //    }
+            //}
+
             return IsValid;
         }
 

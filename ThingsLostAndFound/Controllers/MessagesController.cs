@@ -27,14 +27,14 @@ namespace ThingsLostAndFound.Controllers
             {
                 // search messages from or to ID user 
                 var msgsUsersList = db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
-                foreach (var m in msgsUsersList.Reverse<Message>())  // Reverse iteration to remove items in a foreach
+                foreach (var m in msgsUsersList.Reverse<Message>())  // Reverse iteration to remove items in a foreach, don´t show msgs if the user removed it
                 {
                     if ((m.ShowMsgUserId1 == id) || (m.ShowMsgUserId2 == id))
                     {
                         msgsUsersList.Remove(m);
                     }
                 }
-                List<object> messagesViewList = new List<object>();
+                List<object> messagesViewList = new List<object>(); // I already don´t use this
                 messagesViewList.Add(msgsUsersList);
                 // search new messages to show the message in red color
                 var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
@@ -63,7 +63,6 @@ namespace ThingsLostAndFound.Controllers
                     Response.Cookies.Set(authCookie);
                 }
                 
-                //TODO: revisar los new messages para que se conserve el rojo
                 var pager = new Pager(msgsUsersList.Count(), page, 10); //10 is the numner of messages per page
                 var viewModel = new IndexViewModel
                 {
