@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: WindowFrame;
+    background-color: #F5F5DC;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -31,9 +31,18 @@ textarea {
 .navbar-inverse {
   background-color: #ffd800;
   border-color: #080808;
+  font-family: Euphemia
 }
 .navbar-inverse .navbar-brand {
   color: #080808;
+  font-family: 'Comic Sans MS'
+}
+.navbar-inverse .navbar-brand:focus {
+  color: #ff0000;
+  background-color: transparent;
+}
+.navbar-inverse .navbar-text {
+  color: #ff0000;
 }
 .navbar-inverse .navbar-nav > li > a {
   color: #080808;
@@ -47,6 +56,7 @@ textarea {
   text-decoration: none;
   background-color: #080808;
 }
+/* news styles */
 .searchBtn
 {
     background: url('Images/Search Icon.png') no-repeat;
