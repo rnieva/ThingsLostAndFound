@@ -109,6 +109,18 @@
           <Property Name="ShowMsgUserId1" Type="int" />
           <Property Name="ShowMsgUserId2" Type="int" />
         </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NewObject" Type="bit" />
+          <Property Name="EditObject" Type="bit" />
+          <Property Name="DeleteObject" Type="bit" />
+          <Property Name="NewUser" Type="bit" />
+          <Property Name="EditUser" Type="bit" />
+          <Property Name="DeleteUser" Type="bit" />
+        </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
           <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="*" />
@@ -260,6 +272,7 @@
           <EntitySet Name="LostAndFoundObject" EntityType="Self.LostAndFoundObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LostObjects" EntityType="Self.LostObjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_FoundObjects_ToTable" Association="Self.FK_FoundObjects_ToTable">
             <End Role="InfoUsers" EntitySet="InfoUsers" />
             <End Role="FoundObjects" EntitySet="FoundObjects" />
@@ -386,6 +399,7 @@
             <End Role="LostObject" EntitySet="LostObjects" />
             <End Role="LostAndFoundObject" EntitySet="LostAndFoundObjects" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="TLAFModel.Setting" />
           </EntityContainer>
         <EntityType Name="FoundObject">
           <Key>
@@ -641,6 +655,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="NewObject" Type="Boolean" />
+          <Property Name="EditObject" Type="Boolean" />
+          <Property Name="DeleteObject" Type="Boolean" />
+          <Property Name="NewUser" Type="Boolean" />
+          <Property Name="EditUser" Type="Boolean" />
+          <Property Name="DeleteUser" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -753,6 +779,19 @@
                 <ScalarProperty Name="UserIdSent" ColumnName="UserIdSent" />
                 <ScalarProperty Name="Message1" ColumnName="Message" />
                 <ScalarProperty Name="NewMessage" ColumnName="NewMessage" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="TLAFModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="DeleteUser" ColumnName="DeleteUser" />
+                <ScalarProperty Name="EditUser" ColumnName="EditUser" />
+                <ScalarProperty Name="NewUser" ColumnName="NewUser" />
+                <ScalarProperty Name="DeleteObject" ColumnName="DeleteObject" />
+                <ScalarProperty Name="EditObject" ColumnName="EditObject" />
+                <ScalarProperty Name="NewObject" ColumnName="NewObject" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

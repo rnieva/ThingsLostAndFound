@@ -44,6 +44,8 @@ public partial class TLAFEntities : DbContext
 
     public virtual DbSet<Message> Messages { get; set; }
 
+    public virtual DbSet<Setting> Settings { get; set; }
+
 }
 
 }

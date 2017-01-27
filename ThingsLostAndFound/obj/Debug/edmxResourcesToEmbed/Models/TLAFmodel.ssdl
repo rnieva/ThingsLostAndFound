@@ -104,6 +104,18 @@
     <Property Name="ShowMsgUserId1" Type="int" />
     <Property Name="ShowMsgUserId2" Type="int" />
   </EntityType>
+  <EntityType Name="Settings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NewObject" Type="bit" />
+    <Property Name="EditObject" Type="bit" />
+    <Property Name="DeleteObject" Type="bit" />
+    <Property Name="NewUser" Type="bit" />
+    <Property Name="EditUser" Type="bit" />
+    <Property Name="DeleteUser" Type="bit" />
+  </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
     <End Role="FoundObjects" Type="Self.FoundObjects" Multiplicity="*" />
@@ -255,6 +267,7 @@
     <EntitySet Name="LostAndFoundObject" EntityType="Self.LostAndFoundObject" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LostObjects" EntityType="Self.LostObjects" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_FoundObjects_ToTable" Association="Self.FK_FoundObjects_ToTable">
       <End Role="InfoUsers" EntitySet="InfoUsers" />
       <End Role="FoundObjects" EntitySet="FoundObjects" />

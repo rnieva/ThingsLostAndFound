@@ -23,6 +23,7 @@
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable_3" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable_" />
         <AssociationConnector Association="TLAFModel.FK_LostAndFoundObject_ToTable_1" />
+        <EntityTypeShape EntityType="TLAFModel.Setting" Width="1.5" PointX="5.75" PointY="0.5" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

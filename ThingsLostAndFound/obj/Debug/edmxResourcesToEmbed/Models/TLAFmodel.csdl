@@ -73,6 +73,7 @@
       <End Role="LostObject" EntitySet="LostObjects" />
       <End Role="LostAndFoundObject" EntitySet="LostAndFoundObjects" />
     </AssociationSet>
+    <EntitySet Name="Settings" EntityType="TLAFModel.Setting" />
   </EntityContainer>
   <EntityType Name="FoundObject">
     <Key>
@@ -328,4 +329,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Setting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="NewObject" Type="Boolean" />
+    <Property Name="EditObject" Type="Boolean" />
+    <Property Name="DeleteObject" Type="Boolean" />
+    <Property Name="NewUser" Type="Boolean" />
+    <Property Name="EditUser" Type="Boolean" />
+    <Property Name="DeleteUser" Type="Boolean" />
+  </EntityType>
 </Schema>

@@ -37,8 +37,9 @@ textarea {
   color: #080808;
   font-family: 'Comic Sans MS'
 }
+.navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #ff0000;
+  color: #ff0000; /* When It click it */
   background-color: transparent;
 }
 .navbar-inverse .navbar-text {
@@ -46,6 +47,12 @@ textarea {
 }
 .navbar-inverse .navbar-nav > li > a {
   color: #080808;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: #2af30b;
+  background-color: #080808;
 }
 .dropdown-menu {
   background-color: #ffd800;

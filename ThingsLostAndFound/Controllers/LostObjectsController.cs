@@ -116,19 +116,23 @@ namespace ThingsLostAndFound.Controllers
                 msg.emailAddressUserDontRegis = null; // only for user not registered
                 db.Messages.Add(msg);
                 db.SaveChanges();
-                string emailBody = sendEmail.BuildBodyEmailNewLO(lostObject);
-                string emailSubject = lostObject.Id + "# Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
-                string emailRecipient = infoUser.Email;
-                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                if (settings.NewObject == true)
                 {
-                    return RedirectToAction("SearchMatchesInFoundObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(lostObject)); // I use 2RouteValueDictionary" to pass a value of this type
+                    string emailBody = sendEmail.BuildBodyEmailNewLO(lostObject);
+                    string emailSubject = lostObject.Id + "# Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                    InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                    string emailRecipient = infoUser.Email;
+                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    {
+                        // After the user has created a report, always check if there is any coincidences with data in the DB 
+                        return RedirectToAction("SearchMatchesInFoundObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(lostObject)); // I use 2RouteValueDictionary" to pass a value of this type
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("error send email");
+                    }
                 }
-                else
-                {
-                    //error send email
-                }
-                //return RedirectToAction("Index");
                 // After the user has created a report, always check if there is any coincidences with data in the DB 
                 return RedirectToAction("SearchMatchesInFoundObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(lostObject)); // I use 2RouteValueDictionary" to pass a value of this type
             }
