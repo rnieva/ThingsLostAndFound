@@ -109,12 +109,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="NewObject" Type="bit" />
-    <Property Name="EditObject" Type="bit" />
-    <Property Name="DeleteObject" Type="bit" />
-    <Property Name="NewUser" Type="bit" />
-    <Property Name="EditUser" Type="bit" />
-    <Property Name="DeleteUser" Type="bit" />
+    <Property Name="NewObject" Type="bit" Nullable="false" />
+    <Property Name="EditObject" Type="bit" Nullable="false" />
+    <Property Name="DeleteObject" Type="bit" Nullable="false" />
+    <Property Name="NewUser" Type="bit" Nullable="false" />
+    <Property Name="EditUser" Type="bit" Nullable="false" />
+    <Property Name="DeleteUser" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />

@@ -20,17 +20,17 @@ public partial class Setting
 
     public int Id { get; set; }
 
-    public Nullable<bool> NewObject { get; set; }
+    public bool NewObject { get; set; }
 
-    public Nullable<bool> EditObject { get; set; }
+    public bool EditObject { get; set; }
 
-    public Nullable<bool> DeleteObject { get; set; }
+    public bool DeleteObject { get; set; }
 
-    public Nullable<bool> NewUser { get; set; }
+    public bool NewUser { get; set; }
 
-    public Nullable<bool> EditUser { get; set; }
+    public bool EditUser { get; set; }
 
-    public Nullable<bool> DeleteUser { get; set; }
+    public bool DeleteUser { get; set; }
 
 }
 

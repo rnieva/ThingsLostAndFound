@@ -35,7 +35,8 @@ textarea {
 }
 .navbar-inverse .navbar-brand {
   color: #080808;
-  font-family: 'Comic Sans MS'
+  font-family: 'Comic Sans MS';
+  /*background:  url('Images/logoTLAF.png') no-repeat;*/
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {

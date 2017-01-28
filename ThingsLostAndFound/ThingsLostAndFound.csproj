@@ -239,6 +239,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\CreateReport.png" />
     <Content Include="Content\Images\login.png" />
+    <Content Include="Content\Images\logoTLAF.png" />
     <Content Include="Content\Images\Search Icon.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
