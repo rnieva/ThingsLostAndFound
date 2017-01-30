@@ -340,5 +340,12 @@
     <Property Name="NewUser" Type="Boolean" Nullable="false" />
     <Property Name="EditUser" Type="Boolean" Nullable="false" />
     <Property Name="DeleteUser" Type="Boolean" Nullable="false" />
+    <Property Name="ChangePass" Type="Boolean" Nullable="false" />
+    <Property Name="SendPass" Type="Boolean" Nullable="false" />
+    <Property Name="SendMsgFoUserNR" Type="Boolean" Nullable="false" />
+    <Property Name="SendMsgFoUserReg" Type="Boolean" Nullable="false" />
+    <Property Name="SendMsgLoUserNR" Type="Boolean" Nullable="false" />
+    <Property Name="SendMsgLoUserReg" Type="Boolean" Nullable="false" />
+    <Property Name="EmailMsgs" Type="Boolean" Nullable="false" />
   </EntityType>
 </Schema>

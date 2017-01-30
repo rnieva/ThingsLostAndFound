@@ -133,5 +133,65 @@ namespace ThingsLostAndFound.Services
             return buildBodyEmail;
         }
 
+        public static string BuildBodyEmailDeleteObjectFO(FoundObject foundObject)
+        {
+            string emailBody = "";
+            emailBody = "<b> Delete Object " + foundObject.Title + "</b><br>"
+                       + "Delete Object<br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return emailBody;
+        }
+
+        public static string BuildBodyEmailDeleteObjectLO(LostObject lostObject)
+        {
+            string emailBody = "";
+            emailBody = "<b> Delete Object " + lostObject.Title + "</b><br>"
+                       + "Delete Object<br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return emailBody;
+        }
+
+        public static string BuildBodyEmailEditObjectFO(FoundObject foundObject)
+        {
+            string emailBody = "";
+            emailBody = "<b> Edit Object " + foundObject.Title + "</b><br>"
+                       + "Edit Object<br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return emailBody;
+        }
+
+        public static string BuildBodyEmailEditObjectLO(LostObject lostObject)
+        {
+            string emailBody = "";
+            emailBody = "<b> Edit Object " + lostObject.Title + "</b><br>"
+                       + "Edit Object<br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return emailBody;
+        }
+
+        public static string NewUser(string userName)
+        {
+            string emailBody = "";
+            emailBody = "<b> New User Create: "+ userName +" </b><br>"
+                       + "Edit Object<br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return emailBody;
+        }
+
+        public static string EditUser(string userName)
+        {
+            string emailBody = "";
+            emailBody = "<b> New User Create: " + userName + " </b><br>"
+                       + "Edit Object<br>"
+                       + "----------------------------------------------------------<br><br>"
+                       + "Message sent: " + DateTime.Now.ToShortDateString();
+            return emailBody;
+        }
+
     }
 }

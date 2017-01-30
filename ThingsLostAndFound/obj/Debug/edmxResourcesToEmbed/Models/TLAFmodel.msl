@@ -114,6 +114,13 @@
     <EntitySetMapping Name="Settings">
       <EntityTypeMapping TypeName="TLAFModel.Setting">
         <MappingFragment StoreEntitySet="Settings">
+          <ScalarProperty Name="EmailMsgs" ColumnName="EmailMsgs" />
+          <ScalarProperty Name="SendMsgLoUserReg" ColumnName="SendMsgLoUserReg" />
+          <ScalarProperty Name="SendMsgLoUserNR" ColumnName="SendMsgLoUserNR" />
+          <ScalarProperty Name="SendMsgFoUserReg" ColumnName="SendMsgFoUserReg" />
+          <ScalarProperty Name="SendMsgFoUserNR" ColumnName="SendMsgFoUserNR" />
+          <ScalarProperty Name="SendPass" ColumnName="SendPass" />
+          <ScalarProperty Name="ChangePass" ColumnName="ChangePass" />
           <ScalarProperty Name="DeleteUser" ColumnName="DeleteUser" />
           <ScalarProperty Name="EditUser" ColumnName="EditUser" />
           <ScalarProperty Name="NewUser" ColumnName="NewUser" />

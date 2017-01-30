@@ -23,7 +23,7 @@ namespace ThingsLostAndFound.Controllers
         [RoleAuthorization(Roles = "1")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Settings([Bind(Include = "Id,NewObject,EditObject,DeleteObject,NewUser,EditUser,DeleteUser")] Setting settings)
+        public ActionResult Settings([Bind(Include = "Id,NewObject,EditObject,DeleteObject,NewUser,EditUser,DeleteUser,SendMsgFoUserNR,SendMsgFoUserReg,SendMsgLoUserNR,SendMsgLoUserReg,SendPass,ChangePass,EmailMsgs")] Setting settings)
         {
             if (ModelState.IsValid)
             {

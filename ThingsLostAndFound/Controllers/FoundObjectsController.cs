@@ -115,6 +115,7 @@ namespace ThingsLostAndFound.Controllers
                 msg.emailAddressUserDontRegis = null; // only for user not registered
                 db.Messages.Add(msg);
                 db.SaveChanges();
+                // send email
                 Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
                 if (settings.NewObject == true)
                 {
@@ -201,6 +202,23 @@ namespace ThingsLostAndFound.Controllers
                 }
                 db.Entry(foundObject).State = EntityState.Modified;
                 db.SaveChanges();
+                //send email
+                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                if (settings.EditObject == true)
+                {
+                    string emailBody = sendEmail.BuildBodyEmailEditObjectFO(foundObject);
+                    string emailSubject = foundObject.Id + "# Edit Object ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                    InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                    string emailRecipient = infoUser.Email;
+                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    {
+                        System.Diagnostics.Debug.WriteLine("email Edit Object Sent");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("error send email");
+                    }
+                }
                 return RedirectToAction("Index");
             }
             //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", foundObject.UserIdreported);
@@ -293,6 +311,23 @@ namespace ThingsLostAndFound.Controllers
 
             //db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
             db.SaveChanges();
+            //send email
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.DeleteObject == true)
+            {
+                string emailBody = sendEmail.BuildBodyEmailDeleteObjectFO(foundObject);
+                string emailSubject = foundObject.Id + "# Delete Object ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                string emailRecipient = infoUser.Email;
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                {
+                    System.Diagnostics.Debug.WriteLine("email deleteObject Sent");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("error send email");
+                }
+            }
             return RedirectToAction("Index");
         }
 

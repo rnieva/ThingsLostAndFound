@@ -83,6 +83,22 @@ namespace ThingsLostAndFound.Controllers
                 msg.emailAddressUserDontRegis = null;
                 db.Messages.Add(msg);
                 db.SaveChanges();
+                //send email
+                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                if (settings.NewUser == true)
+                {
+                    string emailBody = sendEmail.NewUser(infoUser.UserName);
+                    string emailSubject = infoUser.Id + "# New User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                    string emailRecipient = infoUser.Email;
+                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    {
+                        System.Diagnostics.Debug.WriteLine("email New User Sent");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("error send email");
+                    }
+                }
                 return RedirectToAction("Index");
             }
             return View(infoUser);
@@ -119,6 +135,22 @@ namespace ThingsLostAndFound.Controllers
                 msg.emailAddressUserDontRegis = null;
                 db.Messages.Add(msg);
                 db.SaveChanges();
+                //send email
+                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                if (settings.NewUser == true)
+                {
+                    string emailBody = sendEmail.NewUser(infoUser.UserName);
+                    string emailSubject = infoUser.Id + "# New User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                    string emailRecipient = infoUser.Email;
+                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    {
+                        System.Diagnostics.Debug.WriteLine("email New User Sent");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("error send email");
+                    }
+                }
                 return RedirectToAction("Index");
             }
             return View(infoUser);
@@ -163,6 +195,22 @@ namespace ThingsLostAndFound.Controllers
             {
                 db.Entry(infoUser).State = EntityState.Modified;
                 db.SaveChanges();
+                //send email
+                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                if (settings.EditUser == true)
+                {
+                    string emailBody = sendEmail.EditUser(infoUser.UserName);
+                    string emailSubject = infoUser.Id + "# Edit User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                    string emailRecipient = infoUser.Email;
+                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    {
+                        System.Diagnostics.Debug.WriteLine("email New User Sent");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("error send email");
+                    }
+                }
                 return RedirectToAction("Index");
             }
             return View(infoUser);
@@ -212,17 +260,25 @@ namespace ThingsLostAndFound.Controllers
                         msg.emailAddressUserDontRegis = null; // only for user not registered
                         db.Messages.Add(msg);
                         db.SaveChanges();
-                        string emailUserSend = "emailSupport@TLAF.com";
-                        string emailRecipient = infoUser.Email;
-                        string emailSubject = "Subject: Support - Pass changed " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                        string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, "Admin", emailUserSend);
-                        if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
-                        { 
-                            //return RedirectToAction("Logout", "Login");
+                        Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                        if (settings.ChangePass == true)
+                        {
+                            string emailUserSend = "emailSupport@TLAF.com";
+                            string emailRecipient = infoUser.Email;
+                            string emailSubject = "Subject: Support - Pass changed " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                            string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, "Admin", emailUserSend);
+                            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                            {
+                                return RedirectToAction("Logout", "Login");
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine("error send email");
+                            }
                         }
                         else
                         {
-                            // Error sending email but new pass changed
+                            System.Diagnostics.Debug.WriteLine("email to change pass no activated");
                         }
                         return RedirectToAction("Index", "Home");
                     }
@@ -243,36 +299,44 @@ namespace ThingsLostAndFound.Controllers
 
         public ActionResult sendNewPassByEmail(int? id)
         {
-            InfoUser infoUser = new InfoUser();
-            infoUser = db.InfoUsers.Find(id);
-            string newPass = Crypto.RandomString(6); //TODO: generate a random password
-            string newPassEn = Crypto.Hash(newPass);
-            infoUser.UserPass = newPassEn;
-            db.Entry(infoUser).State = EntityState.Modified;
-            Message msg = new Message();
-            msg.NewMessage = true;
-            msg.Message1 = "New Password sent by email, please change your new password";
-            msg.dateMessage = DateTime.Now;
-            msg.UserIdSent = 1; // admin
-            msg.UserIdDest = id; //user that found the object
-            msg.subject = "Support";
-            msg.FoundObjectId = null; // id object
-            msg.LostObjectId = null;
-            msg.emailAddressUserDontRegis = null; // only for user not registered
-            db.Messages.Add(msg);
-            db.SaveChanges();
-            string emailUserSend = "emailSupport@TLAF.com";
-            string emailRecipient = infoUser.Email;
-            string emailSubject = "Subject: Support - New Pass " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            string textMessage = "New Password: " + newPass + " , please change your new password";
-            string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, "Admin", emailUserSend);
-            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
-            { 
-                //return RedirectToAction("Logout", "Login");
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.SendPass == true)
+            {
+                InfoUser infoUser = new InfoUser();
+                infoUser = db.InfoUsers.Find(id);
+                string newPass = Crypto.RandomString(6); //TODO: generate a random password
+                string newPassEn = Crypto.Hash(newPass);
+                infoUser.UserPass = newPassEn;
+                db.Entry(infoUser).State = EntityState.Modified;
+                Message msg = new Message();
+                msg.NewMessage = true;
+                msg.Message1 = "New Password sent by email, please change your new password";
+                msg.dateMessage = DateTime.Now;
+                msg.UserIdSent = 1; // admin
+                msg.UserIdDest = id; //user that found the object
+                msg.subject = "Support";
+                msg.FoundObjectId = null; // id object
+                msg.LostObjectId = null;
+                msg.emailAddressUserDontRegis = null; // only for user not registered
+                db.Messages.Add(msg);
+                db.SaveChanges();
+                string emailUserSend = "emailSupport@TLAF.com";
+                string emailRecipient = infoUser.Email;
+                string emailSubject = "Subject: Support - New Pass " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                string textMessage = "New Password: " + newPass + " , please change your new password";
+                string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, "Admin", emailUserSend);
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                {
+                    return RedirectToAction("Logout", "Login");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Error sending email but new pass saved");
+                }
             }
             else
             {
-                // Error sending email but new pass saved
+                System.Diagnostics.Debug.WriteLine("email to send pass no activated");
             }
             return RedirectToAction("Index", "Home");
         }
@@ -310,15 +374,25 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            InfoUser infoUser = db.InfoUsers.Find(id);
-            //TODO: delete every msg from to this user
+            //TODO: delete every msg from to this user and FO and LO
             //var newMessagesUserList = db.Messages.Where(a => a.UserIdDest == id && a.UserIdSent == id).ToList();
             //foreach (var m in newMessagesUserList)
             //{
             //    db.Messages.Remove(m);
             //}
-            db.InfoUsers.Remove(infoUser);
-            db.SaveChanges();
+            //var FOlist = db.FoundObjects.Where(o => o.UserIdreported == id).ToList();
+            //foreach (var fo in FOlist)
+            //{
+            //    db.FoundObjects.Remove(fo);
+            //}
+            //var LOlist = db.LostObjects.Where(o => o.UserIdreported == id).ToList();
+            //foreach (var lo in LOlist)
+            //{
+            //    db.LostObjects.Remove(lo);
+            //}
+            InfoUser infoUser = db.InfoUsers.Find(id);
+            //db.InfoUsers.Remove(infoUser);
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 

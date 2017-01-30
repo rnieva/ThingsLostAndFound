@@ -32,6 +32,20 @@ public partial class Setting
 
     public bool DeleteUser { get; set; }
 
+    public bool ChangePass { get; set; }
+
+    public bool SendPass { get; set; }
+
+    public bool SendMsgFoUserNR { get; set; }
+
+    public bool SendMsgFoUserReg { get; set; }
+
+    public bool SendMsgLoUserNR { get; set; }
+
+    public bool SendMsgLoUserReg { get; set; }
+
+    public bool EmailMsgs { get; set; }
+
 }
 
 }

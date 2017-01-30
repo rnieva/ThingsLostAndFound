@@ -49,31 +49,40 @@ namespace ThingsLostAndFound.Controllers
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
             string nameUserFounfObject = foundObject.InfoUser.UserName;
-            string emailRecipient = foundObject.InfoUser.Email;
-            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            string emailBody = sendEmail.BuildBodyEmailUserLOToUserFO(textMessage, emailUserLostObject);
-            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+            //Store in DB data about contact between users, depends if the user is register or not
+            //the user isn´t registered
+            Message msg = new Message();
+            msg.NewMessage = true;
+            msg.Message1 = textMessage;
+            msg.dateMessage = DateTime.Now;
+            msg.UserIdSent = null; // null because the user that do the request is not registered
+            msg.UserIdDest = userIdReport; //user that found the object
+            msg.subject = "Found Object";
+            msg.FoundObjectId = id; // id object
+            msg.LostObjectId = null;
+            msg.emailAddressUserDontRegis = emailUserLostObject; // only for user not registered
+            db.Messages.Add(msg);
+            db.SaveChanges();
+            //send email
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.SendMsgFoUserNR == true)
             {
-                ViewBag.result = "Request sent successfull";
-                //Store in DB data about contact between users, depends if the user is register or not
-                //the user isn´t registered
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = textMessage;
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = null; // null because the user that do the request is not registered
-                msg.UserIdDest = userIdReport; //user that found the object
-                msg.subject = "Found Object";
-                msg.FoundObjectId = id; // id object
-                msg.LostObjectId = null;
-                msg.emailAddressUserDontRegis = emailUserLostObject; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
+                string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                string emailBody = sendEmail.BuildBodyEmailUserLOToUserFO(textMessage, emailUserLostObject);
+                string emailRecipient = foundObject.InfoUser.Email;
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                {
+                    ViewBag.result = "Request sent successfull";
+                }
+                else
+                {
+                    ViewBag.result = "Request don´t sent";
+                }
             }
             else
             {
-                ViewBag.result = "Request don´t sent";
-
+                System.Diagnostics.Debug.WriteLine("send email FO user Not Reg not activated");
+                ViewBag.result = "send email FO user not Reg not activated";
             }
             return View(); // show the view with the result, successfull or not successfull if the email was sended
         }
@@ -89,31 +98,40 @@ namespace ThingsLostAndFound.Controllers
             string emailRecipient = foundObject.InfoUser.Email;
             //with userIdReport from user that do the request, search the email of user
             var userRequest = db.InfoUsers.Find(usetIdRequest);
-            string emailUserLostObject = userRequest.Email; 
-            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            string emailBody = sendEmail.BuildBodyEmailUserLOToUserFO(textMessage, emailUserLostObject);
-            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+            //Store in DB data about contact between users, depends if the user is register or not
+            //the user is registered
+            Message msg = new Message();
+            msg.NewMessage = true;
+            msg.Message1 = textMessage;
+            msg.dateMessage = DateTime.Now;
+            msg.UserIdSent = usetIdRequest; // user that found the object
+            msg.UserIdDest = userIdReport; //user that found the object
+            msg.subject = "Found Object";
+            msg.FoundObjectId = id; // id object
+            msg.LostObjectId = null;
+            msg.emailAddressUserDontRegis = null; // only for user not registered
+            db.Messages.Add(msg);
+            db.SaveChanges();
+            //send email
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.SendMsgFoUserReg == true)
             {
-                ViewBag.result = "Request sent successfull";
-                //Store in DB data about contact between users, depends if the user is register or not
-                //the user is registered
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = textMessage;
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = usetIdRequest; // user that found the object
-                msg.UserIdDest = userIdReport; //user that found the object
-                msg.subject = "Found Object";
-                msg.FoundObjectId = id; // id object
-                msg.LostObjectId = null;
-                msg.emailAddressUserDontRegis = null; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
+                string emailUserLostObject = userRequest.Email;
+                string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                string emailBody = sendEmail.BuildBodyEmailUserLOToUserFO(textMessage, emailUserLostObject);
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                {
+                    ViewBag.result = "Request sent successfull";
+                }
+                else
+                {
+                    ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
+                }
             }
             else
             {
-                ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
-
+                System.Diagnostics.Debug.WriteLine("send email FO user Reg not activated");
+                ViewBag.result = "send email FO user Reg not activated";
             }
             return View("SendRequestUser"); //TODO: come back to Messages view
         }
@@ -145,37 +163,48 @@ namespace ThingsLostAndFound.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendRequestUser2(int id, string textMessage, string emailUserFoundObject)  //send an email from user found object because he sew it in the lost object list to user that lost the object
+        public ActionResult SendRequestUser2(int id, string textMessage, string emailUserFoundObject)  //send an email from user found object because he saw it in the lost object list to user that lost the object
         {
             //with id from object, search the user that found the object and send him a email
             var lostObject = db.LostObjects.Find(id);
             int userIdReport = lostObject.UserIdreported;
             string nameUserLostObject = lostObject.InfoUser.UserName;
-            string emailRecipient = lostObject.InfoUser.Email;
-            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            string emailBody = sendEmail.BuildBodyEmailUserFOToUserLO(textMessage, emailUserFoundObject);
-            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+            //Store in DB data about contact between users, depends if the user is register or not
+            //the user isn´t registered
+            Message msg = new Message();
+            msg.NewMessage = true;
+            msg.Message1 = textMessage;
+            msg.dateMessage = DateTime.Now;
+            msg.UserIdSent = null; // null because the user that do the request is not registered
+            msg.UserIdDest = userIdReport; //user that found the object
+            msg.subject = "Lost Object";
+            msg.FoundObjectId = null;
+            msg.LostObjectId = id; // id object
+            msg.emailAddressUserDontRegis = emailUserFoundObject; // only for user not registered
+            db.Messages.Add(msg);
+            db.SaveChanges();
+            //send email
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.SendMsgLoUserNR == true)
             {
-                ViewBag.result = "Request sent successfull";
-                //Store in DB data about contact between users, depends if the user is register or not
-                //the user isn´t registered
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = textMessage;
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = null; // null because the user that do the request is not registered
-                msg.UserIdDest = userIdReport; //user that found the object
-                msg.subject = "Lost Object";
-                msg.FoundObjectId = null; 
-                msg.LostObjectId = id; // id object
-                msg.emailAddressUserDontRegis = emailUserFoundObject; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
+                string emailRecipient = lostObject.InfoUser.Email;
+                string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                string emailBody = sendEmail.BuildBodyEmailUserFOToUserLO(textMessage, emailUserFoundObject);
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                {
+                    ViewBag.result = "Request sent successfull";
+
+                }
+                else
+                {
+                    ViewBag.result = "Request don´t sent";
+
+                }
             }
             else
             {
-                ViewBag.result = "Request don´t sent";
-
+                System.Diagnostics.Debug.WriteLine("send email LO user not Reg not activated");
+                ViewBag.result = "send email LO user not Reg not activated";
             }
             return View("SendRequestUser"); // show the view with the result, successfull or not successfull if the email was sended
         }
@@ -190,31 +219,40 @@ namespace ThingsLostAndFound.Controllers
             string emailRecipient = lostObject.InfoUser.Email;
             //with userIdReport from user that do the request, search the address email 
             var userRequest = db.InfoUsers.Find(usetIdRequest);
-            string emailUserRequest = userRequest.Email;
-            string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            string emailBody = sendEmail.BuildBodyEmailUserFOToUserLO(textMessage, emailUserRequest);
-            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+            //Store in DB data about contact between users, depends if the user is register or not
+            //the user is registered
+            Message msg = new Message();
+            msg.NewMessage = true;
+            msg.Message1 = textMessage;
+            msg.dateMessage = DateTime.Now;
+            msg.UserIdSent = usetIdRequest; // user that found the object
+            msg.UserIdDest = userIdReport; //user that found the object
+            msg.subject = "Lost Object";
+            msg.FoundObjectId = null;
+            msg.LostObjectId = id; // id object
+            msg.emailAddressUserDontRegis = null; // only for user not registered
+            db.Messages.Add(msg);
+            db.SaveChanges();
+            //send email
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.SendMsgLoUserReg == true)
             {
-                ViewBag.result = "Request sent successfull";
-                //Store in DB data about contact between users, depends if the user is register or not
-                //the user is registered
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = textMessage;
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = usetIdRequest; // user that found the object
-                msg.UserIdDest = userIdReport; //user that found the object
-                msg.subject = "Lost Object";
-                msg.FoundObjectId = null; 
-                msg.LostObjectId = id; // id object
-                msg.emailAddressUserDontRegis = null; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
+                string emailUserRequest = userRequest.Email;
+                string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                string emailBody = sendEmail.BuildBodyEmailUserFOToUserLO(textMessage, emailUserRequest);
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                {
+                    ViewBag.result = "Request sent successfull";
+                }
+                else
+                {
+                    ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
+                }
             }
             else
             {
-                ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
-
+                System.Diagnostics.Debug.WriteLine("send email LO user Reg not activated");
+                ViewBag.result = "send email LO user Reg not activated";
             }
             return View("SendRequestUser"); //TODO: come back to Messages view
         }
@@ -281,44 +319,55 @@ namespace ThingsLostAndFound.Controllers
             string emailUserSend = infouser.Email;
             string nameUserSend = infouser.UserName;
             infouser = db.InfoUsers.Find(userDestMsg);
-            string emailRecipient = infouser.Email; //emailUserDest
-            string nameUserDest = infouser.UserName;
-            string emailSubject = "Subject: " + subject + " Object: "+ title + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-            string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, nameUserSend, emailUserSend);
-            if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+            //Store in DB the message between the users
+            Message msg = new Message();
+            msg.NewMessage = true;
+            msg.Message1 = textMessage;
+            msg.dateMessage = DateTime.Now;
+            msg.UserIdSent = userSendMsg;
+            msg.UserIdDest = userDestMsg;
+            msg.subject = subject;
+            switch (subject)
             {
-                ViewBag.result = "Request sent successfull";
-                //Store in DB the message between the users
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = textMessage;
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = userSendMsg;
-                msg.UserIdDest = userDestMsg;
-                msg.subject = subject;
-                switch (subject)
+                case "Support":
+                    msg.FoundObjectId = null; // id object
+                    msg.LostObjectId = null;
+                    break;
+                case "Found Object":
+                    msg.FoundObjectId = id; // id object
+                    msg.LostObjectId = null;
+                    break;
+                case "Lost Object":
+                    msg.FoundObjectId = null; // id object
+                    msg.LostObjectId = id;
+                    break;
+            }
+            msg.emailAddressUserDontRegis = null; // only for user not registered
+            db.Messages.Add(msg);
+            db.SaveChanges();
+            //send email
+            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            if (settings.EmailMsgs == true)
+            {
+                string emailRecipient = infouser.Email; //emailUserDest
+                string nameUserDest = infouser.UserName;
+                string emailSubject = "Subject: " + subject + " Object: " + title + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                string emailBody = sendEmail.BuildBodyEmailMessage(textMessage, nameUserSend, emailUserSend);
+                if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
                 {
-                    case "Support":
-                        msg.FoundObjectId = null; // id object
-                        msg.LostObjectId = null;
-                        break;
-                    case "Found Object":
-                        msg.FoundObjectId = id; // id object
-                        msg.LostObjectId = null;
-                        break;
-                    case "Lost Object":
-                        msg.FoundObjectId = null; // id object
-                        msg.LostObjectId = id;
-                        break;
+                    ViewBag.result = "Request sent successfull";
+                    
                 }
-                msg.emailAddressUserDontRegis = null; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
+                else
+                {
+                    ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
+
+                }
             }
             else
             {
-                ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
-
+                System.Diagnostics.Debug.WriteLine("send email Msgs not activated");
+                ViewBag.result = "send email Msgs not activated";
             }
             return View("SendRequestUser"); //TODO: come back to Messages view
         }

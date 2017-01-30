@@ -115,6 +115,13 @@
     <Property Name="NewUser" Type="bit" Nullable="false" />
     <Property Name="EditUser" Type="bit" Nullable="false" />
     <Property Name="DeleteUser" Type="bit" Nullable="false" />
+    <Property Name="ChangePass" Type="bit" Nullable="false" />
+    <Property Name="SendPass" Type="bit" Nullable="false" />
+    <Property Name="SendMsgFoUserNR" Type="bit" Nullable="false" />
+    <Property Name="SendMsgFoUserReg" Type="bit" Nullable="false" />
+    <Property Name="SendMsgLoUserNR" Type="bit" Nullable="false" />
+    <Property Name="SendMsgLoUserReg" Type="bit" Nullable="false" />
+    <Property Name="EmailMsgs" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_FoundObjects_ToTable">
     <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />

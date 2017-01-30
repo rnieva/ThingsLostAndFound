@@ -120,6 +120,13 @@
           <Property Name="NewUser" Type="bit" Nullable="false" />
           <Property Name="EditUser" Type="bit" Nullable="false" />
           <Property Name="DeleteUser" Type="bit" Nullable="false" />
+          <Property Name="ChangePass" Type="bit" Nullable="false" />
+          <Property Name="SendPass" Type="bit" Nullable="false" />
+          <Property Name="SendMsgFoUserNR" Type="bit" Nullable="false" />
+          <Property Name="SendMsgFoUserReg" Type="bit" Nullable="false" />
+          <Property Name="SendMsgLoUserNR" Type="bit" Nullable="false" />
+          <Property Name="SendMsgLoUserReg" Type="bit" Nullable="false" />
+          <Property Name="EmailMsgs" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_FoundObjects_ToTable">
           <End Role="InfoUsers" Type="Self.InfoUsers" Multiplicity="1" />
@@ -666,6 +673,13 @@
           <Property Name="NewUser" Type="Boolean" Nullable="false" />
           <Property Name="EditUser" Type="Boolean" Nullable="false" />
           <Property Name="DeleteUser" Type="Boolean" Nullable="false" />
+          <Property Name="ChangePass" Type="Boolean" Nullable="false" />
+          <Property Name="SendPass" Type="Boolean" Nullable="false" />
+          <Property Name="SendMsgFoUserNR" Type="Boolean" Nullable="false" />
+          <Property Name="SendMsgFoUserReg" Type="Boolean" Nullable="false" />
+          <Property Name="SendMsgLoUserNR" Type="Boolean" Nullable="false" />
+          <Property Name="SendMsgLoUserReg" Type="Boolean" Nullable="false" />
+          <Property Name="EmailMsgs" Type="Boolean" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -786,6 +800,13 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="TLAFModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="EmailMsgs" ColumnName="EmailMsgs" />
+                <ScalarProperty Name="SendMsgLoUserReg" ColumnName="SendMsgLoUserReg" />
+                <ScalarProperty Name="SendMsgLoUserNR" ColumnName="SendMsgLoUserNR" />
+                <ScalarProperty Name="SendMsgFoUserReg" ColumnName="SendMsgFoUserReg" />
+                <ScalarProperty Name="SendMsgFoUserNR" ColumnName="SendMsgFoUserNR" />
+                <ScalarProperty Name="SendPass" ColumnName="SendPass" />
+                <ScalarProperty Name="ChangePass" ColumnName="ChangePass" />
                 <ScalarProperty Name="DeleteUser" ColumnName="DeleteUser" />
                 <ScalarProperty Name="EditUser" ColumnName="EditUser" />
                 <ScalarProperty Name="NewUser" ColumnName="NewUser" />
