@@ -105,7 +105,7 @@
                                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                                 if (item.InfoUser.UserName == ticket.Name)
                                 {
-                                    @Html.ActionLink("Send other message to " + item.InfoUser1.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser.Id, userDestMsg = item.InfoUser1.Id, subject = item.subject }, null)
+                                    @Html.ActionLink("Send other message to " + item.InfoUser.UserName, "SendMessage", "UsersContact", new { id = idtemp, userSendMsg = item.InfoUser1.Id, userDestMsg = item.InfoUser.Id, subject = item.subject }, null)
                                 }
                                 else
                                 {
