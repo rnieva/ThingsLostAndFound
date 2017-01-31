@@ -6,9 +6,6 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -38,7 +35,8 @@
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UserPass)
+            @*@Html.DisplayFor(modelItem => item.UserPass)*@
+            @Html.DisplayName("Confidence")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)

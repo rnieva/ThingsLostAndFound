@@ -7,8 +7,13 @@
 
 <html>
 <body>
-    <h2>Settings</h2>
-    @using (Html.BeginForm("Settings", "Settings"))
+    <h2>Control Panel</h2>
+    <hr />
+    <h3>Statistics</h3>
+    @Html.ActionLink("Statistics", "Statistics",null, new {@class ="btn btn-info" })
+    <br /><br />
+    <h3>Settings</h3>
+    @using (Html.BeginForm("Settings", "ControlPanel"))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id)
@@ -118,6 +123,7 @@
 
     }
 
+  
 
 </body>
 </html>

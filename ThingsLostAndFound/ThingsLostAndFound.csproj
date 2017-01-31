@@ -176,7 +176,7 @@
     <Compile Include="Controllers\LostObjectsController.cs" />
     <Compile Include="Controllers\MapObjectsController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\ControlPanelController.cs" />
     <Compile Include="Controllers\ShowObjectUsersController.cs" />
     <Compile Include="Controllers\UsersContactController.cs" />
     <Compile Include="Global.asax.cs">
@@ -343,7 +343,8 @@
     <Content Include="Views\Messages\ShowMessages.cshtml" />
     <Content Include="Views\PartialViews\_leftSide.cshtml" />
     <Content Include="Views\PartialViews\_rightSide.cshtml" />
-    <Content Include="Views\Settings\Settings.cshtml" />
+    <Content Include="Views\ControlPanel\Settings.cshtml" />
+    <Content Include="Views\ControlPanel\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

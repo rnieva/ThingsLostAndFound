@@ -9,7 +9,7 @@ using ThingsLostAndFound.Security;
 
 namespace ThingsLostAndFound.Controllers
 {
-    public class SettingsController : Controller  //In this controller only the admin can change soñe settings like send Messages by email
+    public class ControlPanelController : Controller  //In this controller only the admin can change soñe settings like send Messages by email
     {
         private TLAFEntities db = new TLAFEntities();
 
@@ -31,6 +31,21 @@ namespace ThingsLostAndFound.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Settings");
+        }
+
+        [RoleAuthorization(Roles = "1")]
+        public ActionResult Statistics()
+        {
+            ViewBag.FOTotal = db.FoundObjects.Count();
+            ViewBag.FOsolved = db.FoundObjects.Count(p => p.State == true);
+            ViewBag.FOpending = db.FoundObjects.Count(p => p.State == false);
+            ViewBag.LOTotal = db.LostAndFoundObjects.Count();
+            ViewBag.LOsolved = db.LostObjects.Count(p => p.State == true);
+            ViewBag.LOpending = db.LostObjects.Count(p => p.State == false); 
+            ViewBag.Msgs = db.Messages.Count();
+            ViewBag.Files = db.Files.Count();
+            ViewBag.Users = db.InfoUsers.Count();
+            return View();
         }
     }
 }
