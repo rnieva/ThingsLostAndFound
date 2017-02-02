@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
@@ -8,10 +9,19 @@ namespace ThingsLostAndFound.Security
 {
     public class Crypto
     {
-        public static string Hash(string value)
+        public static string getSalt()
+        {
+            var random = new RNGCryptoServiceProvider();
+            int max_length = 16;
+            byte[] salt = new byte[max_length];
+            random.GetNonZeroBytes(salt);
+            return Convert.ToBase64String(salt);
+        }
+
+        public static string Hash(string value, string salt)
         {
             return Convert.ToBase64String(
-                System.Security.Cryptography.SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(value)));
+                System.Security.Cryptography.SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(value+salt)));
         }
 
         private static Random randomPass = new Random();

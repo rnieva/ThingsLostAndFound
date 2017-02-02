@@ -17,12 +17,14 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.Id)
                         @Html.HiddenFor(model => model.UserPass)
+                        @Html.HiddenFor(model => model.Rol)
+                        @Html.HiddenFor(model => model.UserSalt)
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                @Html.Label(Model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.HiddenFor(model => model.UserName)
                             </div>
                         </div>
 
@@ -41,13 +43,7 @@
                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Rol, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Rol, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Rol, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -76,7 +72,6 @@
             </div>
          </div>
 
-         @Html.ActionLink("Back to List", "Index", null, new {@class = "btn btn-info" })
          <p></p>
 </body>
 </hmtl>

@@ -28,12 +28,11 @@ namespace ThingsLostAndFound.Controllers
 
         [HttpPost]
         public ActionResult Login(Models.InfoUser user)
-        {
-            string passEncrypt = Crypto.Hash(user.UserPass); //TODO add Salted
-            if (IsValid(user.UserName, passEncrypt))
+        {  
+            if (IsValid(user.UserName, user.UserPass))
                 {
                     //FormsAuthentication.SetAuthCookie(user.UserName, false);    // this action authenticate to user, set to user authenticated at HttpContext.Current.User
-                    string infoUserTicket = GetInfoUserTicket(user.UserName, passEncrypt);
+                    string infoUserTicket = GetInfoUserTicket(user.UserName);
                     FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
                         user.UserName,
                         DateTime.Now,
@@ -53,32 +52,26 @@ namespace ThingsLostAndFound.Controllers
                 return View(user);
         }
 
-        private bool IsValid(string UserName, string passEncrypt)
+        private bool IsValid(string UserName, string UserPass)
         {
             bool IsValid = false;
-            var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(passEncrypt)).FirstOrDefault();
-            if ((user != null) && (user.UserName == UserName)) //double check with username
+            var userData = db.InfoUsers.Where(a => a.UserName.Equals(UserName)).FirstOrDefault(); // to get Salt User
+            string passEncrypt = Crypto.Hash(UserPass, userData.UserSalt);
+            if ((userData != null) && (userData.UserPass == passEncrypt)) 
             {
                 IsValid = true;
             }
 
-            //var userList = from p in db.InfoUsers select p;
-            //foreach (var p in userList)
+            //var user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(passEncrypt)).FirstOrDefault();
+            //if ((user != null) && (user.UserName == UserName)) //double check with username
             //{
-            //    if ((p.UserName == UserName) && (p.UserPass == passEncrypt))
-            //    {
-            //        IsValid = true;
-            //    }
-            //    else
-            //    {
-            //        System.Diagnostics.Debug.WriteLine("");
-            //    }
+            //    IsValid = true;
             //}
 
             return IsValid;
         }
 
-        private string GetInfoUserTicket(string UserName, string passEncrypt)
+        private string GetInfoUserTicket(string UserName)
         {
             string infoUserTicket = "0";
             string rol = "";
@@ -86,7 +79,7 @@ namespace ThingsLostAndFound.Controllers
             string newMessage = "";
             InfoUser user = new InfoUser();
             Message messageNew = new Message();
-            if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName) && a.UserPass.Equals(passEncrypt)).FirstOrDefault()) != null)
+            if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName)).FirstOrDefault()) != null)
             {
                 id = user.Id.ToString();
                 rol = user.Rol.ToString();

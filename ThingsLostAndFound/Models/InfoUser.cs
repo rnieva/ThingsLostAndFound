@@ -51,6 +51,8 @@ public partial class InfoUser
 
     public System.DateTime Date { get; set; }
 
+    public string UserSalt { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

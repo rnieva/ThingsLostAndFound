@@ -175,8 +175,6 @@ namespace ThingsLostAndFound.Controllers
         }
 
         // POST: FoundObjects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,UserIdreported,Date,Category,Brand,Model,SerialID,Title,Color,Observations,Address,ZipCode,MapLocation,Country,LocationObservations,Location,CityTownRoad,State,FileId,Img,SecurityQuestion,ContactState")] FoundObject foundObject, HttpPostedFileBase upload)

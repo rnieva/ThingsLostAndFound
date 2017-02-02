@@ -48,6 +48,7 @@
     <Property Name="PhoneNumber" Type="nchar" MaxLength="20" />
     <Property Name="Rol" Type="int" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="UserSalt" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="LostAndFoundObject">
     <Key>

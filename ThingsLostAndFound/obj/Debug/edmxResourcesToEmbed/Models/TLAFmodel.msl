@@ -4,6 +4,7 @@
     <EntitySetMapping Name="InfoUsers">
       <EntityTypeMapping TypeName="TLAFModel.InfoUser">
         <MappingFragment StoreEntitySet="InfoUsers">
+          <ScalarProperty Name="UserSalt" ColumnName="UserSalt" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="UserPass" ColumnName="UserPass" />

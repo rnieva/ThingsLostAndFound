@@ -65,41 +65,51 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddUser([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,rol")] InfoUser infoUser)
         {
-            if (ModelState.IsValid)
+            var infoUserTemp = db.InfoUsers.Where(a => a.UserName == infoUser.UserName).FirstOrDefault();
+            if (infoUserTemp == null) // If it´s null means that there is no another user with that name
             {
-                string passEncrypt = Crypto.Hash(infoUser.UserPass);
-                infoUser.UserPass = passEncrypt;
-                infoUser.Date = DateTime.Now;
-                db.InfoUsers.Add(infoUser);
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = "Welcome to TLAF";
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = 1; // id = 1, it`s the admin
-                msg.UserIdDest = infoUser.Id;
-                msg.subject = "Support";
-                msg.FoundObjectId = null;
-                msg.LostObjectId = null;
-                msg.emailAddressUserDontRegis = null;
-                db.Messages.Add(msg);
-                db.SaveChanges();
-                //send email
-                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
-                if (settings.NewUser == true)
+                if (ModelState.IsValid)
                 {
-                    string emailBody = sendEmail.NewUser(infoUser.UserName);
-                    string emailSubject = infoUser.Id + "# New User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                    string emailRecipient = infoUser.Email;
-                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    string salt = Crypto.getSalt();
+                    infoUser.UserSalt = salt;
+                    string passEncrypt = Crypto.Hash(infoUser.UserPass,salt);
+                    infoUser.UserPass = passEncrypt;
+                    infoUser.Date = DateTime.Now;
+                    db.InfoUsers.Add(infoUser);
+                    Message msg = new Message();
+                    msg.NewMessage = true;
+                    msg.Message1 = "Welcome to TLAF";
+                    msg.dateMessage = DateTime.Now;
+                    msg.UserIdSent = 1; // id = 1, it`s the admin
+                    msg.UserIdDest = infoUser.Id;
+                    msg.subject = "Support";
+                    msg.FoundObjectId = null;
+                    msg.LostObjectId = null;
+                    msg.emailAddressUserDontRegis = null;
+                    db.Messages.Add(msg);
+                    db.SaveChanges();
+                    //send email
+                    Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                    if (settings.NewUser == true)
                     {
-                        System.Diagnostics.Debug.WriteLine("email New User Sent");
+                        string emailBody = sendEmail.NewUser(infoUser.UserName);
+                        string emailSubject = infoUser.Id + "# New User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                        string emailRecipient = infoUser.Email;
+                        if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                        {
+                            System.Diagnostics.Debug.WriteLine("email New User Sent");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("error send email");
+                        }
                     }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine("error send email");
-                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.msg = "Name User in use";
             }
             return View(infoUser);
         }
@@ -115,43 +125,52 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber")] InfoUser infoUser)
         {
-            if (ModelState.IsValid)
+            var infoUserTemp = db.InfoUsers.Where(a => a.UserName == infoUser.UserName).FirstOrDefault();
+            if (infoUserTemp == null) // If it´s null means that there is no another user with that name
             {
-                //TODO: changed type of encrypt 
-                string passEncrypt = Crypto.Hash(infoUser.UserPass);
-                infoUser.UserPass = passEncrypt;
-                infoUser.Rol = 3;  // ROL = 3 normal user
-                infoUser.Date = DateTime.Now;
-                db.InfoUsers.Add(infoUser);
-                Message msg = new Message();
-                msg.NewMessage = true;
-                msg.Message1 = "Welcome to TLAF";
-                msg.dateMessage = DateTime.Now;
-                msg.UserIdSent = 1; // id = 1, it`s the admin
-                msg.UserIdDest = infoUser.Id;
-                msg.subject = "Support";
-                msg.FoundObjectId = null;
-                msg.LostObjectId = null;
-                msg.emailAddressUserDontRegis = null;
-                db.Messages.Add(msg);
-                db.SaveChanges();
-                //send email
-                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
-                if (settings.NewUser == true)
+                if (ModelState.IsValid)
                 {
-                    string emailBody = sendEmail.NewUser(infoUser.UserName);
-                    string emailSubject = infoUser.Id + "# New User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                    string emailRecipient = infoUser.Email;
-                    if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                    string salt = Crypto.getSalt();
+                    infoUser.UserSalt = salt;
+                    string passEncrypt = Crypto.Hash(infoUser.UserPass, salt);
+                    infoUser.UserPass = passEncrypt;
+                    infoUser.Rol = 3;  // ROL = 3 normal user
+                    infoUser.Date = DateTime.Now;
+                    db.InfoUsers.Add(infoUser);
+                    Message msg = new Message();
+                    msg.NewMessage = true;
+                    msg.Message1 = "Welcome to TLAF";
+                    msg.dateMessage = DateTime.Now;
+                    msg.UserIdSent = 1; // id = 1, it`s the admin
+                    msg.UserIdDest = infoUser.Id;
+                    msg.subject = "Support";
+                    msg.FoundObjectId = null;
+                    msg.LostObjectId = null;
+                    msg.emailAddressUserDontRegis = null;
+                    db.Messages.Add(msg);
+                    db.SaveChanges();
+                    //send email
+                    Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                    if (settings.NewUser == true)
                     {
-                        System.Diagnostics.Debug.WriteLine("email New User Sent");
+                        string emailBody = sendEmail.NewUser(infoUser.UserName);
+                        string emailSubject = infoUser.Id + "# New User ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+                        string emailRecipient = infoUser.Email;
+                        if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
+                        {
+                            System.Diagnostics.Debug.WriteLine("email New User Sent");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("error send email");
+                        }
                     }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine("error send email");
-                    }
+                    return RedirectToAction("Login","Login");
                 }
-                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.msg = "Name User in use";
             }
             return View(infoUser);
         }
@@ -184,12 +203,11 @@ namespace ThingsLostAndFound.Controllers
             return HttpNotFound();
         }
 
-        // POST: InfoUsers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: InfoUsers/Edit/5 example
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,Rol,Date")] InfoUser infoUser, string oldPass, string newPass, string newPass2)
+        public ActionResult Edit([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,Rol,Date,UserSalt")] InfoUser infoUser)
         {
             if (ModelState.IsValid)
             {
@@ -211,7 +229,7 @@ namespace ThingsLostAndFound.Controllers
                         System.Diagnostics.Debug.WriteLine("error send email");
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             return View(infoUser);
         }
@@ -229,9 +247,11 @@ namespace ThingsLostAndFound.Controllers
             ViewBag.id = id;
             InfoUser infoUser = new InfoUser();
             infoUser = db.InfoUsers.Find(id);
-            string oldPassEncrypt = Crypto.Hash(oldPass);
-            string passNewEncrypt = Crypto.Hash(newPass);
-            string passNew2Encrypt = Crypto.Hash(newPass2);
+            string salt = infoUser.UserSalt;
+            string oldPassEncrypt = Crypto.Hash(oldPass,salt);
+            salt = Crypto.getSalt();
+            string passNewEncrypt = Crypto.Hash(newPass,salt);
+            string passNew2Encrypt = Crypto.Hash(newPass2,salt);
             if (oldPassEncrypt == infoUser.UserPass)
             {
                 if (oldPassEncrypt == passNewEncrypt)
@@ -243,7 +263,7 @@ namespace ThingsLostAndFound.Controllers
                 {
                     if (passNewEncrypt == passNew2Encrypt)
                     {
-
+                        infoUser.UserSalt = salt;
                         infoUser.UserPass = passNewEncrypt;
                         db.Entry(infoUser).State = EntityState.Modified;
                         //db.SaveChanges();
@@ -280,7 +300,7 @@ namespace ThingsLostAndFound.Controllers
                         {
                             System.Diagnostics.Debug.WriteLine("email to change pass no activated");
                         }
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Logout", "Login");
                     }
                     else
                     {
@@ -305,7 +325,9 @@ namespace ThingsLostAndFound.Controllers
                 InfoUser infoUser = new InfoUser();
                 infoUser = db.InfoUsers.Find(id);
                 string newPass = Crypto.RandomString(6); //TODO: generate a random password
-                string newPassEn = Crypto.Hash(newPass);
+                string salt = Crypto.getSalt();
+                infoUser.UserSalt = salt;
+                string newPassEn = Crypto.Hash(newPass,salt);
                 infoUser.UserPass = newPassEn;
                 db.Entry(infoUser).State = EntityState.Modified;
                 Message msg = new Message();

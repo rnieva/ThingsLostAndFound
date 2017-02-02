@@ -17,6 +17,7 @@
     <NavigationProperty Name="Messages1" Relationship="TLAFModel.FK_Messages_ToTable_1" FromRole="InfoUser" ToRole="Message" />
     <NavigationProperty Name="LostAndFoundObjects" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_2" FromRole="InfoUser" ToRole="LostAndFoundObject" />
     <NavigationProperty Name="LostAndFoundObjects1" Relationship="TLAFModel.FK_LostAndFoundObject_ToTable_3" FromRole="InfoUser" ToRole="LostAndFoundObject" />
+    <Property Name="UserSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityContainer Name="TLAFEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="InfoUsers" EntityType="Self.InfoUser" />
