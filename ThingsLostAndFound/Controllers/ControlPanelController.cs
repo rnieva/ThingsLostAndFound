@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
@@ -46,6 +47,38 @@ namespace ThingsLostAndFound.Controllers
             ViewBag.Files = db.Files.Count();
             ViewBag.Users = db.InfoUsers.Count();
             return View();
+        }
+
+        public ActionResult ChartFO()
+        {
+            int FOTotal = db.FoundObjects.Count();
+            int FOsolved = db.FoundObjects.Count(p => p.State == true);
+            int FOpending = db.FoundObjects.Count(p => p.State == false);
+            int[] data = new int[3] { FOTotal, FOsolved, FOpending };
+            string[] dataNames = new string[3] { "FOTotal", "FOsolved", "FOpending" };
+            var chart = new Chart(width: 400, height: 300, theme: ChartTheme.Green)
+            .AddTitle("Found Objects")
+            .AddSeries(chartType: "Pie",
+                            xValue: dataNames,
+                            yValues: data)
+                            .GetBytes("png");
+            return File(chart, "image/bytes");
+        }
+
+        public ActionResult ChartLO()
+        {
+            int LOTotal = db.LostObjects.Count();
+            int LOsolved = db.LostObjects.Count(p => p.State == true);
+            int LOpending = db.LostObjects.Count(p => p.State == false);
+            int[] data = new int[3] { LOTotal, LOsolved, LOpending };
+            string[] dataNames = new string[3] { "LOTotal", "LOsolved", "LOpending" };
+            var chart = new Chart(width: 400, height: 300, theme: ChartTheme.Green)
+            .AddTitle("Lost Objects")
+            .AddSeries(chartType: "Pie",
+                            xValue: dataNames,
+                            yValues: data)
+                            .GetBytes("png");
+            return File(chart, "image/bytes");
         }
     }
 }

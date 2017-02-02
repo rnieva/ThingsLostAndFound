@@ -10,7 +10,7 @@
     <table>
         <tr>
             <th>
-               
+
             </th>
             <th>
                 @Html.Label("Found Object   -")
@@ -23,9 +23,9 @@
             <td>
                 Total:
                 <p></p>
-                Pending: 
+                Pending:
                 <p></p>
-                Solved: 
+                Solved:
                 <p></p>
             </td>
             <td align="center">
@@ -33,18 +33,18 @@
                 <p></p>
                 @ViewBag.FOpending
                 <p></p>
-                 @ViewBag.FOsolved
+                @ViewBag.FOsolved
             </td>
             <td align="center">
-                 @ViewBag.LOTotal
+                @ViewBag.LOTotal
                 <p></p>
-                 @ViewBag.LOpending
+                @ViewBag.LOpending
                 <p></p>
-                 @ViewBag.LOsolved
+                @ViewBag.LOsolved
             </td>
 
         </tr>
-</table>
+    </table>
     <p></p>
     Menssages: @ViewBag.Msgs
     <p></p>
@@ -55,6 +55,14 @@
     @Html.ActionLink("Back to Control Panel", "Settings", null, new { @class = "btn btn-info" })
 
     <p></p>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Url.Action("ChartFO")" alt="ChartFO" />
+         </div>
+        <div class="col-md-6">
+            <img src="@Url.Action("ChartLO")" alt="ChartLO" />
+        </div>
+    </div>
 </body>
 </html>
 
