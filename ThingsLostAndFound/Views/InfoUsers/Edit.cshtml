@@ -29,6 +29,14 @@
                         </div>
 
                         <div class="form-group">
+                            @Html.Label("Date of Register", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Label(Model.Date.ToShortDateString(), htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.HiddenFor(model => model.Date)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
@@ -45,13 +53,6 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <input type="submit" value="Save" class="btn btn-success" />
                             </div>
@@ -65,14 +66,18 @@
             <div class="col-md-4">
                 <div class="form-horizontal">
                     <p><b>Security Options:</b></p>
-                    <a href="/InfoUsers/ChangePass/@Model.Id" class="Button">ChangePass</a>
-                    <br />
-                    <a href="/InfoUsers/sendNewPassByEmail/@Model.Id" class="Button">Recover your Password</a>
+                    @*<a href="/InfoUsers/ChangePass/@Model.Id" class="Button">ChangePass</a>*@
+                    @Html.ActionLink("Chande Password", "ChangePass", "InfoUsers", new { id = Model.Id }, new { @class = "btn btn-success" })
+                    <p></p>
+                    @*<a href="/InfoUsers/sendNewPassByEmail/@Model.Id" class="Button">Recover your Password</a>*@
+                    @Html.ActionLink("Send New Pass By Email", "sendNewPassByEmail", "InfoUsers", new { id = Model.Id }, new { @class = "btn btn-success" })
                 </div>
             </div>
          </div>
 
          <p></p>
+        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-info" })
+        <hr />
 </body>
 </hmtl>
 

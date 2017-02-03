@@ -169,7 +169,7 @@
         <div id="map_canvas" style="height: 250px; width: 450px;"></div>
         <hr />
         @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |  //I comment this because any user can edit a object apart form Admin and the user that created the report*@
-        @Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = Model.Id, title = Model.Title, userName = Model.InfoUser.UserName }, new { @class = "btn btn-info" })
+        @Html.ActionLink("Contact", "ContactUserLostObject", "UsersContact", new { id = Model.Id, title = Model.Title, userName = Model.InfoUser.UserName }, new { @class = "btn btn-success" })
         <p>
     </div>
 </div>
@@ -179,9 +179,9 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
     <script src="@Url.Content("~/Scripts/mapAddOneMarker.js")"></script>
-<script>
-        var mapLocation = "@Model.MapLocation";
-        var title = "@Model.Title";
-        addMarker(mapLocation, title);
-</script>
+    <script>
+            var mapLocation = "@Model.MapLocation";
+            var title = "@Model.Title";
+            addMarker(mapLocation, title);
+    </script>
 }

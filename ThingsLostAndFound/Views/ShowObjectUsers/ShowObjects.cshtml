@@ -45,7 +45,7 @@
             @Html.Label("Location")
         </td>
         <td>
-            @Html.Label("CityTownRoad")
+            @Html.Label("Kind of Location")
         </td>
         <td>
             @Html.Label("Picture")
@@ -71,6 +71,10 @@
                     if (item.Color != null)
                     {
                         <span style="background: @Html.DisplayFor(modelItem => item.Color) " class="form-control">&nbsp;&nbsp;&nbsp;</span>
+                    }
+                    else
+                    {
+                        <span style="background: rgba(0, 0, 0, 0.00) " class="form-control">&nbsp;&nbsp;&nbsp;</span>
                     }
                 }
             </td>

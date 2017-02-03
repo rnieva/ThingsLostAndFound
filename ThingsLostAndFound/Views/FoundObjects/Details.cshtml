@@ -170,7 +170,7 @@
                  <div id="map_canvas" style="height: 250px; width: 450px;"></div>
         <hr />
             @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |  //I comment this because any user can edit a object apart form Admin and the user that created the report*@
-            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = Model.Id, title = Model.Title, userName = Model.InfoUser.UserName, securityQuestion = Model.SecurityQuestion }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Contact", "ContactUserFoundObject", "UsersContact", new { id = Model.Id, title = Model.Title, userName = Model.InfoUser.UserName, securityQuestion = Model.SecurityQuestion }, new { @class = "btn btn-success" })
         <p>
 </div>
 </div>

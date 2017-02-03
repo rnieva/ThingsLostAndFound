@@ -50,7 +50,12 @@
                     @Html.DisplayNameFor(model => model.Color)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Color)
+                    @{
+                        if (Model.Color != null)
+                        {
+                            <span style="background: @Html.DisplayFor(model => model.Color)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        }
+                    }
                 </dd>
                 <dt>
                     @Html.DisplayNameFor(model => model.Observations)
@@ -104,7 +109,16 @@
                     @Html.DisplayNameFor(model => model.Img)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Img)
+                    @{
+                        if (Model.File.FileName != null)
+                        {
+                            <img src="~/File?id=@Model.File.Id" alt="picture" height="62" width="95" />     @*the File controller give the file(picture) from DB using Id*@
+                        }
+                        else
+                        {
+                            @Html.DisplayName("No picture")
+                        }
+                    }
                 </dd>
                 <dt>
                     @Html.DisplayNameFor(model => model.InfoUser.UserName)
@@ -123,13 +137,13 @@
                     <p><label id="labelObjSolved" hidden>Please, tell us the contact name user </label> <input id="nameContact" type="text" name="nameContact" hidden></p>
                     <p>I wanna forget it  <input id="checkUserCreateObject" type="checkbox" value=" false" name="checkUserCreateObject" class="form-control"></p>
                     @Html.Hidden("idUser", Model.UserIdreported)
-                    <input type="submit" value="Delete" class="btn btn-default" />
+                    <input type="submit" value="Delete" class="btn btn-success" />
                 </div>
             }
         </div>
     </div>
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
     </div>
 
 

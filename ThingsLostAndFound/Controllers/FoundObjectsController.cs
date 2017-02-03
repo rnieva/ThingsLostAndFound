@@ -265,7 +265,7 @@ namespace ThingsLostAndFound.Controllers
             lostAndFoundObject.ObjectIDFound = id;
             lostAndFoundObject.ObjectIDLost = null;
             lostAndFoundObject.UserIdreportFound = idUser;
-            if (checkObjectSolved == false)  // this is the user found the object
+            if (checkObjectSolved == false)  // this is the user found the object, therefore it has have soñe contact between people
             {
                 InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault(); //to get the id of ContactUser
                 if (infoUser != null)
@@ -289,6 +289,7 @@ namespace ThingsLostAndFound.Controllers
             FoundObject foundObject = db.FoundObjects.Find(id);
             foundObject.State = true;
             db.Entry(foundObject).State = EntityState.Modified;
+            //Dont delete neither Files or Msgs
             //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             //db.Files.Remove(file);
             var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
@@ -325,6 +326,10 @@ namespace ThingsLostAndFound.Controllers
                 {
                     System.Diagnostics.Debug.WriteLine("error send email");
                 }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("send email no activate");
             }
             return RedirectToAction("Index");
         }

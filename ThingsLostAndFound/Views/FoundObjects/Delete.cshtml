@@ -65,7 +65,12 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Color)
+                @{
+                    if (Model.Color != null)
+                    {
+                        <span style="background: @Html.DisplayFor(model => model.Color)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    }
+                }
             </dd>
 
             <dt>
@@ -137,7 +142,16 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Img)
+                @{
+                    if (Model.File.FileName != null)
+                    {
+                        <img src="~/File?id=@Model.File.Id" alt="picture" height="62" width="95" />     @*the File controller give the file(picture) from DB using Id*@
+                    }
+                    else
+                    {
+                        @Html.DisplayName("No picture")
+                    }
+                }
             </dd>
 
             <dt>
@@ -159,54 +173,54 @@
                 <p><label id="labelObjSolved" hidden>Please, tell us the contact name user </label> <input id="nameContact" type="text" name="nameContact" hidden></p>
                 <p>I wanna forget it  <input id="checkUserCreateObject" type="checkbox" value =" false"name="checkUserCreateObject" class="form-control"></p>
                 @Html.Hidden("idUser", Model.UserIdreported)
-                <input type="submit" value="Delete" class="btn btn-default" />
+                <input type="submit" value="Delete" class="btn btn-success" />
             </div>
         }
     </div>
 </div>
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index",null, new {@class ="btn btn-info" })
 </div>
 
 
-    @section Scripts
+@section Scripts
 {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#checkObjectSolved").on('click', function () {
-                    if (checkObjectSolved.checked == true) {
-                        $("#nameContact").show();
-                        $("#labelObjSolved").show();
-                    } else {
-                        $("#nameContact").hide();
-                        $("#labelObjSolved").hide();
-                    }
-                });
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#checkObjectSolved").on('click', function () {
+                if (checkObjectSolved.checked == true) {
+                    $("#nameContact").show();
+                    $("#labelObjSolved").show();
+                } else {
+                    $("#nameContact").hide();
+                    $("#labelObjSolved").hide();
+                }
             });
-            function validate() {
-                if ((checkObjectSolved.checked == false) && (checkUserCreateObject.checked == false)) {
-                    alert('Please check at least one of the option.');
-                    return false;
+        });
+        function validate() {
+            if ((checkObjectSolved.checked == false) && (checkUserCreateObject.checked == false)) {
+                alert('Please check at least one of the option.');
+                return false;
+            }
+            else {
+                if ((checkObjectSolved.checked == true) && (checkUserCreateObject.checked == false)) {
+                    if (document.forms["form"]["nameContact"].value == "") {
+                        alert('Please write the contact name');
+                        return false;
+                    }
+                    return true;
                 }
                 else {
-                    if ((checkObjectSolved.checked == true) && (checkUserCreateObject.checked == false)) {
-                        if (document.forms["form"]["nameContact"].value == "") {
-                            alert('Please write the contact name');
-                            return false;
-                        }
-                        return true;
+                    if ((checkObjectSolved.checked == false) && (checkUserCreateObject.checked == true)) {
+                        return true; //checkUserCreateObject I wanna forget it
+                    } else {
+                        alert('Please check only one of the option.');
+                        return false;
                     }
-                    else {
-                        if ((checkObjectSolved.checked == false) && (checkUserCreateObject.checked == true)) {
-                            return true; //checkUserCreateObject I wanna forget it
-                        } else {
-                            alert('Please check only one of the option.');
-                            return false;
-                        }
-                    }
-
                 }
+
             }
-        </script>
-    }
+        }
+    </script>
+}

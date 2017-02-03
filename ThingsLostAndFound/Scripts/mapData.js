@@ -8,7 +8,15 @@ function initMap() {
     var options = {
         zoom: 11,
         center: centerPosition,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        styles: [   //remove POI from the Google Maps API
+                {
+                    "featureType": "poi",
+                    "stylers": [
+                      { "visibility": "off" }
+                    ]
+                }
+                    ]
     };
     map = new google.maps.Map($('#map_canvas')[0], options);
     google.maps.event.addListener(map, 'click', function (event) {

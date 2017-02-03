@@ -7,62 +7,67 @@
 <html>
 <body>
     <h2>Statistics</h2>
-    <table>
-        <tr>
-            <th>
+    <div class="row">
+        <div class="col-md-6">
+            <table>
+                <tr>
+                    <th>
 
-            </th>
-            <th>
-                @Html.Label("Found Object   -")
-            </th>
-            <th>
-                @Html.Label("Lost Object")
-            </th>
-        </tr>
-        <tr>
-            <td>
-                Total:
-                <p></p>
-                Pending:
-                <p></p>
-                Solved:
-                <p></p>
-            </td>
-            <td align="center">
-                @ViewBag.FOTotal
-                <p></p>
-                @ViewBag.FOpending
-                <p></p>
-                @ViewBag.FOsolved
-            </td>
-            <td align="center">
-                @ViewBag.LOTotal
-                <p></p>
-                @ViewBag.LOpending
-                <p></p>
-                @ViewBag.LOsolved
-            </td>
+                    </th>
+                    <th>
+                        @Html.Label("Found Object   -")
+                    </th>
+                    <th>
+                        @Html.Label("Lost Object")
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        Total:
+                        <p></p>
+                        Pending:
+                        <p></p>
+                        Solved:
+                        <p></p>
+                    </td>
+                    <td align="center">
+                        @ViewBag.FOTotal
+                        <p></p>
+                        @ViewBag.FOpending
+                        <p></p>
+                        @ViewBag.FOsolved
+                    </td>
+                    <td align="center">
+                        @ViewBag.LOTotal
+                        <p></p>
+                        @ViewBag.LOpending
+                        <p></p>
+                        @ViewBag.LOsolved
+                    </td>
 
-        </tr>
-    </table>
-    <p></p>
-    Menssages: @ViewBag.Msgs
-    <p></p>
-    Files: @ViewBag.Files
-    <p></p>
-    Users: @ViewBag.Users
-    <p></p>
-    @Html.ActionLink("Back to Control Panel", "Settings", null, new { @class = "btn btn-info" })
-
-    <p></p>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <p></p>
+            Menssages: @ViewBag.Msgs
+            <p></p>
+            Files: @ViewBag.Files
+            <p></p>
+            Registered Users: @ViewBag.Users
+        </div>
+    </div> 
+    <hr />
     <div class="row">
         <div class="col-md-6">
             <img src="@Url.Action("ChartFO")" alt="ChartFO" />
-         </div>
+        </div>
         <div class="col-md-6">
             <img src="@Url.Action("ChartLO")" alt="ChartLO" />
         </div>
     </div>
+    <p></p>
+    @Html.ActionLink("Back to Control Panel", "Settings", null, new { @class = "btn btn-info" })
 </body>
 </html>
 
