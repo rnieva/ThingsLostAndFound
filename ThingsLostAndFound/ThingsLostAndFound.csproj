@@ -341,11 +341,11 @@
     <Content Include="Views\MapObjects\MapFoundAndLostObjects.cshtml" />
     <Content Include="Views\FoundObjects\Index.cshtml" />
     <Content Include="Views\LostObjects\_IndexLO.cshtml" />
-    <Content Include="Views\Messages\ShowMessages.cshtml" />
     <Content Include="Views\PartialViews\_leftSide.cshtml" />
     <Content Include="Views\PartialViews\_rightSide.cshtml" />
     <Content Include="Views\ControlPanel\Settings.cshtml" />
     <Content Include="Views\ControlPanel\Statistics.cshtml" />
+    <Content Include="Views\Messages\ShowMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
