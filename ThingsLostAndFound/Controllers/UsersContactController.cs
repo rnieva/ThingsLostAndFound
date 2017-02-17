@@ -76,7 +76,7 @@ namespace ThingsLostAndFound.Controllers
                 }
                 else
                 {
-                    ViewBag.result = "Request don´t sent";
+                    ViewBag.result = "Request don´t sent by email";
                 }
             }
             else
@@ -125,7 +125,7 @@ namespace ThingsLostAndFound.Controllers
                 }
                 else
                 {
-                    ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
+                    ViewBag.result = "Request don´t sent by email"; //TODO: come back to Messages view
                 }
             }
             else
@@ -163,7 +163,7 @@ namespace ThingsLostAndFound.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendRequestUser2(int id, string textMessage, string emailUserFoundObject)  //send an email from user found object because he saw it in the lost object list to user that lost the object
+        public ActionResult SendRequestUser2(int id, string textMessage, string emailUserFoundObject)  //send an email from user found object because he saw it (user not registered) in the lost object list to user that lost the object
         {
             //with id from object, search the user that found the object and send him a email
             var lostObject = db.LostObjects.Find(id);
@@ -197,7 +197,7 @@ namespace ThingsLostAndFound.Controllers
                 }
                 else
                 {
-                    ViewBag.result = "Request don´t sent";
+                    ViewBag.result = "Request don´t sent by email";
 
                 }
             }
@@ -246,7 +246,7 @@ namespace ThingsLostAndFound.Controllers
                 }
                 else
                 {
-                    ViewBag.result = "Request don´t sent"; //TODO: come back to Messages view
+                    ViewBag.result = "Request don´t sent by email"; //TODO: come back to Messages view
                 }
             }
             else
