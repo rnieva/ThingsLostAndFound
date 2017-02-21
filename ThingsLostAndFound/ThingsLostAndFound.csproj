@@ -241,6 +241,7 @@
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\login.png" />
     <Content Include="Content\Images\logoTLAF.png" />
+    <Content Include="Content\Images\newMsg.png" />
     <Content Include="Content\Images\Search Icon.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

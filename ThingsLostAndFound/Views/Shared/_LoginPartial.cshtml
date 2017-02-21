@@ -35,6 +35,12 @@
                     }
                 </ul>
             </li>  
+            @{
+                if (newMessage == true)
+                {
+                   <li><<img src="~/Content/Images/newMsg.png" alt="No Img" height="45" width="45" /></li>
+                }
+            }
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
             <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>

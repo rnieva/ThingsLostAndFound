@@ -65,6 +65,7 @@ textarea {
   background-color: #080808;
 }
 /* news styles */
+/* Home Page*/
 .searchBtn
 {
     background: url('Images/Search Icon.png') no-repeat;
@@ -89,3 +90,4 @@ textarea {
     text-indent: -9999px;
     display: inline-block;
 }
+/* End Home Page*/
