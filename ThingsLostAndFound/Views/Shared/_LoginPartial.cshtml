@@ -10,6 +10,12 @@
     if (roll == 1)
     {
         <ul class="nav navbar-nav navbar-right">
+            @{
+                if (newMessage == true)
+                {
+                    <li><a href="~/Messages/ShowMessages/@userId" style="height:3px;width:50px;"><img src="~/Content/Images/newMsg.png" alt="No Img" height="25" width="35" /></a></li>
+                }
+            }
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello @User.Identity.GetUserName() <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -35,12 +41,6 @@
                     }
                 </ul>
             </li>  
-            @{
-                if (newMessage == true)
-                {
-                   <li><<img src="~/Content/Images/newMsg.png" alt="No Img" height="45" width="45" /></li>
-                }
-            }
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
             <li>@Html.ActionLink("Sign Out", "Logout", "Login")</li>
@@ -49,6 +49,12 @@
     else
     {
         <ul class="nav navbar-nav navbar-right">
+            @{
+                if (newMessage == true)
+                {
+                    <li><a href="~/Messages/ShowMessages/@userId" style="height:3px;width:50px;"><img src="~/Content/Images/newMsg.png" alt="No Img" height="25" width="35" /></a></li>
+                }
+            }
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello @User.Identity.GetUserName() <span class="caret"></span></a>
                 <ul class="dropdown-menu">
