@@ -198,7 +198,6 @@ namespace ThingsLostAndFound.Controllers
                 else
                 {
                     ViewBag.result = "Request don´t sent by email";
-
                 }
             }
             else
