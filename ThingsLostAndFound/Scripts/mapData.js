@@ -108,3 +108,31 @@ function geocodeLatLng(latlngStr, geocoder) { //get info from lat and lng
     });
 
 }
+
+//This functions add a marker if the user type the ZipCode or the Address
+
+function addMarkerFromZipCode() {
+    var geocoder = new google.maps.Geocoder;
+    var ZipCode = document.getElementById('ZipCode').value;
+    geocoder.geocode({ 'address': ZipCode }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            addMarker(results[0].geometry.location)
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+function addMarkerFromAddress() {
+    var geocoder = new google.maps.Geocoder;
+    var address = document.getElementById('Address').value;
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            addMarker(results[0].geometry.location)
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}

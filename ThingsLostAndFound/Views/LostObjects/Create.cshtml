@@ -200,5 +200,15 @@
                     dateFormat: 'dd-mm-yy'
                 });
             });
+            $(document).ready(function () {
+                $('#ZipCode').change(function () {
+                    addMarkerFromZipCode();
+                });
+            });
+            $(document).ready(function () {
+                $('#Address').change(function () {
+                    addMarkerFromAddress();
+                });
+            });
     </script>
 }
