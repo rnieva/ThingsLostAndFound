@@ -1,14 +1,30 @@
 # ThingsLostAndFound
-:construction: A MVC project
+:construction: 🔍 A MVC project
 
-A self-taught project to learn more about Model–View–Controller (MVC),C#, Maps and more design tools.
+Things Lost and Found is a self-taught project to learn and improvements the knowledge about MVC architecture and different programming languages. It try developer a project the most real possible using these tools
 
+**Technical Features:**
+
+- Architectural pattern: Model–View–Controller (MVC).<p>
+- Software Framework:.NET Framework 4.5.2.<p>
+- Programming Languages: C# (C Sharp), Java Script, HTML.<p>
+- Database: MSQlExpress 10.5, Entity Framework 6.1.3.<p>
+- Other Tools: Google API, GoogleMaps LocationServices, jQuery, CSS, Bootstrap.<p>
+- Security: Authentication and Authorization. Use of Cookies. Crypto using Hash and Salt.<p>
 
 ---
-Add file PrivateSettings.config in c:\ path with private data, example in this folder.
+----
+---
+
+Using project in local:<p>
+- Add file PrivateSettings.config in c:\ path with private data, example in this folder.<p>
+
+Using project in hosting:<p>
+- Put PrivateSettings.config in the root server.
+- Change the "connectionStrings" in We.config.
 
 ---
-<h3>Things Lost And Found Manual</h3>
+<h2>Things Lost And Found Manual</h2>
 
 Menu:
 ThingsLostAndFound --> Link to Home.
@@ -16,7 +32,7 @@ ThingsLostAndFound --> Link to Home.
 
 
 ---
-How work User Login?<p>
+<h3>How work User Login?</h3><p>
 Create a new User.<p>
 1- The user into data to create a new user.<p>
 2- If the NameUser is not using, the process go on.<p>
