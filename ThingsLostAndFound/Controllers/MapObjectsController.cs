@@ -106,8 +106,9 @@ namespace ThingsLostAndFound.Controllers
 
         //TODO: join both actions and to do just 1 action for lost and found objects
 
-        public ActionResult MapFoundAndLostObjects()
+        public ActionResult MapFoundAndLostObjects(string Target)
         {
+            ViewBag.Target = Target; // Target is the location into by the user in Search object, it´s to center the map in this position
             List<InfoMarkerFoundObject> listFoundMarkers = new List<InfoMarkerFoundObject>();
             List<InfoMarkerLostObject> listLostMarkers = new List<InfoMarkerLostObject>();
             List<object> listMarkers = new List<object>();

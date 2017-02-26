@@ -1,4 +1,4 @@
-﻿// initiate the map. Add a marker to get the Location Info using Lat-Long
+﻿// initiate the map. Add a marker to get the Location Info using Lat-Long, or Add a marker if the user write a location
 initMap()
 var map;
 var marker;

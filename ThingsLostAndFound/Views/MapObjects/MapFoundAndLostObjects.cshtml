@@ -17,31 +17,50 @@
 </head>
 <body>
     <h2>Lost and Found Object Map</h2>
+    <br />
     <div>
         <div id="map_canvas" style="height: 500px; width: 900px;"></div>
     </div>
+    <style>
+        .infoDiv {
+            height: 200px;
+            width: 300px;
+            -webkit-user-select: none;
+            background-color: red;
+        }
+    </style>
 </body>
 </html>
-<style>
-    .infoDiv {
-        height: 200px;
-        width: 300px;
-        -webkit-user-select: none;
-        background-color: red;
-    }
-</style>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
-<script src="@Url.Content("~/Scripts/mapShowMarkersFOLO.js")"></script>
+    <script src="@Url.Content("~/Scripts/mapShowMarkersFOLO.js")"></script>
     <script type="text/javascript">
         var objectListFO = @(Html.Raw(Json.Encode(Model.ToList()[0])));  // pass the model (list of objects) to script
         var objectListLO = @(Html.Raw(Json.Encode(Model.ToList()[1])));  // pass the model (list of objects) to script
         showMarkersFOLO(objectListFO,objectListLO);
 
+        var Target = "@ViewBag.Target";
+        if (Target != "")
+        {
+            centerMapInThisPlace(Target);
+        }
 
-        // this is a old script, the main different is the Razor part using <text> 
+        function centerMapInThisPlace(Target) {
+            var geocoder = new google.maps.Geocoder;
+            //var Target = document.getElementById('Target').value;
+            geocoder.geocode({ 'address': Target }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+        // this is a old script, the main different is the Razor part using <text>
         @*var map;
         var marker;
         showMarkersFO();
@@ -139,6 +158,6 @@
             }
         }*@
 
-    
+
     </script>
 }
