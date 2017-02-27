@@ -10,6 +10,7 @@
 <div class="row">
     <div class="col-md-6">
         <div>
+            <hr />
             <dl class="dl-horizontal">
                 <dt>
                     @Html.DisplayNameFor(model => model.Date)
@@ -27,14 +28,18 @@
                     @Html.DisplayFor(model => model.Category)
                 </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Brand)
-                </dt>
+                @if (Model.Brand != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Brand)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Brand)
-                </dd>
-
+                    <dd>
+                        @Html.DisplayFor(model => model.Brand)
+                    </dd>
+                }
+                @if (Model.Model != null)
+                {
                 <dt>
                     @Html.DisplayNameFor(model => model.Model)
                 </dt>
@@ -42,7 +47,9 @@
                 <dd>
                     @Html.DisplayFor(model => model.Model)
                 </dd>
-
+                }
+                @if (Model.SerialID != null)
+                {
                 <dt>
                     @Html.DisplayNameFor(model => model.SerialID)
                 </dt>
@@ -50,7 +57,7 @@
                 <dd>
                     @Html.DisplayFor(model => model.SerialID)
                 </dd>
-
+                }
                 <dt>
                     @Html.DisplayNameFor(model => model.Title)
                 </dt>
@@ -58,20 +65,19 @@
                 <dd>
                     @Html.DisplayFor(model => model.Title)
                 </dd>
-
+                @if (Model.Color != null)
+                {
                 <dt>
                     @Html.DisplayNameFor(model => model.Color)
                 </dt>
 
                 <dd>
-                    @{
-                        if (Model.Color != null)
-                        {
-                            <span style="background: @Html.DisplayFor(model => model.Color)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        }
-                    }
-                </dd>
+                    <span style="background: @Html.DisplayFor(model => model.Color)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
+                </dd>
+                }
+                @if (Model.Observations != null)
+                {
                 <dt>
                     @Html.DisplayNameFor(model => model.Observations)
                 </dt>
@@ -79,7 +85,7 @@
                 <dd>
                     @Html.DisplayFor(model => model.Observations)
                 </dd>
-
+                }
                 <dt>
                     @Html.DisplayNameFor(model => model.Address)
                 </dt>
@@ -87,7 +93,8 @@
                 <dd>
                     @Html.DisplayFor(model => model.Address)
                 </dd>
-
+                @if (Model.ZipCode != null)
+                {
                 <dt>
                     @Html.DisplayNameFor(model => model.ZipCode)
                 </dt>
@@ -95,7 +102,7 @@
                 <dd>
                     @Html.DisplayFor(model => model.ZipCode)
                 </dd>
-
+                }
                 <dt>
                     @Html.DisplayNameFor(model => model.MapLocation)
                 </dt>
@@ -111,7 +118,8 @@
                 <dd>
                     @Html.DisplayFor(model => model.Country)
                 </dd>
-
+                @if (Model.LocationObservations != null)
+                {
                 <dt>
                     @Html.DisplayNameFor(model => model.LocationObservations)
                 </dt>
@@ -119,7 +127,7 @@
                 <dd>
                     @Html.DisplayFor(model => model.LocationObservations)
                 </dd>
-
+                }
                 <dt>
                     @Html.DisplayNameFor(model => model.Location)
                 </dt>
@@ -137,23 +145,6 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Img)
-                </dt>
-
-                <dd>
-                    @{
-                        if (Model.File.FileName != null)
-                        {
-                            <img src="~/File?id=@Model.File.Id" alt="picture" height="62" width="95" />     @*the File controller give the file(picture) from DB using Id*@
-                        }
-                        else
-                        {
-                            @Html.DisplayName("No picture")
-                        }
-                    }
-                </dd>
-
-                <dt>
                     @Html.DisplayNameFor(model => model.InfoUser.UserName)
                 </dt>
 
@@ -161,6 +152,23 @@
                     @Html.DisplayFor(model => model.InfoUser.UserName)
                 </dd>
 
+                <dt>
+                    @Html.DisplayNameFor(model => model.Img)
+                </dt>
+
+                <dd>
+                    @{
+                        if (Model.File.FileName != null)
+                        {
+                            <br />
+                            <img src="~/File?id=@Model.File.Id" alt="picture" class="img-responsive" height="180" width="180" id="img"/>     @*the File controller give the file(picture) from DB using Id*@
+                        }
+                        else
+                        {
+                            @Html.DisplayName("No picture")
+                        }
+                    }
+                </dd>
             </dl>
         </div>
     </div>
@@ -175,6 +183,22 @@
 </div>
 <a href="~/LostObjects/Index" class="btn btn-info" role="button">Back to List</a>
 <p></p>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">@Model.Title</h4>
+            </div>
+            <div class="modal-body">
+                <img id="mimg" src="~/File?id=@Model.File.Id" class="img-responsive">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
@@ -183,5 +207,9 @@
             var mapLocation = "@Model.MapLocation";
             var title = "@Model.Title";
             addMarker(mapLocation, title);
+
+            $('img').on('click', function () {
+                $('#myModal').modal('show');
+            });
     </script>
 }
