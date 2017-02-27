@@ -1,5 +1,5 @@
 ﻿@{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@mapsKey"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@mapsKey"></script>  @*&language=en to set map in English Language*@ 
 @*@model ThingsLostAndFound.Models.InfoMarkerFoundObject*@
 @model IEnumerable<object>
 @using System.Threading;

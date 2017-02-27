@@ -1,6 +1,6 @@
 ﻿@{string mapsKey = System.Configuration.ConfigurationManager.AppSettings["MapsKey"]; } @* Read the MapsKey value from a config file out of my project, so avoid to upload this inromation to GitHub*@
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@mapsKey"></script> 
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@mapsKey&language=en"></script> 
 
 @model ThingsLostAndFound.Models.FoundObject
 

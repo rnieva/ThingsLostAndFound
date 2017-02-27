@@ -35,22 +35,22 @@ namespace ThingsLostAndFound.Controllers
             int numberResults = 0;
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
             // check matches from much coincidences to less coincidences
-            LostObjectMatchesList = (from p in db.LostObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country select p).ToList();
+            LostObjectMatchesList = (from p in db.LostObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country && p.State == false select p).ToList();
             if (LostObjectMatchesList.Count == 0)
             {
-                LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+                LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.State == false select p).ToList();
                 if (LostObjectMatchesList.Count == 0)
                 {
-                    LostObjectMatchesList = (from p in db.LostObjects where p.Title == Title && p.Category == Category && p.Location == Location select p).ToList();
+                    LostObjectMatchesList = (from p in db.LostObjects where p.Title == Title && p.Category == Category && p.Location == Location && p.State == false select p).ToList();
                     if (LostObjectMatchesList.Count == 0)
                     {
-                        LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category  && p.Location == Location select p).ToList();
+                        LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category  && p.Location == Location && p.State == false select p).ToList();
                         if (LostObjectMatchesList.Count == 0)
                         {
-                            LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title select p).ToList();
+                            LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.Title == Title && p.State == false select p).ToList();
                             if (LostObjectMatchesList.Count == 0)
                             {
-                                LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category select p).ToList();
+                                LostObjectMatchesList = (from p in db.LostObjects where p.Category == Category && p.State == false select p).ToList();
                             }
                         }
                     }
@@ -84,22 +84,22 @@ namespace ThingsLostAndFound.Controllers
             int numberResults = 0;
             List<FoundObject> FoundObjectMatchesList = new List<FoundObject>();
             // check matches from much coincidences to less coincidences
-            FoundObjectMatchesList = (from p in db.FoundObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country select p).ToList();
+            FoundObjectMatchesList = (from p in db.FoundObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country && p.State == false select p).ToList();
             if (FoundObjectMatchesList.Count == 0)
             {
-                FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location select p).ToList();
+                FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.State == false select p).ToList();
                 if (FoundObjectMatchesList.Count == 0)
                 {
-                    FoundObjectMatchesList = (from p in db.FoundObjects where p.Title == Title && p.Category == Category && p.Location == Location select p).ToList();
+                    FoundObjectMatchesList = (from p in db.FoundObjects where p.Title == Title && p.Category == Category && p.Location == Location && p.State == false select p).ToList();
                     if (FoundObjectMatchesList.Count == 0)
                     {
-                        FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Location == Location select p).ToList();
+                        FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Location == Location && p.State == false select p).ToList();
                         if (FoundObjectMatchesList.Count == 0)
                         {
-                            FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title select p).ToList();
+                            FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.Title == Title && p.State == false select p).ToList();
                             if (FoundObjectMatchesList.Count == 0)
                             {
-                                FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category select p).ToList();
+                                FoundObjectMatchesList = (from p in db.FoundObjects where p.Category == Category && p.State == false select p).ToList();
 
                             }
                         }
