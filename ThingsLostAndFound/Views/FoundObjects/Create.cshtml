@@ -205,7 +205,8 @@
     <script>
         $(document).ready(function() {
             $("#Date").datepicker({ 
-                dateFormat: 'dd-mm-yy' 
+                //dateFormat: 'dd-mm-yy'  // if I use European format in Edit I get an error in the hosting by format date
+                dateFormat: 'mm/dd/yy'
             });
         });
         $(document).ready(function () {
