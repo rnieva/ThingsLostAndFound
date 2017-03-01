@@ -13,8 +13,6 @@ Things Lost and Found is a self-taught project to learn and improvements the kno
 - Security: Authentication and Authorization. Use of Cookies. Crypto using Hash and Salt.<p>
 
 ---
-----
----
 
 Using project in local:<p>
 - Add file PrivateSettings.config in c:\ path with private data, example in this folder.<p>
@@ -26,9 +24,23 @@ Using project in hosting:<p>
 ---
 <h2>Things Lost And Found Manual</h2>
 
-Menu:
-ThingsLostAndFound --> Link to Home.
-<p>Search Object --> Search a Lost or Found Object in the DB.
+<h3>Menu options:</h3>
+- ThingsLostAndFound --> Link to Home.
+- Search --> Search a Lost or Found Object in the DB.
+- Lost Object Menu:
+<p>Lost Object List --> Show the Lost Object List.
+<p>Lost Object Report --> Create a new Lost Object Report.
+<p>Lost Object Map --> Show a map with the Lost Objects.
+- Found Object Menu:
+<p>Found Object List --> Show the Found Object List.
+<p>Found Object Report --> Create a new Found Object Report.
+<p>Found Object Map --> Show a map with the Found Objects.
+- Object Map --> Show a map with the Found and Lost Objects.
+- About --> Information about the website.
+- Contact --> Contact Information.
+- Register --> Register a new user in the system.
+- Login --> Login Users.
+
 
 
 ---
