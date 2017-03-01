@@ -137,7 +137,7 @@ namespace ThingsLostAndFound.Controllers
         }
 
         //Communication for Lost Object, from users FO to users LO
-        //TODO: join both communication
+        
         public ActionResult ContactUserLostObject(int id, string title, string userName) //When a user has found a object and see it in the lost Objects List o lost Object Map, the user uses this method for contact with user that lost the object
         {
             //This info cames from listLO, It show in the form "Hi pal, I have your object"
@@ -267,7 +267,7 @@ namespace ThingsLostAndFound.Controllers
             if (id != 0) //if id=0 is a message for support
             {
                 if (subject == "Found Object")
-                {
+                {   // the subject is Found Object
                     var foundObject = db.FoundObjects.Find(id);
                     ViewBag.titleObject = foundObject.Title;
                     ViewBag.userNameSend = foundObject.InfoUser.UserName;
@@ -297,7 +297,7 @@ namespace ThingsLostAndFound.Controllers
 
         [HttpPost]
         public ActionResult SendMessage2(int id, int userSendMsg, int userDestMsg, string subject, string textMessage)
-        {   // this Action send the message
+        {   //this Action send the message
             //with id from object, search the user that found the object and send him a email
             string title = "";
             if (id != 0)
@@ -337,8 +337,8 @@ namespace ThingsLostAndFound.Controllers
                     msg.LostObjectId = null;
                     break;
                 case "Lost Object":
-                    msg.FoundObjectId = null; // id object
-                    msg.LostObjectId = id;
+                    msg.FoundObjectId = null; 
+                    msg.LostObjectId = id;  // id object
                     break;
             }
             msg.emailAddressUserDontRegis = null; // only for user not registered

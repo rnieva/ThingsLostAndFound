@@ -4,8 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>SendRequestUser</h2>
-@{
-    @ViewBag.result;
-}
+<html>
+<body>
+    <h2>Send Request User</h2>
+    @{
+        @ViewBag.result;
+    }
+    <p>
+        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-info" })
+    </p>
+</body>
+</html>
+
 
