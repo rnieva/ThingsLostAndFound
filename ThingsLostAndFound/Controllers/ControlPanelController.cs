@@ -7,17 +7,20 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class ControlPanelController : Controller  //In this controller only the admin can change soñe settings like send Messages by email
     {
         private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         [RoleAuthorization(Roles = "1")]
         public ActionResult Settings()
         {
-            Setting settings = db.Settings.Find(1); // At the moment just one row in the table with id=1
+            //Setting settings = db.Settings.Find(1); // At the moment just one row in the table with id=1
+            Setting settings = _IDBServices.GetSettings();
             return View(settings);
         }
 
