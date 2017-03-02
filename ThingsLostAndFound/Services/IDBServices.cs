@@ -8,6 +8,7 @@ namespace ThingsLostAndFound.Services
 {
     public interface IDBServices
     {
+        //ControlPanelController
         Setting GetSettings();
         void ChangeSettings(Setting settings);
         int FoundObjectsFOTotal();
@@ -19,6 +20,11 @@ namespace ThingsLostAndFound.Services
         int MessagesTotal();
         int FilesTotal();
         int UsersTotal();
+        //FileController
+        File getFile(int id);
+        //FindMatchesController
+        List<LostObject> getMatchesInLO(FoundObject foundObject);
+        List<FoundObject> getMatchesInFO(LostObject lostObject);
 
 
     }
