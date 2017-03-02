@@ -13,7 +13,7 @@ namespace ThingsLostAndFound.Controllers
 {
     public class ControlPanelController : Controller  //In this controller only the admin can change soñe settings like send Messages by email
     {
-        private TLAFEntities db = new TLAFEntities();
+        //private TLAFEntities db = new TLAFEntities();
         private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         [RoleAuthorization(Roles = "1")]
@@ -31,8 +31,9 @@ namespace ThingsLostAndFound.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(settings).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(settings).State = EntityState.Modified;
+                //db.SaveChanges();
+                _IDBServices.ChangeSettings(settings);
             }
             return RedirectToAction("Settings");
         }
@@ -40,23 +41,37 @@ namespace ThingsLostAndFound.Controllers
         [RoleAuthorization(Roles = "1")]
         public ActionResult Statistics()
         {
-            ViewBag.FOTotal = db.FoundObjects.Count();
-            ViewBag.FOsolved = db.FoundObjects.Count(p => p.State == true);
-            ViewBag.FOpending = db.FoundObjects.Count(p => p.State == false);
-            ViewBag.LOTotal = db.LostAndFoundObjects.Count();
-            ViewBag.LOsolved = db.LostObjects.Count(p => p.State == true);
-            ViewBag.LOpending = db.LostObjects.Count(p => p.State == false); 
-            ViewBag.Msgs = db.Messages.Count();
-            ViewBag.Files = db.Files.Count();
-            ViewBag.Users = db.InfoUsers.Count();
+            //ViewBag.FOTotal = db.FoundObjects.Count();
+            //ViewBag.FOsolved = db.FoundObjects.Count(p => p.State == true);
+            //ViewBag.FOpending = db.FoundObjects.Count(p => p.State == false);
+            //ViewBag.LOTotal = db.LostAndFoundObjects.Count();
+            //ViewBag.LOsolved = db.LostObjects.Count(p => p.State == true);
+            //ViewBag.LOpending = db.LostObjects.Count(p => p.State == false); 
+            //ViewBag.Msgs = db.Messages.Count();
+            //ViewBag.Files = db.Files.Count();
+            //ViewBag.Users = db.InfoUsers.Count();
+
+            ViewBag.FOTotal = _IDBServices.FoundObjectsFOTotal();
+            ViewBag.FOsolved = _IDBServices.FoundObjectsFOsolved();
+            ViewBag.FOpending = _IDBServices.FoundObjectsFOpending();
+            ViewBag.LOTotal = _IDBServices.LostObjectsLOTotal();
+            ViewBag.LOsolved = _IDBServices.LostObjectsLOsolved();
+            ViewBag.LOpending = _IDBServices.LostObjectsLOpending();
+            ViewBag.Msgs = _IDBServices.MessagesTotal();
+            ViewBag.Files = _IDBServices.FilesTotal();
+            ViewBag.Users = _IDBServices.UsersTotal();
+
             return View();
         }
 
         public ActionResult ChartFO()
         {
-            int FOTotal = db.FoundObjects.Count();
-            int FOsolved = db.FoundObjects.Count(p => p.State == true);
-            int FOpending = db.FoundObjects.Count(p => p.State == false);
+            //int FOTotal = db.FoundObjects.Count();
+            //int FOsolved = db.FoundObjects.Count(p => p.State == true);
+            //int FOpending = db.FoundObjects.Count(p => p.State == false);
+            int FOTotal = _IDBServices.FoundObjectsFOTotal();
+            int FOsolved = _IDBServices.FoundObjectsFOsolved();
+            int FOpending = _IDBServices.FoundObjectsFOpending();
             int[] data = new int[3] { FOTotal, FOsolved, FOpending };
             string[] dataNames = new string[3] { "FOTotal", "FOsolved", "FOpending" };
             var chart = new Chart(width: 400, height: 300, theme: ChartTheme.Green)
@@ -70,9 +85,12 @@ namespace ThingsLostAndFound.Controllers
 
         public ActionResult ChartLO()
         {
-            int LOTotal = db.LostObjects.Count();
-            int LOsolved = db.LostObjects.Count(p => p.State == true);
-            int LOpending = db.LostObjects.Count(p => p.State == false);
+            //int LOTotal = db.LostObjects.Count();
+            //int LOsolved = db.LostObjects.Count(p => p.State == true);
+            //int LOpending = db.LostObjects.Count(p => p.State == false);
+            int LOTotal = _IDBServices.LostObjectsLOTotal();
+            int LOsolved = _IDBServices.LostObjectsLOsolved();
+            int LOpending = _IDBServices.LostObjectsLOpending();
             int[] data = new int[3] { LOTotal, LOsolved, LOpending };
             string[] dataNames = new string[3] { "LOTotal", "LOsolved", "LOpending" };
             var chart = new Chart(width: 400, height: 300, theme: ChartTheme.Green)
