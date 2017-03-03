@@ -12,7 +12,7 @@ namespace ThingsLostAndFound.Services
         private TLAFEntities db = new TLAFEntities();
 
         // ControlPanelCntroller
-        public Setting GetSettings()
+        public Setting GetSettings()   //this function is used by FoundObjectController too
         {
             Setting settings = db.Settings.Find(1); // At the moment just one row in the table with id=1
             return settings;
@@ -98,7 +98,6 @@ namespace ThingsLostAndFound.Services
             string Country = foundObject.Country;
 
             List<LostObject> LostObjectMatchesList = new List<LostObject>();
-            // check matches from much coincidences to less coincidences
             LostObjectMatchesList = (from p in db.LostObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country && p.State == false select p).ToList();
             if (LostObjectMatchesList.Count == 0)
             {
@@ -143,7 +142,6 @@ namespace ThingsLostAndFound.Services
             string CityTownRoad = lostObject.CityTownRoad;
             string Country = lostObject.Country;
             List<FoundObject> FoundObjectMatchesList = new List<FoundObject>();
-            // check matches from much coincidences to less coincidences
             FoundObjectMatchesList = (from p in db.FoundObjects where p.Brand == Brand && p.SerialID == SerialID && p.Category == Category && p.Title == Title && p.Color == Color && p.CityTownRoad == CityTownRoad && p.Location == Location && p.Country == Country && p.State == false select p).ToList();
             if (FoundObjectMatchesList.Count == 0)
             {
@@ -169,6 +167,65 @@ namespace ThingsLostAndFound.Services
             return FoundObjectMatchesList;
         }
 
+        //FoundObjectsController
+        public List<FoundObject> GetListFO()
+        {
+            return db.FoundObjects.Where(f => f.State == false).ToList();
+        }
 
+        public FoundObject GetDetailsFO(int? id) 
+        {
+            return db.FoundObjects.Find(id);
+        }
+
+        public void AddFileFO(File file)
+        {
+            db.Files.Add(file);
+        }
+
+        public void AddFO(FoundObject foundObject)
+        {
+            db.FoundObjects.Add(foundObject);
+        }
+
+        public void AddMessage(Message msg)
+        {
+            db.Messages.Add(msg);
+        }
+
+        public void SaveChanges()
+        {
+            db.SaveChanges();
+        }
+
+        public InfoUser GetInfoUser(int UserIdreported)
+        {
+            return db.InfoUsers.Find(UserIdreported);
+        }
+
+        public void ModifiedFile(File file)
+        {
+            db.Entry(file).State = EntityState.Modified;
+        }
+
+        public void ModifiedFO(FoundObject foundObject)
+        {
+            db.Entry(foundObject).State = EntityState.Modified;
+        }
+
+        public InfoUser GetInfoUserByNameContact(string nameContact)
+        {
+            return db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault(); //to get the id of ContactUser
+        }
+        public void AddLostAndFoundObjects(LostAndFoundObject lostAndFoundObject)
+        {
+            db.LostAndFoundObjects.Add(lostAndFoundObject);
+        }
+
+        public List<Message> MsgListAbouthisObject(int id)
+        {
+            return db.Messages.Where(a => a.FoundObjectId == id).ToList();
+        }
+       
     }
 }
