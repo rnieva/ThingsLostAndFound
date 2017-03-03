@@ -270,18 +270,20 @@ namespace ThingsLostAndFound.Controllers
                 {   // the subject is Found Object
                     var foundObject = db.FoundObjects.Find(id);
                     ViewBag.titleObject = foundObject.Title;
-                    ViewBag.userNameSend = foundObject.InfoUser.UserName;
-                    var infouser = db.InfoUsers.Find(userDestMsg);
-                    ViewBag.userNameDest = infouser.UserName;
+                    var infoUserSendMsg = db.InfoUsers.Find(userSendMsg);
+                    ViewBag.userNameSend = infoUserSendMsg.UserName;
+                    var infouserDestMsg = db.InfoUsers.Find(userDestMsg);
+                    ViewBag.userNameDest = infouserDestMsg.UserName;
                 }
                 else
                 {
                     // the subject is Lost Object
                     var lostObject = db.LostObjects.Find(id);
                     ViewBag.titleObject = lostObject.Title;
-                    ViewBag.userNameSend = lostObject.InfoUser.UserName;
-                    var infouser = db.InfoUsers.Find(userDestMsg);
-                    ViewBag.userNameDest = infouser.UserName;
+                    var infoUserSendMsg = db.InfoUsers.Find(userSendMsg);
+                    ViewBag.userNameSend = infoUserSendMsg.UserName;
+                    var infouserDestMsg = db.InfoUsers.Find(userDestMsg);
+                    ViewBag.userNameDest = infouserDestMsg.UserName;
                 }
             }
             else
