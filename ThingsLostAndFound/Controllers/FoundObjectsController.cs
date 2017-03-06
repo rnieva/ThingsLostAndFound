@@ -283,7 +283,7 @@ namespace ThingsLostAndFound.Controllers
             lostAndFoundObject.ObjectIDFound = id;
             lostAndFoundObject.ObjectIDLost = null;
             lostAndFoundObject.UserIdreportFound = idUser;
-            if (checkObjectSolved == false)  // this is the user found the object, therefore it has have soñe contact between people
+            if (checkObjectSolved == false)  // this is the user found the object, therefore it has had some contact between people
             {
                 //InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault(); //to get the id of ContactUser
                 InfoUser infoUser = _IDBServices.GetInfoUserByNameContact(nameContact);

@@ -198,7 +198,7 @@ namespace ThingsLostAndFound.Services
             db.SaveChanges();
         }
 
-        public InfoUser GetInfoUser(int UserIdreported)
+        public InfoUser GetInfoUser(int? UserIdreported) // Alse use in InfoUserController
         {
             return db.InfoUsers.Find(UserIdreported);
         }
@@ -226,6 +226,17 @@ namespace ThingsLostAndFound.Services
         {
             return db.Messages.Where(a => a.FoundObjectId == id).ToList();
         }
-       
+
+        //InfoUserController
+        public void AddInfoUser(InfoUser infoUser)
+        {
+            db.InfoUsers.Add(infoUser);
+        }
+
+        public void ModifiedInfoUser(InfoUser infoUser)
+        {
+            db.Entry(infoUser).State = EntityState.Modified;
+        }
+
     }
 }

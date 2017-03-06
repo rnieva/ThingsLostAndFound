@@ -16,6 +16,7 @@ namespace ThingsLostAndFound.Controllers
     public class InfoUsersController : Controller
     {
         private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         // GET: InfoUsers
         [RoleAuthorization(Roles = "1")]
@@ -41,7 +42,8 @@ namespace ThingsLostAndFound.Controllers
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 if (( id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
-                    InfoUser infoUser = db.InfoUsers.Find(id);
+                    //InfoUser infoUser = db.InfoUsers.Find(id);
+                    InfoUser infoUser = _IDBServices.GetInfoUser(id);
                     return View(infoUser);
                 }
                 else
@@ -65,7 +67,8 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddUser([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber,rol")] InfoUser infoUser)
         {
-            var infoUserTemp = db.InfoUsers.Where(a => a.UserName == infoUser.UserName).FirstOrDefault();
+            //var infoUserTemp = db.InfoUsers.Where(a => a.UserName == infoUser.UserName).FirstOrDefault();
+            var infoUserTemp = _IDBServices.GetInfoUserByNameContact(infoUser.UserName);
             if (infoUserTemp == null) // If it´s null means that there is no another user with that name
             {
                 if (ModelState.IsValid)
@@ -75,7 +78,8 @@ namespace ThingsLostAndFound.Controllers
                     string passEncrypt = Crypto.Hash(infoUser.UserPass,salt);
                     infoUser.UserPass = passEncrypt;
                     infoUser.Date = DateTime.Now;
-                    db.InfoUsers.Add(infoUser);
+                    //db.InfoUsers.Add(infoUser);
+                    _IDBServices.AddInfoUser(infoUser);
                     Message msg = new Message();
                     msg.NewMessage = true;
                     msg.Message1 = "Welcome to TLAF";
@@ -86,10 +90,13 @@ namespace ThingsLostAndFound.Controllers
                     msg.FoundObjectId = null;
                     msg.LostObjectId = null;
                     msg.emailAddressUserDontRegis = null;
-                    db.Messages.Add(msg);
-                    db.SaveChanges();
+                    //db.Messages.Add(msg);
+                    _IDBServices.AddMessage(msg);
+                    //db.SaveChanges();
+                    _IDBServices.SaveChanges();
                     //send email
-                    Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                    //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                    Setting settings = _IDBServices.GetSettings();
                     if (settings.NewUser == true)
                     {
                         string emailBody = sendEmail.NewUser(infoUser.UserName);
@@ -125,7 +132,8 @@ namespace ThingsLostAndFound.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserName,UserPass,Email,PhoneNumber")] InfoUser infoUser)
         {
-            var infoUserTemp = db.InfoUsers.Where(a => a.UserName == infoUser.UserName).FirstOrDefault();
+            //var infoUserTemp = db.InfoUsers.Where(a => a.UserName == infoUser.UserName).FirstOrDefault();
+            var infoUserTemp = _IDBServices.GetInfoUserByNameContact(infoUser.UserName);
             if (infoUserTemp == null) // If it´s null means that there is no another user with that name
             {
                 if (ModelState.IsValid)
@@ -147,10 +155,13 @@ namespace ThingsLostAndFound.Controllers
                     msg.FoundObjectId = null;
                     msg.LostObjectId = null;
                     msg.emailAddressUserDontRegis = null;
-                    db.Messages.Add(msg);
-                    db.SaveChanges();
+                    //db.Messages.Add(msg);
+                    _IDBServices.AddMessage(msg);
+                    //db.SaveChanges();
+                    _IDBServices.SaveChanges();
                     //send email
-                    Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                    //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                    Setting settings = _IDBServices.GetSettings();
                     if (settings.NewUser == true)
                     {
                         string emailBody = sendEmail.NewUser(infoUser.UserName);
@@ -192,7 +203,8 @@ namespace ThingsLostAndFound.Controllers
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
-                    InfoUser infoUser = db.InfoUsers.Find(id);
+                    //InfoUser infoUser = db.InfoUsers.Find(id);
+                    InfoUser infoUser = _IDBServices.GetInfoUser(id);
                     return View(infoUser);
                 }
                 else
@@ -211,10 +223,13 @@ namespace ThingsLostAndFound.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(infoUser).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(infoUser).State = EntityState.Modified;
+                _IDBServices.ModifiedInfoUser(infoUser);
+                //db.SaveChanges();
+                _IDBServices.SaveChanges();
                 //send email
-                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                Setting settings = _IDBServices.GetSettings();
                 if (settings.EditUser == true)
                 {
                     string emailBody = sendEmail.EditUser(infoUser.UserName);
@@ -246,7 +261,8 @@ namespace ThingsLostAndFound.Controllers
         {
             ViewBag.id = id;
             InfoUser infoUser = new InfoUser();
-            infoUser = db.InfoUsers.Find(id);
+            //infoUser = db.InfoUsers.Find(id);
+            infoUser = _IDBServices.GetInfoUser(id);
             string salt = infoUser.UserSalt;
             string oldPassEncrypt = Crypto.Hash(oldPass,salt);
             salt = Crypto.getSalt();
@@ -265,8 +281,8 @@ namespace ThingsLostAndFound.Controllers
                     {
                         infoUser.UserSalt = salt;
                         infoUser.UserPass = passNewEncrypt;
-                        db.Entry(infoUser).State = EntityState.Modified;
-                        //db.SaveChanges();
+                        //db.Entry(infoUser).State = EntityState.Modified;
+                        _IDBServices.ModifiedInfoUser(infoUser);
                         string textMessage = "Password changed";
                         Message msg = new Message();
                         msg.NewMessage = true;
@@ -278,9 +294,12 @@ namespace ThingsLostAndFound.Controllers
                         msg.FoundObjectId = null; // id object
                         msg.LostObjectId = null;
                         msg.emailAddressUserDontRegis = null; // only for user not registered
-                        db.Messages.Add(msg);
-                        db.SaveChanges();
-                        Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                        //db.Messages.Add(msg);
+                        _IDBServices.AddMessage(msg);
+                        //db.SaveChanges();
+                        _IDBServices.SaveChanges();
+                        //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                        Setting settings = _IDBServices.GetSettings();
                         if (settings.ChangePass == true)
                         {
                             string emailUserSend = "emailSupport@TLAF.com";
@@ -319,11 +338,13 @@ namespace ThingsLostAndFound.Controllers
 
         public ActionResult sendNewPassByEmail(int? id)
         {
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.SendPass == true)
             {
                 InfoUser infoUser = new InfoUser();
-                infoUser = db.InfoUsers.Find(id);
+                //infoUser = db.InfoUsers.Find(id);
+                infoUser = _IDBServices.GetInfoUser(id);
                 string newPass = Crypto.RandomString(6); //TODO: generate a random password
                 string salt = Crypto.getSalt();
                 infoUser.UserSalt = salt;
@@ -340,8 +361,10 @@ namespace ThingsLostAndFound.Controllers
                 msg.FoundObjectId = null; // id object
                 msg.LostObjectId = null;
                 msg.emailAddressUserDontRegis = null; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
+               //db.Messages.Add(msg);
+                _IDBServices.AddMessage(msg);
+                //db.SaveChanges();
+                _IDBServices.SaveChanges();
                 string emailUserSend = "emailSupport@TLAF.com";
                 string emailRecipient = infoUser.Email;
                 string emailSubject = "Subject: Support - New Pass " + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
@@ -380,7 +403,8 @@ namespace ThingsLostAndFound.Controllers
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
                 if ((id == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
-                    InfoUser infoUser = db.InfoUsers.Find(id);
+                    //InfoUser infoUser = db.InfoUsers.Find(id);
+                    InfoUser infoUser = _IDBServices.GetInfoUser(id);
                     return View(infoUser);
                 }
                 else
@@ -412,7 +436,8 @@ namespace ThingsLostAndFound.Controllers
             //{
             //    db.LostObjects.Remove(lo);
             //}
-            InfoUser infoUser = db.InfoUsers.Find(id);
+            //InfoUser infoUser = db.InfoUsers.Find(id);
+            InfoUser infoUser = _IDBServices.GetInfoUser(id);
             //db.InfoUsers.Remove(infoUser);
             //db.SaveChanges();
             return RedirectToAction("Index");
