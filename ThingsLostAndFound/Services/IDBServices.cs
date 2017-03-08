@@ -41,5 +41,7 @@ namespace ThingsLostAndFound.Services
         //InfoUserController
         void AddInfoUser(InfoUser infoUser);
         void ModifiedInfoUser(InfoUser infoUser);
+        //LoginController
+        string CheckNewMessage(int id);
     }
 }

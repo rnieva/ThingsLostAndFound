@@ -8,12 +8,15 @@ using System.Web.Mvc;
 using System.Web.Security;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class LoginController : Controller
     {
         private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
+
         // GET: Login
         public ActionResult Index()
         {
@@ -55,7 +58,8 @@ namespace ThingsLostAndFound.Controllers
         private bool IsValid(string UserName, string UserPass)
         {
             bool IsValid = false;
-            var userData = db.InfoUsers.Where(a => a.UserName.Equals(UserName)).FirstOrDefault(); // to get Salt User
+            //var userData = db.InfoUsers.Where(a => a.UserName.Equals(UserName)).FirstOrDefault(); // to get Salt User
+            var userData = _IDBServices.GetInfoUserByNameContact(UserName);
             string passEncrypt = Crypto.Hash(UserPass, userData.UserSalt);
             if ((userData != null) && (userData.UserPass == passEncrypt)) 
             {
@@ -79,19 +83,23 @@ namespace ThingsLostAndFound.Controllers
             string newMessage = "";
             InfoUser user = new InfoUser();
             Message messageNew = new Message();
-            if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName)).FirstOrDefault()) != null)
+            //if ((user = db.InfoUsers.Where(a => a.UserName.Equals(UserName)).FirstOrDefault()) != null)
+            if ((user = _IDBServices.GetInfoUserByNameContact(UserName)) != null)
             {
                 id = user.Id.ToString();
                 rol = user.Rol.ToString();
                 // search in Message table if there is new messages for this user
-                if ((messageNew = db.Messages.Where((a => a.UserIdDest == user.Id && a.NewMessage == true)).FirstOrDefault()) != null)
-                {
-                    newMessage = "True"; // temp
-                }
-                else
-                {
-                    newMessage = "False"; // temp
-                }
+                // if ((messageNew = db.Messages.Where((a => a.UserIdDest == user.Id && a.NewMessage == true)).FirstOrDefault()) != null)
+                //if ((messageNew =  != null)
+                //{
+                //    newMessage = "True"; // temp
+                //}
+                //else
+                //{
+                //    newMessage = "False"; // temp
+                //}
+                newMessage = _IDBServices.CheckNewMessage(user.Id);
+
                 infoUserTicket = id + "|" + rol + "||" + newMessage;
             }
             return infoUserTicket;

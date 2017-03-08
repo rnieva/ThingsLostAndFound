@@ -238,5 +238,21 @@ namespace ThingsLostAndFound.Services
             db.Entry(infoUser).State = EntityState.Modified;
         }
 
+        //LoginController
+        public string CheckNewMessage(int id)
+        {
+            string newMessage = "";
+            Message messageNew = new Message();
+            if ((messageNew = db.Messages.Where((a => a.UserIdDest == id && a.NewMessage == true)).FirstOrDefault()) != null)
+                {
+                newMessage = "True"; // temp
+            }
+            else
+            {
+                newMessage = "False"; // temp
+            }
+            return newMessage;
+        }
+       
     }
 }
