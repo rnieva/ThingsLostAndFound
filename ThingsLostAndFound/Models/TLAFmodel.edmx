@@ -29,7 +29,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="20" />
           <Property Name="Observations" Type="nvarchar" MaxLength="50" />
-          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="ZipCode" Type="nvarchar" MaxLength="20" />
           <Property Name="MapLocation" Type="nvarchar" MaxLength="50" />
           <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
@@ -81,7 +81,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="20" />
           <Property Name="Observations" Type="nvarchar" MaxLength="50" />
-          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="ZipCode" Type="nvarchar" MaxLength="20" />
           <Property Name="MapLocation" Type="nvarchar" MaxLength="50" />
           <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
@@ -424,7 +424,7 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Observations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="MapLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -471,7 +471,7 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Observations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="MapLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />

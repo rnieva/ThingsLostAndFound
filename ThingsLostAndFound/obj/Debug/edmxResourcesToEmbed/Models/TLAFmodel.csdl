@@ -90,7 +90,7 @@
     <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Observations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="MapLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -137,7 +137,7 @@
     <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Observations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="MapLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LocationObservations" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />

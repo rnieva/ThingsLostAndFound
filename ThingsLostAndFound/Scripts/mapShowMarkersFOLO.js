@@ -31,7 +31,7 @@ function showMarkersFOLO(objectListFO, objectListLO) {
         marker = new google.maps.Marker({
             position: point,
             title: titles[i],
-            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
             map: map
         });
         google.maps.event.addListener(marker, 'click', (function (marker, i) //Closures
@@ -71,7 +71,7 @@ function showMarkersFOLO(objectListFO, objectListLO) {
         marker = new google.maps.Marker({
             position: point2,
             title: titles2[i],
-            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
             map: map
         });
         google.maps.event.addListener(marker, 'click', (function (marker, i) //Closures

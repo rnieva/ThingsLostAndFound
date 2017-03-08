@@ -24,7 +24,7 @@
     <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Color" Type="nvarchar" MaxLength="20" />
     <Property Name="Observations" Type="nvarchar" MaxLength="50" />
-    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="ZipCode" Type="nvarchar" MaxLength="20" />
     <Property Name="MapLocation" Type="nvarchar" MaxLength="50" />
     <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
@@ -76,7 +76,7 @@
     <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Color" Type="nvarchar" MaxLength="20" />
     <Property Name="Observations" Type="nvarchar" MaxLength="50" />
-    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="ZipCode" Type="nvarchar" MaxLength="20" />
     <Property Name="MapLocation" Type="nvarchar" MaxLength="50" />
     <Property Name="LocationObservations" Type="nvarchar" MaxLength="50" />
