@@ -15,12 +15,14 @@ namespace ThingsLostAndFound.Controllers
     public class LostObjectsController : Controller
     {
         private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         // GET: LostObjects
         [HttpGet]
         public ActionResult Index(int? page)
         {
-            var lostObjectsList = db.LostObjects.Where(l => l.State == false);
+            //var lostObjectsList = db.LostObjects.Where(l => l.State == false);
+            var lostObjectsList = _IDBServices.GetListLO();
             var pager = new Pager(lostObjectsList.Count(), page, 5); //number of objects per page
             var viewModel = new IndexViewModel
             {
@@ -37,7 +39,8 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LostObject lostObject = db.LostObjects.Find(id);
+            //LostObject lostObject = db.LostObjects.Find(id);
+            LostObject lostObject = _IDBServices.GetDetailsLO(id);
             if (lostObject == null)
             {
                 return HttpNotFound();
@@ -94,16 +97,19 @@ namespace ThingsLostAndFound.Controllers
                     }
                     lostObject.Img = true;     //There is a uploaded file
                     lostObject.FileId = file.Id;
-                    db.Files.Add(file);
+                    //db.Files.Add(file);
+                    _IDBServices.AddFileLO(file);
                 }
                 else
                 {
                     lostObject.Img = false;   // false value if there isn´t uploaded file
                     var file = new Models.File(); // foreign key never null, create un empty file
                     lostObject.FileId = file.Id;
-                    db.Files.Add(file);
+                    //db.Files.Add(file);
+                    _IDBServices.AddFileLO(file);
                 }
-                db.LostObjects.Add(lostObject);
+                //db.LostObjects.Add(lostObject);
+                _IDBServices.AddLO(lostObject);
                 Message msg = new Message();
                 msg.NewMessage = true;
                 msg.Message1 = "Lost Object added to list";
@@ -114,14 +120,18 @@ namespace ThingsLostAndFound.Controllers
                 msg.FoundObjectId = null; // id object
                 msg.LostObjectId = lostObject.Id;
                 msg.emailAddressUserDontRegis = null; // only for user not registered
-                db.Messages.Add(msg);
-                db.SaveChanges();
-                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                //db.Messages.Add(msg);
+                _IDBServices.AddMessage(msg);
+                //db.SaveChanges();
+                _IDBServices.SaveChanges();
+                //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                Setting settings = _IDBServices.GetSettings();
                 if (settings.NewObject == true)
                 {
                     string emailBody = sendEmail.BuildBodyEmailNewLO(lostObject);
                     string emailSubject = lostObject.Id + "# Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                    InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                    //InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                    InfoUser infoUser = _IDBServices.GetInfoUser(lostObject.UserIdreported);
                     string emailRecipient = infoUser.Email;
                     if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
                     {
@@ -137,7 +147,8 @@ namespace ThingsLostAndFound.Controllers
                 return RedirectToAction("SearchMatchesInFoundObject", "FindMatches", new System.Web.Routing.RouteValueDictionary(lostObject)); // I use 2RouteValueDictionary" to pass a value of this type
             }
 
-            ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", lostObject.UserIdreported);
+            //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", lostObject.UserIdreported);
+            ViewBag.UserIdreported = lostObject.UserIdreported;
             return View(lostObject);
         }
 
@@ -157,7 +168,8 @@ namespace ThingsLostAndFound.Controllers
                 // It get user ID value from infoUserIdRolNewM
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
-                LostObject lostObject = db.LostObjects.Find(id);
+                //LostObject lostObject = db.LostObjects.Find(id);
+                LostObject lostObject = _IDBServices.GetDetailsLO(id);
                 if ((lostObject.UserIdreported == userId) || (roll == 1))     // This way, only the user with hus id can see his details
                 {
                     if (lostObject == null)
@@ -196,21 +208,26 @@ namespace ThingsLostAndFound.Controllers
                         file.Content = reader.ReadBytes(upload.ContentLength);
                     }
                     lostObject.Img = true;     //There is a uploaded file
-                    db.Entry(file).State = EntityState.Modified;
+                    //db.Entry(file).State = EntityState.Modified;
+                    _IDBServices.ModifiedFile(file);
                 }
                 else
                 {
                     // keep the same img
                 }
-                db.Entry(lostObject).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(lostObject).State = EntityState.Modified;
+                _IDBServices.ModifiedLO(lostObject);
+                //db.SaveChanges();
+                _IDBServices.SaveChanges();
                 //send email
-                Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+                Setting settings = _IDBServices.GetSettings();
                 if (settings.EditObject == true)
                 {
                     string emailBody = sendEmail.BuildBodyEmailEditObjectLO(lostObject);
                     string emailSubject = lostObject.Id + "# Edit Object ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                    InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                    //InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                    InfoUser infoUser = _IDBServices.GetInfoUser(lostObject.UserIdreported);
                     string emailRecipient = infoUser.Email;
                     if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
                     {
@@ -223,7 +240,8 @@ namespace ThingsLostAndFound.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", lostObject.UserIdreported);
+            //ViewBag.UserIdreported = new SelectList(db.InfoUsers, "Id", "UserName", lostObject.UserIdreported);
+            ViewBag.UserIdreported = lostObject.UserIdreported;
             return View(lostObject);
         }
 
@@ -234,7 +252,8 @@ namespace ThingsLostAndFound.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LostObject lostObject = db.LostObjects.Find(id);
+            //LostObject lostObject = db.LostObjects.Find(id);
+            LostObject lostObject = _IDBServices.GetDetailsLO(id);
             if (lostObject == null)
             {
                 return HttpNotFound();
@@ -254,7 +273,8 @@ namespace ThingsLostAndFound.Controllers
             lostAndFoundObject.UserIdreportedLost = idUser;
             if (checkObjectSolved == false)  // this is the user lost the object
             {
-                InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault();
+                //InfoUser infoUser = db.InfoUsers.Where(o => o.UserName == nameContact).FirstOrDefault();
+                InfoUser infoUser  =_IDBServices.GetInfoUserByNameContact(nameContact);
                 if (infoUser != null)
                 {
                     lostAndFoundObject.UserIdreportFound = infoUser.Id;
@@ -272,13 +292,17 @@ namespace ThingsLostAndFound.Controllers
                 lostAndFoundObject.UserIdreportFound = null;
                 lostAndFoundObject.ContactNameuser = null;
             }
-            db.LostAndFoundObjects.Add(lostAndFoundObject);
-            LostObject lostObject = db.LostObjects.Find(id);
+            //db.LostAndFoundObjects.Add(lostAndFoundObject);
+            _IDBServices.AddLostAndFoundObjects(lostAndFoundObject);
+            //LostObject lostObject = db.LostObjects.Find(id);
+            LostObject lostObject = _IDBServices.GetDetailsLO(id);
             lostObject.State = true;
-            db.Entry(lostObject).State = EntityState.Modified;
+            //db.Entry(lostObject).State = EntityState.Modified;
+            _IDBServices.ModifiedLO(lostObject);
             //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             //db.Files.Remove(file);
-            var msgListAbouthisObject = db.Messages.Where(a => a.LostObjectId == id).ToList();
+            //var msgListAbouthisObject = db.Messages.Where(a => a.LostObjectId == id).ToList();
+            var msgListAbouthisObject = _IDBServices.MsgListAbouthisLostObject(id);
             //db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
             foreach (var msg in msgListAbouthisObject)
             {
@@ -295,14 +319,17 @@ namespace ThingsLostAndFound.Controllers
             }
 
             //db.FoundObjects.Remove(foundObject); // it not delete the object if not it assign as state = true
-            db.SaveChanges();
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             //send email
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.DeleteObject == true)
             {
                 string emailBody = sendEmail.BuildBodyEmailDeleteObjectLO(lostObject);
                 string emailSubject = lostObject.Id + "# Delete Object ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                //InfoUser infoUser = db.InfoUsers.Find(lostObject.UserIdreported);
+                InfoUser infoUser = _IDBServices.GetInfoUser(lostObject.UserIdreported);
                 string emailRecipient = infoUser.Email;
                 if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
                 {

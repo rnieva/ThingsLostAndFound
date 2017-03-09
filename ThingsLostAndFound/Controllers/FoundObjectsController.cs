@@ -315,7 +315,7 @@ namespace ThingsLostAndFound.Controllers
             //var file = db.Files.Find(foundObject.FileId);    //ADD delete the upload file if it have one
             //db.Files.Remove(file);
             //var msgListAbouthisObject = db.Messages.Where(a => a.FoundObjectId == id).ToList();
-            var msgListAbouthisObject = _IDBServices.MsgListAbouthisObject(id);
+            var msgListAbouthisObject = _IDBServices.MsgListAbouthisFoundObject(id);
             //db.Messages.RemoveRange(msgListAbouthisObject);     //If the user delete the object created it will delete every msgs related to this object  //TODO: not delete messanges id fot not show    
             foreach (var msg in msgListAbouthisObject)
             {

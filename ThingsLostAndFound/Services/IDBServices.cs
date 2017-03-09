@@ -37,11 +37,18 @@ namespace ThingsLostAndFound.Services
         void ModifiedFO(FoundObject foundObject);
         InfoUser GetInfoUserByNameContact(string nameContact);
         void AddLostAndFoundObjects(LostAndFoundObject lostAndFoundObject);
-        List<Message> MsgListAbouthisObject(int id);
+        List<Message> MsgListAbouthisFoundObject(int id);
         //InfoUserController
         void AddInfoUser(InfoUser infoUser);
         void ModifiedInfoUser(InfoUser infoUser);
         //LoginController
         string CheckNewMessage(int id);
+        //LostObjectController
+        List<LostObject> GetListLO();
+        LostObject GetDetailsLO(int? id);
+        void AddFileLO(File file);
+        void AddLO(LostObject lostObject);
+        void ModifiedLO(LostObject lostObject);
+        List<Message> MsgListAbouthisLostObject(int id);
     }
 }

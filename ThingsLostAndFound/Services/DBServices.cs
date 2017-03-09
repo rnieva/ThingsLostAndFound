@@ -11,7 +11,7 @@ namespace ThingsLostAndFound.Services
     {
         private TLAFEntities db = new TLAFEntities();
 
-        // ControlPanelCntroller
+        // ControlPanelController
         public Setting GetSettings()   //this function is used by FoundObjectController too
         {
             Setting settings = db.Settings.Find(1); // At the moment just one row in the table with id=1
@@ -222,7 +222,7 @@ namespace ThingsLostAndFound.Services
             db.LostAndFoundObjects.Add(lostAndFoundObject);
         }
 
-        public List<Message> MsgListAbouthisObject(int id)
+        public List<Message> MsgListAbouthisFoundObject(int id)
         {
             return db.Messages.Where(a => a.FoundObjectId == id).ToList();
         }
@@ -253,6 +253,36 @@ namespace ThingsLostAndFound.Services
             }
             return newMessage;
         }
-       
+
+        //LostObjectController
+        public List<LostObject> GetListLO()
+        {
+            return db.LostObjects.Where(f => f.State == false).ToList();
+        }
+
+        public LostObject GetDetailsLO(int? id)
+        {
+            return db.LostObjects.Find(id);
+        }
+
+        public void AddFileLO(File file)
+        {
+            db.Files.Add(file);
+        }
+
+        public void AddLO(LostObject lostObject)
+        {
+            db.LostObjects.Add(lostObject);
+        }
+        
+        public void ModifiedLO(LostObject lostObject)
+        {
+            db.Entry(lostObject).State = EntityState.Modified;
+        }
+
+        public List<Message> MsgListAbouthisLostObject(int id)
+        {
+            return db.Messages.Where(a => a.LostObjectId == id).ToList();
+        }
     }
 }
