@@ -49,6 +49,13 @@ namespace ThingsLostAndFound.Services
         void AddFileLO(File file);
         void AddLO(LostObject lostObject);
         void ModifiedLO(LostObject lostObject);
+        //MessagesController
         List<Message> MsgListAbouthisLostObject(int id);
+        List<Message> GetListMessages(int id);
+        List<Message> GetListNewMessages(int id);
+        Message GetMessage(int id);
+        //ShowObjectUsersController
+        List<FoundObject> GetListFOByUser(int id);
+        List<LostObject> GetListLOByUser(int id);
     }
 }

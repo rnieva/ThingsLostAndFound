@@ -5,12 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ThingsLostAndFound.Models;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class MapObjectsController : Controller
     {
-        private TLAFEntities db = new TLAFEntities();
+        //private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         // GET: MapFoundObjects
         public ActionResult MapFoundObjects()
@@ -20,7 +22,8 @@ namespace ThingsLostAndFound.Controllers
             string coordinatesFoundObject = "";
             double LatitudeT = 0.0;
             double LongitudeT = 0.0;
-            var listFoundObjects = from p in db.FoundObjects where p.State == false select p;
+            //var listFoundObjects = from p in db.FoundObjects where p.State == false select p;
+            var listFoundObjects = _IDBServices.GetListFO();
             foreach (var p in listFoundObjects)
             {
                 coordinatesFoundObject = p.MapLocation; //Read from DB (MapLocation field, format 55.947662,-3.182259) the coordinates 
@@ -66,7 +69,8 @@ namespace ThingsLostAndFound.Controllers
             string coordinatesLostObject = "";
             double LatitudeT = 0.0;
             double LongitudeT = 0.0;
-            var listLostObjects = from p in db.LostObjects where p.State == false select p;
+            //var listLostObjects = from p in db.LostObjects where p.State == false select p;
+            var listLostObjects = _IDBServices.GetListLO();
             foreach (var p in listLostObjects)
             {
                 coordinatesLostObject = p.MapLocation; //Read from DB (MapLocation field, format 55.947662,-3.182259) the coordinates 
@@ -115,8 +119,10 @@ namespace ThingsLostAndFound.Controllers
             string coordinatesObject = "";
             double LatitudeT = 0.0;
             double LongitudeT = 0.0;
-            var listLostObjects = from p in db.LostObjects where p.State == false select p;
-            var listFoundObjects = from p in db.FoundObjects where p.State == false select p;
+            //var listLostObjects = from p in db.LostObjects where p.State == false select p;
+            var listLostObjects = _IDBServices.GetListLO();
+            //var listFoundObjects = from p in db.FoundObjects where p.State == false select p;
+            var listFoundObjects = _IDBServices.GetListFO();
             foreach (var p in listFoundObjects)
             {
                 coordinatesObject = p.MapLocation; //Read from DB (MapLocation field, format 55.947662,-3.182259) the coordinates 
@@ -191,14 +197,13 @@ namespace ThingsLostAndFound.Controllers
             return View(listMarkers);
         }
 
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

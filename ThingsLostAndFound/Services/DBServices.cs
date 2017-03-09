@@ -284,5 +284,33 @@ namespace ThingsLostAndFound.Services
         {
             return db.Messages.Where(a => a.LostObjectId == id).ToList();
         }
+
+        //MessagesController
+        public List<Message> GetListMessages(int id)
+        {
+            return db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
+        }
+
+        public List<Message> GetListNewMessages(int id)
+        {
+            return db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
+        }
+        
+        public Message GetMessage(int id)
+        {
+            return db.Messages.Find(id);
+        }
+
+        //ShowObjectUsersController
+        public List<FoundObject> GetListFOByUser(int id)
+        {
+            return db.FoundObjects.Where(a => a.UserIdreported == id).ToList();
+        }
+
+        public List<LostObject> GetListLOByUser(int id)
+        {
+            return db.LostObjects.Where(a => a.UserIdreported == id).ToList();
+        }
+
     }
 }

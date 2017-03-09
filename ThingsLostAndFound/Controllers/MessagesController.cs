@@ -7,12 +7,14 @@ using System.Web.Mvc;
 using System.Web.Security;
 using ThingsLostAndFound.Models;
 using ThingsLostAndFound.Security;
+using ThingsLostAndFound.Services;
 
 namespace ThingsLostAndFound.Controllers
 {
     public class MessagesController : Controller //This controller get and show the messages from Support and from others users
     {
-        private TLAFEntities db = new TLAFEntities();
+        //private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
         // GET: Messages
 
         public ActionResult ShowMessages(int id, int? page) // user id registered
@@ -26,7 +28,8 @@ namespace ThingsLostAndFound.Controllers
             if ((id == userId) || (roll == 1))     // This way, only the user with id can see
             {
                 // search messages from or to ID user 
-                var msgsUsersList = db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
+                //var msgsUsersList = db.Messages.Where(a => a.UserIdDest == id || a.UserIdSent == id).ToList();
+                var msgsUsersList = _IDBServices.GetListMessages(id);
                 foreach (var m in msgsUsersList.Reverse<Message>())  // Reverse iteration to remove items in a foreach, don´t show msgs if the user removed it
                 {
                     if ((m.ShowMsgUserId1 == id) || (m.ShowMsgUserId2 == id))
@@ -37,7 +40,8 @@ namespace ThingsLostAndFound.Controllers
                 List<object> messagesViewList = new List<object>(); // I already don´t use this
                 messagesViewList.Add(msgsUsersList);
                 // search new messages to show the message in red color
-                var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
+                //var newMessagesFlagList = db.Messages.Where(a => a.UserIdDest == id && a.NewMessage == true).ToList();
+                var newMessagesFlagList = _IDBServices.GetListNewMessages(id);
                 List<int> idNewmsgs = new List<int>();
                 foreach (var m in newMessagesFlagList)
                 {
@@ -45,7 +49,8 @@ namespace ThingsLostAndFound.Controllers
                     //db.Entry(m).State = EntityState.Modified;
                     idNewmsgs.Add(m.Id);    // store the value id of new messanges
                 }
-                db.SaveChanges();
+                //db.SaveChanges();
+                _IDBServices.SaveChanges();
                 messagesViewList.Add(idNewmsgs);
                 //update the cookie with new user data, now the newMessage is false, to change color label new Message
                 bool newMessage = bool.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("||")) + 2, ((infoUserIdRolNewM.Length) - (infoUserIdRolNewM.IndexOf("||") + 2))));
@@ -91,7 +96,8 @@ namespace ThingsLostAndFound.Controllers
             int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
             //add the userID to dont show the message
             Message mgsForNotShow = new Message();
-            mgsForNotShow = db.Messages.Find(id);
+            //mgsForNotShow = db.Messages.Find(id);
+            mgsForNotShow = _IDBServices.GetMessage(id);
             if (mgsForNotShow.ShowMsgUserId1 == null)
             {
                 mgsForNotShow.ShowMsgUserId1 = userId; // REMARK: it update the value and I dont use --> db.Entry(m).State = EntityState.Modified;
@@ -102,7 +108,8 @@ namespace ThingsLostAndFound.Controllers
                 mgsForNotShow.ShowMsgUserId2 = userId;
                 //db.Entry(mgsForNotShow).State = EntityState.Modified;
             }
-            db.SaveChanges();
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             return RedirectToAction("ShowMessages", new { id = userId }); // add id user
         }
     }
