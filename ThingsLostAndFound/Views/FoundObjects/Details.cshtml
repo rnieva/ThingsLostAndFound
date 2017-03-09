@@ -201,15 +201,13 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="@Url.Content("~/Scripts/mapInit.js")"></script>
     <script src="@Url.Content("~/Scripts/mapAddOneMarker.js")"></script>
     <script>
             var mapLocation = "@Model.MapLocation";http://localhost:52205/Scripts/mapInit.js
             var title = "@Model.Title";
-        addMarker(mapLocation, title);
-
-        $('img').on('click', function () {
-            $('#myModal').modal('show');
-        });
+            initMapAndaddMarker(mapLocation, title);
+            $('img').on('click', function () {
+                $('#myModal').modal('show');
+            });
     </script>
 }

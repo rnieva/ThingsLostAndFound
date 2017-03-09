@@ -1,11 +1,11 @@
 ﻿// initiate the map. 
-initMap()
 var map;
+initMap()
 function initMap() {
     var centerPosition = new google.maps.LatLng(55.942071, -3.200165);
     var options = {
         zoom: 11,
-        center: centerPosition,
+        //center: centerPosition,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map($('#map_canvas')[0], options);
