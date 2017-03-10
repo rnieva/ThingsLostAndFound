@@ -13,7 +13,8 @@ namespace ThingsLostAndFound.Controllers
 {
     public class UsersContactController : Controller    // This controller do the communication with users
     {
-        private TLAFEntities db = new TLAFEntities();
+        //private TLAFEntities db = new TLAFEntities();
+        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         //Communication for Found Object, from users LO to users FO
         public ActionResult ContactUserFoundObject(int id, string title, string userName, string securityQuestion) //When a user has lost a object and see it in the Found Objects List o Found Object Map, the user uses this method for contact with user that found the object
@@ -30,8 +31,9 @@ namespace ThingsLostAndFound.Controllers
                 string infoUserIdRolNewM = ticket.UserData.ToString();
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
-                InfoUser userRequest = new InfoUser();
-                userRequest = db.InfoUsers.Find(userId);
+                //InfoUser userRequest = new InfoUser();
+                //userRequest = db.InfoUsers.Find(userId);
+                InfoUser userRequest =_IDBServices.GetInfoUser(userId);
                 ViewBag.userIdRequest = userId;
                 ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
                 //If the user is register, it show this view, without email
@@ -45,7 +47,8 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult SendRequestUser(int id, string textMessage, string emailUserLostObject)  //send an email from user lost object (user that do request (Not registered in the app)) to user that found the object
         {
             //with id from object, search the user that found the object and send him a email
-            var foundObject = db.FoundObjects.Find(id);
+            //var foundObject = db.FoundObjects.Find(id);
+            var foundObject = _IDBServices.GetDetailsFO(id);
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
             string nameUserFounfObject = foundObject.InfoUser.UserName;
@@ -61,10 +64,13 @@ namespace ThingsLostAndFound.Controllers
             msg.FoundObjectId = id; // id object
             msg.LostObjectId = null;
             msg.emailAddressUserDontRegis = emailUserLostObject; // only for user not registered
-            db.Messages.Add(msg);
-            db.SaveChanges();
+            //db.Messages.Add(msg);
+            _IDBServices.AddMessage(msg);
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             //send email
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.SendMsgFoUserNR == true)
             {
                 string emailSubject = "Object ID: " + id.ToString() + " Date ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
@@ -91,13 +97,15 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult SendRequestRegisteredUser(int id, int usetIdRequest, string textMessage)
         {
             //with id from object, search the user that found the object and send him a email
-            var foundObject = db.FoundObjects.Find(id);
+            //var foundObject = db.FoundObjects.Find(id);
+            var foundObject = _IDBServices.GetDetailsFO(id);
             string SecurityQuestion = foundObject.SecurityQuestion;
             int userIdReport = foundObject.UserIdreported;
             string nameUserFounfObject = foundObject.InfoUser.UserName;
             string emailRecipient = foundObject.InfoUser.Email;
             //with userIdReport from user that do the request, search the email of user
-            var userRequest = db.InfoUsers.Find(usetIdRequest);
+            //var userRequest = db.InfoUsers.Find(usetIdRequest);
+            var userRequest = _IDBServices.GetInfoUser(usetIdRequest);
             //Store in DB data about contact between users, depends if the user is register or not
             //the user is registered
             Message msg = new Message();
@@ -110,10 +118,13 @@ namespace ThingsLostAndFound.Controllers
             msg.FoundObjectId = id; // id object
             msg.LostObjectId = null;
             msg.emailAddressUserDontRegis = null; // only for user not registered
-            db.Messages.Add(msg);
-            db.SaveChanges();
+            //db.Messages.Add(msg);
+            _IDBServices.AddMessage(msg);
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             //send email
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.SendMsgFoUserReg == true)
             {
                 string emailUserLostObject = userRequest.Email;
@@ -151,8 +162,9 @@ namespace ThingsLostAndFound.Controllers
                 string infoUserIdRolNewM = ticket.UserData.ToString();
                 int userId = Int32.Parse(infoUserIdRolNewM.Substring(0, infoUserIdRolNewM.IndexOf("|")));
                 int roll = Int32.Parse(infoUserIdRolNewM.Substring((infoUserIdRolNewM.IndexOf("|")) + 1, (infoUserIdRolNewM.IndexOf("||") - infoUserIdRolNewM.IndexOf("|") - 1)));
-                InfoUser userRequest = new InfoUser();
-                userRequest = db.InfoUsers.Find(userId);
+                //InfoUser userRequest = new InfoUser();
+                //userRequest = db.InfoUsers.Find(userId);
+                InfoUser userRequest = _IDBServices.GetInfoUser(userId);
                 ViewBag.userIdRequest = userId;
                 ViewBag.userNameRequest = userRequest.UserName; // This user want to do the request
                 //If the user is register, it show this view, without email
@@ -166,7 +178,8 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult SendRequestUser2(int id, string textMessage, string emailUserFoundObject)  //send an email from user found object because he saw it (user not registered) in the lost object list to user that lost the object
         {
             //with id from object, search the user that found the object and send him a email
-            var lostObject = db.LostObjects.Find(id);
+            //var lostObject = db.LostObjects.Find(id);
+            var lostObject = _IDBServices.GetDetailsLO(id);
             int userIdReport = lostObject.UserIdreported;
             string nameUserLostObject = lostObject.InfoUser.UserName;
             //Store in DB data about contact between users, depends if the user is register or not
@@ -181,10 +194,13 @@ namespace ThingsLostAndFound.Controllers
             msg.FoundObjectId = null;
             msg.LostObjectId = id; // id object
             msg.emailAddressUserDontRegis = emailUserFoundObject; // only for user not registered
-            db.Messages.Add(msg);
-            db.SaveChanges();
+            //db.Messages.Add(msg);
+            _IDBServices.AddMessage(msg);
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             //send email
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.SendMsgLoUserNR == true)
             {
                 string emailRecipient = lostObject.InfoUser.Email;
@@ -212,12 +228,14 @@ namespace ThingsLostAndFound.Controllers
         public ActionResult SendRequestRegisteredUser2(int id, int usetIdRequest, string textMessage)
         {   // from ContactUserRegisterLostObject
             //with id from object, search the user that found the object and send him a email
-            var lostObject = db.LostObjects.Find(id);
+            //var lostObject = db.LostObjects.Find(id);
+            var lostObject = _IDBServices.GetDetailsLO(id);
             int userIdReport = lostObject.UserIdreported;
             string nameUserLostObject = lostObject.InfoUser.UserName;
             string emailRecipient = lostObject.InfoUser.Email;
             //with userIdReport from user that do the request, search the address email 
-            var userRequest = db.InfoUsers.Find(usetIdRequest);
+            //var userRequest = db.InfoUsers.Find(usetIdRequest);
+            var userRequest = _IDBServices.GetInfoUser(usetIdRequest);
             //Store in DB data about contact between users, depends if the user is register or not
             //the user is registered
             Message msg = new Message();
@@ -230,10 +248,13 @@ namespace ThingsLostAndFound.Controllers
             msg.FoundObjectId = null;
             msg.LostObjectId = id; // id object
             msg.emailAddressUserDontRegis = null; // only for user not registered
-            db.Messages.Add(msg);
-            db.SaveChanges();
+            //db.Messages.Add(msg);
+            _IDBServices.AddMessage(msg);
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             //send email
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.SendMsgLoUserReg == true)
             {
                 string emailUserRequest = userRequest.Email;
@@ -268,30 +289,37 @@ namespace ThingsLostAndFound.Controllers
             {
                 if (subject == "Found Object")
                 {   // the subject is Found Object
-                    var foundObject = db.FoundObjects.Find(id);
+                    //var foundObject = db.FoundObjects.Find(id);
+                    var foundObject = _IDBServices.GetDetailsFO(id);
                     ViewBag.titleObject = foundObject.Title;
-                    var infoUserSendMsg = db.InfoUsers.Find(userSendMsg);
+                    //var infoUserSendMsg = db.InfoUsers.Find(userSendMsg);
+                    var infoUserSendMsg = _IDBServices.GetInfoUser(userSendMsg);
                     ViewBag.userNameSend = infoUserSendMsg.UserName;
-                    var infouserDestMsg = db.InfoUsers.Find(userDestMsg);
+                    var infouserDestMsg = _IDBServices.GetInfoUser(userDestMsg);
                     ViewBag.userNameDest = infouserDestMsg.UserName;
                 }
                 else
                 {
                     // the subject is Lost Object
-                    var lostObject = db.LostObjects.Find(id);
+                    //var lostObject = db.LostObjects.Find(id);
+                    var lostObject = _IDBServices.GetDetailsLO(id);
                     ViewBag.titleObject = lostObject.Title;
-                    var infoUserSendMsg = db.InfoUsers.Find(userSendMsg);
+                    //var infoUserSendMsg = db.InfoUsers.Find(userSendMsg);
+                    var infoUserSendMsg = _IDBServices.GetInfoUser(userSendMsg);
                     ViewBag.userNameSend = infoUserSendMsg.UserName;
-                    var infouserDestMsg = db.InfoUsers.Find(userDestMsg);
+                    //var infouserDestMsg = db.InfoUsers.Find(userDestMsg);
+                    var infouserDestMsg = _IDBServices.GetInfoUser(userDestMsg);
                     ViewBag.userNameDest = infouserDestMsg.UserName;
                 }
             }
             else
             {
                 ViewBag.titleObject = "Support";
-                var infouser = db.InfoUsers.Find(userSendMsg);
+                //var infouser = db.InfoUsers.Find(userSendMsg);
+                var infouser = _IDBServices.GetInfoUser(userSendMsg);
                 ViewBag.userNameSend = infouser.UserName;
-                infouser = db.InfoUsers.Find(userDestMsg);
+                //infouser = db.InfoUsers.Find(userDestMsg);
+                infouser = _IDBServices.GetInfoUser(userDestMsg);
                 ViewBag.userNameDest = infouser.UserName;
             }
             return View();
@@ -307,19 +335,22 @@ namespace ThingsLostAndFound.Controllers
                 switch (subject)
                 {
                     case "Found Object":
-                        var foundObject = db.FoundObjects.Find(id);
+                        //var foundObject = db.FoundObjects.Find(id);
+                        var foundObject = _IDBServices.GetDetailsFO(id);
                         title = foundObject.Title;
                         break;
                     case "Lost Object":
-                        var lostObject = db.LostObjects.Find(id);
+                        //var lostObject = db.LostObjects.Find(id);
+                        var lostObject = _IDBServices.GetDetailsLO(id);
                         title = lostObject.Title;
                         break;
                 }
             } 
-            var infouser = db.InfoUsers.Find(userSendMsg);
+            var infouser = _IDBServices.GetInfoUser(userSendMsg);
             string emailUserSend = infouser.Email;
             string nameUserSend = infouser.UserName;
-            infouser = db.InfoUsers.Find(userDestMsg);
+            //infouser = db.InfoUsers.Find(userDestMsg);
+            infouser = _IDBServices.GetInfoUser(userDestMsg);
             //Store in DB the message between the users
             Message msg = new Message();
             msg.NewMessage = true;
@@ -344,10 +375,13 @@ namespace ThingsLostAndFound.Controllers
                     break;
             }
             msg.emailAddressUserDontRegis = null; // only for user not registered
-            db.Messages.Add(msg);
-            db.SaveChanges();
+            //db.Messages.Add(msg);
+            _IDBServices.AddMessage(msg);
+            //db.SaveChanges();
+            _IDBServices.SaveChanges();
             //send email
-            Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            //Setting settings = db.Settings.Find(1); // check if newobject is true to send an email
+            Setting settings = _IDBServices.GetSettings();
             if (settings.EmailMsgs == true)
             {
                 string emailRecipient = infouser.Email; //emailUserDest
