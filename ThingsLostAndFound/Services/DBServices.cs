@@ -304,12 +304,12 @@ namespace ThingsLostAndFound.Services
         //ShowObjectUsersController
         public List<FoundObject> GetListFOByUser(int id)
         {
-            return db.FoundObjects.Where(a => a.UserIdreported == id).ToList();
+            return db.FoundObjects.Where(a => a.UserIdreported == id && a.State == false).ToList();
         }
 
         public List<LostObject> GetListLOByUser(int id)
         {
-            return db.LostObjects.Where(a => a.UserIdreported == id).ToList();
+            return db.LostObjects.Where(a => a.UserIdreported == id && a.State == false).ToList();
         }
 
     }
