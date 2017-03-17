@@ -15,7 +15,7 @@ Things Lost and Found is a self-taught project to learn and improvements the kno
 ---
 
 Using project in local:<p>
-- Add file PrivateSettings.config in c:\ path with private data, example in this folder.<p>
+- Add file PrivateSettings.config in c:\ path with private data, example in this Resources folder.<p>
 
 Using project in hosting:<p>
 - Put PrivateSettings.config in the root server.
@@ -59,4 +59,9 @@ User Login:<p>
 
 ---
 <h3>Data Base Scheme</h3><p>
+This schema diagram shows the core database tables and relationships between them.
+
+
 ![alt tag](https://raw.github.com/rnieva/ThingsLostAndFound/master/Resources/DataBaseScheme.png)
+---
+
