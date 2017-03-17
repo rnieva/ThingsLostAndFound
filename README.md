@@ -58,3 +58,5 @@ User Login:<p>
 3- If it´s right it go to Home Page.<p>
 
 ---
+<h3>Data Base Scheme</h3><p>
+![alt tag](https://raw.github.com/rnieva/ThingsLostAndFound/master/Resources/DataBaseScheme.png)
