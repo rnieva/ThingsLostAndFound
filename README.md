@@ -1,7 +1,7 @@
 # ThingsLostAndFound
 :construction: 🔍 A MVC project
 
-Things Lost and Found is a self-taught project to learn and improvements the knowledge about MVC architecture and different programming languages. It try developer a project the most real possible using these tools
+Things Lost and Found is a self-taught project to learn and improvements the knowledge about MVC architecture and different programming languages. It try developer a project the most real possible using these tools.
 
 **Technical Features:**
 
@@ -19,26 +19,37 @@ Using project in local:<p>
 
 Using project in hosting:<p>
 - Put PrivateSettings.config in the root server.
-- Change the "connectionStrings" in We.config.
+- Change the "connectionStrings" in Web.config.
 
 ---
 <h2>Things Lost And Found Manual</h2>
 
 <h3>Menu options:</h3>
+
 - ThingsLostAndFound --> Link to Home.
+
 - Search --> Search a Lost or Found Object in the DB.
+
 - Lost Object Menu:
+
 <p>Lost Object List --> Show the Lost Object List.
 <p>Lost Object Report --> Create a new Lost Object Report.
 <p>Lost Object Map --> Show a map with the Lost Objects.
+
 - Found Object Menu:
+
 <p>Found Object List --> Show the Found Object List.
 <p>Found Object Report --> Create a new Found Object Report.
 <p>Found Object Map --> Show a map with the Found Objects.
+
 - Object Map --> Show a map with the Found and Lost Objects.
+
 - About --> Information about the website.
+
 - Contact --> Contact Information.
+
 - Register --> Register a new user in the system.
+
 - Login --> Login Users.
 
 
@@ -50,7 +61,7 @@ Create a new User.<p>
 2- If the NameUser is not using, the process go on.<p>
 3- It create a new Salt using "getSalt" method in "Crypto.cs".<p>
 4- It create a new crypto password using the "Hash" method in "Crypto.cs" with tha Salt and password.<p>
-5- It strore data in DB.<p> 
+5- It store data in DB.<p> 
 
 User Login:<p>
 1- The user into UserName and Password in Login View.<p>
