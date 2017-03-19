@@ -14,7 +14,13 @@ namespace ThingsLostAndFound.Controllers
     public class ControlPanelController : Controller  //In this controller only the admin can change soñe settings like send Messages by email
     {
         //private TLAFEntities db = new TLAFEntities();
-        private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
+        //private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
+        private readonly IDBServices _IDBServices; // using a constructor
+
+        public ControlPanelController()
+        {
+             _IDBServices = new DBServices();
+        }
 
         [RoleAuthorization(Roles = "1")]
         public ActionResult Settings()
