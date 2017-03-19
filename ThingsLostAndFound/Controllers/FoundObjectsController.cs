@@ -17,7 +17,7 @@ namespace ThingsLostAndFound.Controllers
 {
     public class FoundObjectsController : Controller
     {
-        private TLAFEntities db = new TLAFEntities();
+        //private TLAFEntities db = new TLAFEntities();
         private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         // GET: FoundObjects
@@ -195,7 +195,8 @@ namespace ThingsLostAndFound.Controllers
             {
                 if (upload != null && upload.ContentLength > 0)
                 {
-                    var file = db.Files.Find(foundObject.FileId);
+                    //var file = db.Files.Find(foundObject.FileId);
+                    var file = _IDBServices.getFile(foundObject.FileId);
                     file.FileName = System.IO.Path.GetFileName(upload.FileName);
                     file.ContentType = upload.ContentType;
                     file.FileType = System.IO.Path.GetExtension(upload.FileName);
@@ -222,7 +223,8 @@ namespace ThingsLostAndFound.Controllers
                 {
                     string emailBody = sendEmail.BuildBodyEmailEditObjectFO(foundObject);
                     string emailSubject = foundObject.Id + "# Edit Object ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                    InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                    //InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                    InfoUser infoUser = _IDBServices.GetInfoUser(foundObject.UserIdreported);
                     string emailRecipient = infoUser.Email;
                     if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
                     {
@@ -341,7 +343,8 @@ namespace ThingsLostAndFound.Controllers
             {
                 string emailBody = sendEmail.BuildBodyEmailDeleteObjectFO(foundObject);
                 string emailSubject = foundObject.Id + "# Delete Object ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
-                InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                //InfoUser infoUser = db.InfoUsers.Find(foundObject.UserIdreported);
+                InfoUser infoUser = _IDBServices.GetInfoUser(foundObject.UserIdreported);
                 string emailRecipient = infoUser.Email;
                 if (sendEmail.sendEmailUser(emailBody, emailSubject, emailRecipient) == true)
                 {
@@ -359,14 +362,14 @@ namespace ThingsLostAndFound.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
         protected bool CheckFile(HttpPostedFileBase upload)
         {

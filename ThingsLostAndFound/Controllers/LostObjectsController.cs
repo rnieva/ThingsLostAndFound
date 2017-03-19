@@ -14,7 +14,7 @@ namespace ThingsLostAndFound.Controllers
 {
     public class LostObjectsController : Controller
     {
-        private TLAFEntities db = new TLAFEntities();
+        //private TLAFEntities db = new TLAFEntities();
         private readonly IDBServices _IDBServices = new DBServices(); //or I can use a constructor
 
         // GET: LostObjects
@@ -199,7 +199,8 @@ namespace ThingsLostAndFound.Controllers
             {
                 if (upload != null && upload.ContentLength > 0)
                 {
-                    var file = db.Files.Find(lostObject.FileId);
+                    //var file = db.Files.Find(lostObject.FileId);
+                    var file = _IDBServices.getFile(lostObject.FileId);
                     file.FileName = System.IO.Path.GetFileName(upload.FileName);
                     file.ContentType = upload.ContentType;
                     file.FileType = System.IO.Path.GetExtension(upload.FileName);
@@ -343,13 +344,13 @@ namespace ThingsLostAndFound.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }
